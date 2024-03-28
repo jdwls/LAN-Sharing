@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-echo ÕýÔÚÇå³ý!
-del /s /f /q E:\±¸·Ý\×ÀÃæ\´úÂë\´úÂë\restFlask003\template\as\asfliezip\*.*
-=======
-echo ÕýÔÚÇå³ý!
-del /s /f /q E:\±¸·Ý\×ÀÃæ\´úÂë\´úÂë\restFlask003\template\as\asfliezip\*.*
->>>>>>> 87f22de17 (tshi)
+echo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!
+del /s /f /q E:\ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½\restFlask003\template\as\asfliezip\*.*
