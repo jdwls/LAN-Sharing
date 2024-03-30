@@ -9,10 +9,10 @@ import shutil
 
 # static_folder='./dist'
 
-dirpath='restFlask003/template/as/path/dirPath.txt'
-LishiPath='restFlask003/template/as/path/LishiPath.txt'
-dirPathLog='restFlask003/template/as/path/dirPathLog.txt'
-asfliezip='restFlask003/template/as/asfliezip'
+dirpath='../restFlask003/template/as/path/dirPath.txt'
+LishiPath='../restFlask003/template/as/path/LishiPath.txt'
+dirPathLog='../restFlask003/template/as/path/dirPathLog.txt'
+asfliezip='../restFlask003/template/as/asfliezip'
 def dirMOde():
     with open(dirpath ,encoding="utf-8") as f:
          dirpathValue=f.read()
