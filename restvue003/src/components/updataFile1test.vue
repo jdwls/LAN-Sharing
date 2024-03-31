@@ -1,17 +1,17 @@
 <template>
     <div>
         <label for="inputfile">
-            <input type="file" @change="testop()" ref="yu" Multiple id="inputfile" v-show="0" />
-            <span @change="testop()" class="spanxx">上传文件</span>
+            <input type="file" @change="testop(e)" ref="yu" Multiple v-show=0 id="inputfile" />
+            <span class="spanxx">上传文件</span>
         </label>
         <span>{{ filesize() }}</span>
-        <button @change="scyu()">上传文件</button>
+        <button @click="scyu()">上传文件</button>
         <el-table :data="file" border style="width: 100%" v-if="file.length != 0" class="pp">
             <el-table-column prop="name" label="Name" width="180"></el-table-column>
             <el-table-column prop="size" label="size" width="180"></el-table-column>
             <el-table-column label="drop" width="180">
                 <template #default="scope">
-                    <el-button @click=" files(scope.row.i, scope.row.name)">删除文件</el-button>
+                    <el-button @click=" files(scope.row.name)">删除文件</el-button>
 
                 </template>
             </el-table-column>
@@ -29,7 +29,8 @@ export default {
     data() {
         return {
             file: [],
-            filelist: []
+            dropflie: [],
+            filelist: null
         }
     },
     methods: {
@@ -50,33 +51,42 @@ export default {
             }
         },
         async testop() {
-            this.filelist = this.$refs.yu.files
-            this.file = Array.from(this.filelist).map((file, index) => ({ name: file.name, size: file.size, i: index }));
-            // let file = []
-            // for (let i = 0; i < this.filelist.length; i++) {
-            //     file[i] = { 'name': this.filelist[i].name, 'size': this.SuLvZhuangHuang(this.filelist[i].size), 'index': i }
-            // }
-            // this.$refs.yu.value = ''
-            // for (let j = 0; j < this.filelist.length; j++) {
-            //     console.log(this.filelist.files[j]);
-            // }
-        },
-        files(index, name) {
-            this.file = this.file.slice(1, index)
-            // this.filelist = this.filelist.delete.index
-            this.file = Array.from(this.filelist).map((file, index) => ({ name: file.name, size: file.size, i: index }));
-            console.log(name);
+            this.filelist = await this.$refs.yu.files
+            console.log(this.filelist);
 
-            // this.filelist = this.filelist.splice(1, index)
+            let file = []
+            for (let i = 0; i < this.filelist.length; i++) {
+                file[i] = { 'name': this.filelist[i].name, 'size': this.SuLvZhuangHuang(this.filelist[i].size), 'index': i }
+            }
+            this.file = file
+            this.$refs.yu.value = ''
+
+        },
+        files(name) {
+            this.file = this.file.filter(function (i) {
+                return i.name != name
+            })
+
+            this.dropflie.push(name)
 
         },
         scyu() {
-            const formData = new FormData();
-            formData.append('file', this.filelist);
+            console.log(this.filelist[0]);
+
+            // let formData = new FormData();
+
+            // for (let i = 0; i < this.filelist.length; i++) {
+
+
+            //     for (let j = 0; j < this.dropflie.length; j++) {
+            //         // console.log(this.filelist[i]);
+            //         if (this.filelist[i].name != this.dropflie[j]) {
+            //             formData.append('file', this.filelist[i]);
+
             // axios({
             //     url: this.$store.state.api + '/uploader',
             //     method: 'POST',
-            //     data: formData,
+            //     data: { formData },
             //     headers: {
             //         'Content-Type': 'multipart/form-data'
             //     }
@@ -85,6 +95,11 @@ export default {
     }
 
 }
+
+        // }
+    // }
+
+// }
 </script>
 
 <style scoped>
