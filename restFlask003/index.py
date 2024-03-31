@@ -85,36 +85,31 @@ def OptionDir():
       }
 @app.route('/uploader',methods=['post', 'get'])
 def uploader():
-   with open(dirpath,encoding="utf-8") as f:
-    data=f.read()
+   with open(dirpath, encoding="utf-8") as f:
+        data = f.read()
    if request.method == 'POST':
-      f = request.files['file']
-      basepath = os.path.dirname(__file__)
-      upload_path = os.path.join(basepath, data, f.filename)
-      f.save(upload_path)
-      response ='文件上传成功'
-      if response=='文件上传成功':
-            with open(dirPathLog,'a' ,encoding="utf-8") as f:
-               f.write(NowTime)
-               f.write('        ')
-               f.write('保存文件：'+request.files['file'].filename+"      ")
-               f.write('保存路径：'+data)
-               f.write('/n')
-               f.close()
-            return{
-            'url':'uploader',
-            'data':request.files['file'].filename,
-            'type':'文件',
-            'Time':NowTime,
-            'iss':'文件上传成功'
-      }
-      else: return{
-            'url':'uploader',
-            'data':request.files['file'].filename,
-            'type':'文件',
-            'Time':NowTime,
-            'iss':'文件上传失败'
-            }
+        # if 'file' not in request.files:
+            # return {'error': 'No file part'}
+        print(request.files['file'])
+        # print(file)
+        # if file.filename == '':
+        #     return {'error': 'No selected file'}
+        # upload_path = os.path.join(dirMOde(), data, file.filename)
+        # file.save(upload_path)
+        # with open(dirPathLog, 'a', encoding="utf-8") as f:
+        #     f.write(NowTime)
+        #     f.write('        ')
+        #     f.write('保存文件：' + file.filename + "      ")
+        #     f.write('保存路径：' + data)
+        #     f.write('/n')
+        # return {
+        #     'url': 'uploader',
+        #     # 'data': file.filename,
+        #     'type': '文件',
+        #     # 'Time': NowTime,
+        #     'iss': '文件上传成功'
+        # }
+   return {'error': 'An error occurred'}
 @app.route('/uploaders',methods=['post', 'get'])
 def uploaders():
    uploadpath=request.form['uploadpath']
