@@ -88,27 +88,26 @@ def uploader():
    with open(dirpath, encoding="utf-8") as f:
         data = f.read()
    if request.method == 'POST':
-        # if 'file' not in request.files:
-            # return {'error': 'No file part'}
-        print(request.files['file'])
-        # print(file)
-        # if file.filename == '':
-        #     return {'error': 'No selected file'}
-        # upload_path = os.path.join(dirMOde(), data, file.filename)
-        # file.save(upload_path)
-        # with open(dirPathLog, 'a', encoding="utf-8") as f:
-        #     f.write(NowTime)
-        #     f.write('        ')
-        #     f.write('保存文件：' + file.filename + "      ")
-        #     f.write('保存路径：' + data)
-        #     f.write('/n')
-        # return {
-        #     'url': 'uploader',
-        #     # 'data': file.filename,
-        #     'type': '文件',
-        #     # 'Time': NowTime,
-        #     'iss': '文件上传成功'
-        # }
+        if 'file' not in request.files:
+            return {'error': 'No file part'}
+        file=request.files['file']
+        if file.filename == '':
+            return {'error': 'No selected file'}
+        upload_path = os.path.join(dirMOde(), data, file.filename)
+        file.save(upload_path)
+        with open(dirPathLog, 'a', encoding="utf-8") as f:
+            f.write(NowTime)
+            f.write('        ')
+            f.write('保存文件：' + file.filename + "      ")
+            f.write('保存路径：' + data)
+            f.write('/n')
+        return {
+            'url': 'uploader',
+            # 'data': file.filename,
+            'type': '文件',
+            # 'Time': NowTime,
+            'iss': '文件上传成功'
+        }
    return {'error': 'An error occurred'}
 @app.route('/uploaders',methods=['post', 'get'])
 def uploaders():

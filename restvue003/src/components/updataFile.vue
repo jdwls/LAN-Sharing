@@ -1,16 +1,12 @@
 <template>
     <div>
         <el-row>
-            <el-col :span="12"> <el-button @click="$store.state.dialogVisible = true; FilesTyoe('上传文件')">
-                    上传文件
-                </el-button></el-col>
-
             <el-col :span="12"><el-button @click="$store.state.dialogVisible = true; FilesTyoe('上传目录')">
                     上传目录
                 </el-button>
             </el-col>
-            <el-col :span="12"><el-button @click="$store.state.dialogVisible = true; FilesTyoe('上传test')">
-                    上传test
+            <el-col :span="12" class="buutontest"><el-button @click="$store.state.dialogVisible = true; FilesTyoe('上传文件')">
+                    上传文件
                 </el-button>
             </el-col>
         </el-row>
@@ -33,3 +29,4 @@ export default {
     }
 }
 </script>
+<style scoped></style>

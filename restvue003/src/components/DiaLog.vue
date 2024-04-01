@@ -4,7 +4,6 @@
       <span>
         <updataFile1 v-if='$store.state.FilesTyoes == "上传文件"'></updataFile1>
         <updataFile2 v-show='$store.state.FilesTyoes == "上传目录"'> </updataFile2>
-        <updataFile1test v-show='$store.state.FilesTyoes == "上传test"'> </updataFile1test>
         <progressEl v-if='$store.state.FilesTyoes == "进度条"'></progressEl>
         <OfficEword v-if='$store.state.FilesTyoes == ".docx"'></OfficEword>
         <OfficExcel v-if='$store.state.FilesTyoes == ".xlsx"'></OfficExcel>
@@ -36,11 +35,11 @@ import OfficPdf from '@/components/OfficPdf.vue'
 import VideoPlay from '@/components/VideoPlay.vue'
 import imageSee from '@/components/imageSee.vue'
 import textSee from '@/components/textSee.vue'
-import updataFile1test from '@/components/updataFile1test.vue'
+
 export default {
   name: 'DiaLog',
   components: {
-    updataFile1, updataFile2, progressEl, OfficEword, OfficExcel, OfficPdf, VideoPlay, imageSee, textSee, updataFile1test
+    updataFile1, updataFile2, progressEl, OfficEword, OfficExcel, OfficPdf, VideoPlay, imageSee, textSee,
   },
   methods: {
     dialogVisible() {
