@@ -9,7 +9,7 @@
                 <ViewButton v-if="index.FileType=='查看文件'" :ViewButtonOfficEword="index.data"> </ViewButton>
             </div>
         </div> -->
-        <el-table :data="$store.state.DirsFileList" style="width: 55%" border height="600">
+        <el-table :data="$store.state.DirsFileList" style="width: 55%" border height="600" lazy=true>
             <el-table-column prop="data" label="文件名" width="360" />
             <el-table-column label="下载" width="120">
                 <template #default="scope">
