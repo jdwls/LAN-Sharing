@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button @click="dropFile(dropFiles)" disabled='true'> 删除文件</el-button>
+        <el-button @click="dropFile(dropFiles)" id="myButton"> 删除文件</el-button>
     </div>
 </template>
 
@@ -10,23 +10,23 @@ import axios from 'axios';
 
 export default {
     name: 'dropFiles',
-    data(){
-        return{
-            disabled:true
-        }
-    },
+
     props: ['dropFiles'],
     methods: {
-        async dropFile(dropFiles) {
-            
-            await axios({
+        dropFile(dropFiles) {
+            let button = document.getElementById('myButton')
+            button.setAttribute('disabled', false)
+            axios({
                 url: this.$store.state.api + '/dropFiles',
                 method: 'get',
                 params: {
                     'dropFilesName': this.$store.state.DirPath + '/' + dropFiles
-                }
+                },
+
+
             }).then(res => {
                 if (res.data.type == '删除文件成功') {
+
                     axios({
                         url: this.$store.state.api + '/DirsFileList',
                         method: "post",
@@ -37,11 +37,12 @@ export default {
                         this.$store.state.DirsFileList = res.data.data
                         for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
                             this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": '查看文件' }
-                            
+
                         }
-                        this.disabled=true
+
                     })
                 }
+                button.setAttribute('disabled', true)
                 if (res.data.type == '删除文件夹成功') {
                     axios({
                         url: this.$store.state.api + '/' + 'DirsFileList',
@@ -50,13 +51,13 @@ export default {
                             'DirsFileList': 'no'
                         }
                     }).then(res => {
-                        this.disabled=true
+
                         this.$store.state.DirsFileList = res.data.data
                         for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
                             this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": false }
                         }
                     })
-                     axios({
+                    axios({
                         url: this.$store.state.api + "/OpenDir",
                         method: 'post',
                     }).then(res => {
