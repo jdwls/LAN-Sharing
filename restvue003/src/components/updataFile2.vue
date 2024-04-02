@@ -2,7 +2,8 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="4"> <vue-upload-component ref="upload" :post-action="$store.state.api + '/uploaders'" directory
+      <el-col :span="4"> 
+        <vue-upload-component ref="upload" :post-action="$store.state.api + '/uploaders'" directory
           multiple v-model="files" @click="fiel()" @input-file="inputFile" :thread="5" :data="additionalData">
           <el-button>上传目录</el-button>
         </vue-upload-component></el-col>

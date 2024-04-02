@@ -9,10 +9,10 @@ import shutil
 
 # static_folder='./dist'
 
-dirpath='./restFlask003/template/as/path/dirPath.txt'
-LishiPath='./restFlask003/template/as/path/LishiPath.txt'
-dirPathLog='./restFlask003/template/as/path/dirPathLog.txt'
-asfliezip='./restFlask003/template/as/asfliezip'
+dirpath='../restFlask003/template/as/path/dirPath.txt'
+LishiPath='../restFlask003/template/as/path/LishiPath.txt'
+dirPathLog='../restFlask003/template/as/path/dirPathLog.txt'
+asfliezip='../restFlask003/template/as/asfliezip'
 def dirMOde():
     with open(dirpath ,encoding="utf-8") as f:
          dirpathValue=f.read()
@@ -111,16 +111,7 @@ def uploader():
    return {'error': 'An error occurred'}
 @app.route('/uploaders',methods=['post', 'get'])
 def uploaders():
-   uploadpath=request.form['uploadpath']
-   print(uploadpath)
    if 'file' not in request.files:
-        with open(dirPathLog,'a' ,encoding="utf-8") as f:
-               f.write(NowTime)
-               f.write('        ')
-               f.write(uploadpath+'/'+request.files['file'].filename+"     "+"目录没有上传")
-               f.write('/n')
-               f.close()
-         # 获取文件大小
         return {
             "url":'/uploaders',
             "data":request.files['file'].filename,
@@ -129,13 +120,12 @@ def uploaders():
              'iss':'目录没有上传',
             
         }
-   files = request.files.getlist('file')
-   for file in files:
-        if file.filename == '':
+   files = request.files['file']
+   if files.filename == '':
             with open(dirPathLog,'a' ,encoding="utf-8") as f:
                f.write(NowTime)
                f.write('        ')
-               f.write(uploadpath+'/'+request.files['file'].filename+"     "+"没有选择目录")
+               f.write(files.filename+'/'+request.files['file'].filename+"     "+"没有选择目录")
                f.write('/n')
                f.close()
             return {
@@ -145,21 +135,20 @@ def uploaders():
             "Time":NowTime,
              'iss':'没有选择目录'
             }
-        if file:
-           
+   if files:
             # 获取文件的路径
-            path = os.path.join(uploadpath, file.filename)
+            path = os.path.join(dirMOde(), files.filename)
             print(path)
             # 创建文件的目录
             os.makedirs(os.path.dirname(path), exist_ok=True)
             # 保存文件
-            file.save(path)
+            files.save(path)
             uploaded_file = request.files['file']  # 假设前端上传的文件字段名为 'file'
             file_size = len(uploaded_file.read()) 
             with open(dirPathLog,'a' ,encoding="utf-8") as f:
                f.write(NowTime)
                f.write('        ')
-               f.write(uploadpath+'/'+request.files['file'].filename+"     "+"目录上传成功")
+               f.write(dirMOde()+'/'+request.files['file'].filename+"     "+"目录上传成功")
                f.write('/n')
                f.close()
    return {

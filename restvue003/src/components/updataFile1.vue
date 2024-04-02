@@ -63,6 +63,7 @@ export default {
             this.dropflie.push(name)
         },
        async upadtaFiles() {
+        let uploadedBytesnold=0
             for (let i = 0; i < this.filelist.length; i++) {
                 if (this.dropflie == null) {
                     let fromdata = new FormData()
@@ -70,7 +71,21 @@ export default {
                     await axios({
                         url: this.$store.state.api + '/uploader',
                         method: "post",
-                        data: fromdata
+                        data: fromdata,
+                        onUploadProgress: progressEvent => {
+                            let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)
+                            let  uploadedBytes = progressEvent.loaded;
+                            let uploadedBytesnew=uploadedBytes
+                            let speeds=uploadedBytesnew-uploadedBytesnold
+                            this.$store.state.FilesTyoes = '进度条'
+                            this.$store.state.files[i]={
+                            'name':this.filelist[i].name,
+                            'size':this.filelist[i].size,
+                            'id':i,
+                            'progress':persent,
+                            'speed':speeds}
+      },                   
+
                     })
                 } else {
                     if (!this.dropflie.includes(this.filelist[i].name)) {
@@ -79,7 +94,15 @@ export default {
                         await axios({
                             url: this.$store.state.api + '/uploader',
                             method: "post",
-                            data: fromdata
+                            data: fromdata,
+                            onUploadProgress: progressEvent => {
+                            let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)
+                            let  uploadedBytes = progressEvent.loaded;
+                            let uploadedBytesnew=uploadedBytes
+                            let speeds=uploadedBytesnew-uploadedBytesnold
+                            this.$store.state.FilesTyoes = '进度条'
+                            this.$store.state.files[i]={'name':this.filelist[i].name,'size':this.filelist[i].size,'progress':persent,'speed':speeds}
+      },                   
                         })
                     }
                 }
@@ -111,7 +134,7 @@ export default {
 
             })
         })
-        console.log(this.$store.state.DirsFileList);
+       
         }
         
     }

@@ -1,6 +1,6 @@
 <template>
     <div v-for="i in $store.state.files " :key="i.id">
-    <span>文件名字：{{i.name}}</span>
+    <span>文件名字:{{i.name}}</span>
     <span> 文件大小{{SuLvZhuangHuang(i.size)}} </span>
     <span>速度:{{ SuLvZhuangHuang(i.speed) }}</span>
 
