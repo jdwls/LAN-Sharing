@@ -49,7 +49,6 @@ export default {
         },
         selectFile() {
             this.filelist = this.$refs.yu.files
-            console.log(this.filelist);
             let file = []
             for (let i = 0; i < this.filelist.length; i++) {
                 file[i] = { 'name': this.filelist[i].name, 'size': this.SuLvZhuangHuang(this.filelist[i].size), 'index': i }
@@ -63,12 +62,12 @@ export default {
             this.dropflie = []
             this.dropflie.push(name)
         },
-        upadtaFiles() {
+       async upadtaFiles() {
             for (let i = 0; i < this.filelist.length; i++) {
                 if (this.dropflie == null) {
                     let fromdata = new FormData()
                     fromdata.append('file', this.filelist[i])
-                    axios({
+                    await axios({
                         url: this.$store.state.api + '/uploader',
                         method: "post",
                         data: fromdata
@@ -77,7 +76,7 @@ export default {
                     if (!this.dropflie.includes(this.filelist[i].name)) {
                         let fromdata = new FormData()
                         fromdata.append('file', this.filelist[i])
-                        axios({
+                        await axios({
                             url: this.$store.state.api + '/uploader',
                             method: "post",
                             data: fromdata
@@ -85,7 +84,36 @@ export default {
                     }
                 }
             }
+         axios({
+            url: this.$store.state.api + '/DirsFileList',
+            method: "post",
+            params: {
+            'DirsFileList': this.$store.state.DirPath
+          },
+        }).then(res => {
+          this.$store.state.DirsFileList = res.data.data
+          for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
+            this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": '查看文件' }
+          }
+          axios({
+              url: this.$store.state.api + "/OpenDir",
+              method: 'post',
+            }).then(res => {
+              let h = Object.values(res.data.su)
+              for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
+                for (let j = 0; j <= h.length; j++) {
+                  if (this.$store.state.DirsFileList[i].data == h[j]) {
+                    this.$store.state.DirsFileList[i].FileType = '文件夹'
+                    break
+                  }
+                }
+              }
+
+            })
+        })
+        console.log(this.$store.state.DirsFileList);
         }
+        
     }
 
 }

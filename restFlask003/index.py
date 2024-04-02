@@ -9,10 +9,10 @@ import shutil
 
 # static_folder='./dist'
 
-dirpath='../restFlask003/template/as/path/dirPath.txt'
-LishiPath='../restFlask003/template/as/path/LishiPath.txt'
-dirPathLog='../restFlask003/template/as/path/dirPathLog.txt'
-asfliezip='../restFlask003/template/as/asfliezip'
+dirpath='./restFlask003/template/as/path/dirPath.txt'
+LishiPath='./restFlask003/template/as/path/LishiPath.txt'
+dirPathLog='./restFlask003/template/as/path/dirPathLog.txt'
+asfliezip='./restFlask003/template/as/asfliezip'
 def dirMOde():
     with open(dirpath ,encoding="utf-8") as f:
          dirpathValue=f.read()
@@ -292,8 +292,9 @@ def dropFiles():
 @app.route('/OpenDir',methods=['post','get'])
 def OpenDir():
    type={}
-   j=1
+   j=0
    dir=os.listdir(dirMOde())
+   print(dir)
    lens=len(dir)
    for i in range(0,lens,1):
       if(os.path.isdir(dirMOde()+'/'+dir[i])==True):

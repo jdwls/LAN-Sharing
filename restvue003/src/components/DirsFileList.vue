@@ -9,7 +9,7 @@
                 <ViewButton v-if="index.FileType=='查看文件'" :ViewButtonOfficEword="index.data"> </ViewButton>
             </div>
         </div> -->
-        <el-table :data="$store.state.DirsFileList" style="width: 55%" border height="600" lazy=true>
+        <el-table :data="$store.state.DirsFileList" style="width: 46%" border height="600" :cell-style="{ 'textAlign': 'center' }" :header-cell-style="{ 'text-align': 'center' }" class="juz">
             <el-table-column prop="data" label="文件名" width="360" />
             <el-table-column label="下载" width="120">
                 <template #default="scope">
@@ -28,8 +28,7 @@
             </el-table-column>
             <el-table-column label="查看文件" width="120">
                 <template #default="scope">
-                    <ViewButton v-if="scope.row.FileType == '查看文件'" :ViewButtonOfficEword="scope.row.data"> </ViewButton>
-
+                    <ViewButton v-if="scope.row.FileType == '查看文件'" :ViewButtonOfficEword="scope.row.data">1  </ViewButton>
                 </template>
             </el-table-column>
         </el-table>
@@ -85,5 +84,10 @@ export default {
 <style scoped>
 .data {
     display: flex
+}
+.juz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

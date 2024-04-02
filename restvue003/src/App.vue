@@ -70,5 +70,4 @@ export default {
   height: 100%;
 }
 
-.nmnm {}
 </style>

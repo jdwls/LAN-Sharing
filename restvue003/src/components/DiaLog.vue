@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog v-model="$store.state.dialogVisible" title="Tips" width="60%" webkitdirectory :destroy-on-close=true>
+    <el-dialog  v-model="$store.state.dialogVisible" :title="$store.state.FilesTyoes" width="60%" webkitdirectory :destroy-on-close=true>
       <span>
         <updataFile1 v-if='$store.state.FilesTyoes == "上传文件"'></updataFile1>
         <updataFile2 v-show='$store.state.FilesTyoes == "上传目录"'> </updataFile2>

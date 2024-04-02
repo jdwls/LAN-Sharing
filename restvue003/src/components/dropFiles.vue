@@ -30,7 +30,7 @@ export default {
                     }).then(res => {
                         this.$store.state.DirsFileList = res.data.data
                         for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
-                            this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": false }
+                            this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": '查看文件' }
                         }
                     })
                 }

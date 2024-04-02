@@ -37,7 +37,9 @@ export default{
             this.$store.state.DirsFileList=res.data.data
             for(let i=0;i<this.$store.state.DirsFileList.length;i++){
             this.$store.state.DirsFileList[i]={'index':i,'data':this.$store.state.DirsFileList[i],"FileType":false}
-            axios({
+           
+        }
+        axios({
                 url:this.$store.state.api+"/OpenDir",
                 method:'post',
             }).then(res=>{
@@ -64,7 +66,6 @@ export default{
             }
         })        
             }) 
-        }
         })
     } 
     
