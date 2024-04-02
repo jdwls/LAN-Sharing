@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button @click="dropFile(dropFiles)"> 删除文件</el-button>
+        <el-button @click="dropFile(dropFiles)" disabled='true'> 删除文件</el-button>
     </div>
 </template>
 
@@ -10,10 +10,16 @@ import axios from 'axios';
 
 export default {
     name: 'dropFiles',
+    data(){
+        return{
+            disabled:true
+        }
+    },
     props: ['dropFiles'],
     methods: {
-        dropFile(dropFiles) {
-            axios({
+        async dropFile(dropFiles) {
+            
+            await axios({
                 url: this.$store.state.api + '/dropFiles',
                 method: 'get',
                 params: {
@@ -31,7 +37,9 @@ export default {
                         this.$store.state.DirsFileList = res.data.data
                         for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
                             this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": '查看文件' }
+                            
                         }
+                        this.disabled=true
                     })
                 }
                 if (res.data.type == '删除文件夹成功') {
@@ -42,12 +50,13 @@ export default {
                             'DirsFileList': 'no'
                         }
                     }).then(res => {
+                        this.disabled=true
                         this.$store.state.DirsFileList = res.data.data
                         for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
                             this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": false }
                         }
                     })
-                    axios({
+                     axios({
                         url: this.$store.state.api + "/OpenDir",
                         method: 'post',
                     }).then(res => {
