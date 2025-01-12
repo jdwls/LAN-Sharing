@@ -1,98 +1,97 @@
 <template>
     <div>
-       <el-button @click="selectedDir">选择根目录</el-button> 
+        <el-button @click="selectDir">选择根目录</el-button>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import {  ElMessage,ElMessageBox } from 'element-plus'
-export default{
-    name:'selectedDir',
-    methods:{
-        
-        selectedDir(){
-            let api=this.$store.state.api
-            axios({
-                url:this.$store.state.api+'/'+'selectedDir',
-                method:'post'
-            }).then(res=>{
-                let dirname=res.data.data
-                ElMessageBox.confirm(
-                    dirname,
-                    'Warning',{
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                        type: 'warning',
-                    }
-                 ).then(()=>{
-                    ElMessage({
-                        type: 'success',
-                        message: dirname,
-                        })
-                        if(res.data.data!=''){
-                            axios({
-                            url:api+'/'+'SucceedselectedDir',
-                            method:'get',
-                            params:{
-                            'dirname':res.data.data
-                            }
-                        }).then(res=>{
-                            this.$store.state.DirPath=res.data.data
-                            console.log(res.data.data);
-                            axios({
-            url:this.$store.state.api+'/DirsFileList',
-            method:"post",
-            params:{
-                            'DirsFileList':this.$store.state.DirPath
-                        },
-        }).then(res=>{
-            console.log(res.data.data);
-            this.$store.state.DirsFileList=res.data.data
-            for(let i=0;i<this.$store.state.DirsFileList.length;i++){
-            this.$store.state.DirsFileList[i]={'index':i,'data':this.$store.state.DirsFileList[i],"FileType":false}
-            axios({
-                url:this.$store.state.api+"/OpenDir",
-                method:'post',
-            }).then(res=>{
-                let h=Object.values(res.data.su)
-                for(let i=0;i<this.$store.state.DirsFileList.length;i++){
-                    for(let j=0;j<=h.length;j++){
-                        if(this.$store.state.DirsFileList[i].data==h[j]){
-                            this.$store.state.DirsFileList[i].FileType='文件夹'
-                            break
-                        }
-                    }
+import { ElMessage, ElMessageBox } from 'element-plus';
+
+export default {
+    name: 'SelectedDir',
+    methods: {
+        async selectDir() {
+            try {
+                const api = this.$store.state.api;
+                const response = await axios.post(`${api}/selectedDir`);
+                const dirname = response.data.data;
+
+                await this.showConfirmation(dirname);
+                if (dirname) {
+                    this.$store.state.DirPath = await this.handleDirSelection(dirname, api);
                 }
-                axios({
-                    url:api+"/filesypess",
-                    method:"get",
-                    params:{
-                'filesypessPath':this.$store.state.DirPath
+            } catch (error) {
+                ElMessage({ type: 'error', message: '出错了: ' + error.message });
             }
-        }).then(res=>{
-            this.$store.state.otherDirsType=res.data.data
-            let h=Object.values(res.data.filesypessPathlistTypes)
-            for(let i=0;i<h.length;i++){
-                this.$store.state.DirsFileList[h[i].index].FileType=h[i].filesypessPathlistType
+        },
+
+        async showConfirmation(dirname) {
+            return ElMessageBox.confirm(dirname, '警告', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            });
+        },
+
+        async handleDirSelection(dirname, api) {
+            try {
+                const response = await axios.get(`${api}/SucceedselectedDir`, {
+                    params: { dirname }
+                });
+                const dirPath = response.data.data;
+                this.$store.state.DirPath = dirPath;
+                console.log("选择的目录路径:", dirPath);
+                const dirsFileList = await this.fetchDirsFileList(dirPath, api);
+                this.$store.state.DirsFileList = dirsFileList;
+
+                return dirPath;
+            } catch (error) {
+                ElMessage({ type: 'error', message: '处理目录选择时出错: ' + error.message });
             }
-        })    
-            }) 
-        }
-        })
-                        })
-                        
-                        }
-                    
-                 })
-                 .catch(() => {
-                ElMessage({
-                    type: 'info',
-                    message: '取消选择',
-      })
-    })
-            })
-            
+        },
+
+        async fetchDirsFileList(dirPath, api) {
+            try {
+                const response = await axios.post(`${api}/DirsFileList`, {
+                    params: { DirsFileList: dirPath }
+                });
+                return this.processDirsFileList(response.data.data, api);
+            } catch (error) {
+                ElMessage({ type: 'error', message: '获取目录文件列表时出错: ' + error.message });
+            }
+        },
+
+        async processDirsFileList(dirsFileList, api) {
+            const updatedList = dirsFileList.map((item, index) => ({
+                index,
+                data: item,
+                FileType: false,
+            }));
+
+            try {
+                const openDirResponse = await axios.post(`${api}/OpenDir`);
+                const folders = Object.values(openDirResponse.data.su);
+
+                updatedList.forEach(dir => {
+                    if (folders.includes(dir.data)) {
+                        dir.FileType = '文件夹';
+                    }
+                });
+
+                const fileTypesResponse = await axios.get(`${api}/filesypess`, {
+                    params: { filesypessPath: this.$store.state.DirPath }
+                });
+
+                const fileTypes = Object.values(fileTypesResponse.data.filesypessPathlistTypes);
+                fileTypes.forEach(type => {
+                    updatedList[type.index].FileType = type.filesypessPathlistType;
+                });
+
+                return updatedList;
+            } catch (error) {
+                ElMessage({ type: 'error', message: '处理文件类型时出错: ' + error.message });
+            }
         }
     }
 }

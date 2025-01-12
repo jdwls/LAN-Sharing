@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 
 export default{
     name:"ViewButton",
@@ -17,20 +17,8 @@ export default{
     },
     methods:{
         ViewButton(ViewButtonOfficEword){
-            axios({
-                url:this.$store.state.api+'/fileypess',
-                method:'get',
-                params:{
-                    'ViewButtonOfficEword':this.$store.state.DirPath+'/'+ViewButtonOfficEword
-                }
-            }).then(res=>{
-                this.$store.state.FilesTyoes=res.data.data
-                
-                
-            })
-            this.$store.state.VideoPlayercontrols=true
-            this.$store.state.dialogVisible=true
-            this.$store.state.OfficEword=ViewButtonOfficEword
+            this.$store.commit('ViewButtonOfficEword',ViewButtonOfficEword)
+            this.$store.dispatch("ViewButton")
         }
     }
 

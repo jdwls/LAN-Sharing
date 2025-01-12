@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import downloadFlie from '@/components/downloadFlie.vue'
 import dropFiles from '@/components/dropFiles.vue'
 import openDir from '@/components/openDir.vue'
@@ -48,33 +48,8 @@ export default {
         downloadFlie, dropFiles, openDir, ViewButton
     },
     mounted() {
-        axios({
-            url: this.$store.state.api + '/' + 'DirsFileList',
-            method: "post",
-            params: {
-                'DirsFileList': 'no'
-            }
-        }).then(res => {
-            this.$store.state.DirsFileList = res.data.data
-            for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
-                this.$store.state.DirsFileList[i] = { 'index': i, 'data': this.$store.state.DirsFileList[i], "FileType": false }
-            }
-        })
-        axios({
-            url: this.$store.state.api + "/OpenDir",
-            method: 'post',
-        }).then(res => {
-            let h = Object.values(res.data.su)
-            for (let i = 0; i < this.$store.state.DirsFileList.length; i++) {
-                for (let j = 0; j <= h.length; j++) {
-                    if (this.$store.state.DirsFileList[i].data == h[j]) {
-                        this.$store.state.DirsFileList[i].FileType = '文件夹'
-                        break
-                    }
-                }
-            }
-
-        })
+        this.$store.dispatch('DirsFileList')
+        this.$store.dispatch('openDirs')
 
     },
     methods: {

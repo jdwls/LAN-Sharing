@@ -13,6 +13,9 @@
         <imageSee v-if='$store.state.FilesTyoes == ".png"'></imageSee>
         <imageSee v-if='$store.state.FilesTyoes == ".gif"'></imageSee>
         <textSee v-if='$store.state.FilesTyoes == ".txt"'></textSee>
+        <NewText v-if='$store.state.FilesTyoes == "文本"'></NewText>
+        <Login v-if='$store.state.FilesTyoes == "登录"'></Login>
+
       </span>
       <template #footer>
         <span class="dialog-footer">
@@ -35,12 +38,13 @@ import OfficPdf from '@/components/OfficPdf.vue'
 import VideoPlay from '@/components/VideoPlay.vue'
 import imageSee from '@/components/imageSee.vue'
 import textSee from '@/components/textSee.vue'
-
+import NewText from '@/components/NewText.vue'
+import Login from '@/components/ViewLogIn/Login.vue'
 export default {
   name: 'DiaLog',
   components: {
-    updataFile1, updataFile2test, progressEl, OfficEword, OfficExcel, OfficPdf, VideoPlay, imageSee, textSee,
-  },
+    updataFile1, updataFile2test, progressEl, OfficEword, OfficExcel, OfficPdf, VideoPlay, imageSee, textSee,NewText,Login
+  }, 
   methods: {
     dialogVisible() {
       this.$store.state.dialogVisible = false

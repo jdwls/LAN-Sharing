@@ -4,6 +4,7 @@
       <el-row>
         <el-col :span="24">
           <Dirpath></Dirpath>
+          <LoginButton></LoginButton>
         </el-col>
       </el-row>
     </div>
@@ -27,6 +28,9 @@
         <el-col :span="2">
           <NewDir></NewDir>
         </el-col>
+        <el-col :span="2">
+          <NewTextButton></NewTextButton>
+        </el-col>
       </el-row>
     </div>
     <!-- <updataFile></updataFile>
@@ -38,19 +42,21 @@
   </div>
 </template>
 <script>
+import NewTextButton from '@/components/NewTextButton.vue'
 import Dirpath from '@/components/DirPath.vue'
 import updataFile from '@/components/updataFile.vue'
 import selectedDir from '@/components/selectedDir.vue'
 import DirsFileList from '@/components/DirsFileList.vue'
 import NewDir from '@/components/NewDir.vue'
 import TopLevelDirectory from '@/components/TopLevelDirectory.vue'
+import LoginButton from '@/components/ViewLogIn/LoginButton.vue'
 
 
 
 export default {
   name: "App",
   components: {
-    Dirpath, updataFile, selectedDir, DirsFileList, NewDir, TopLevelDirectory,
+    Dirpath, updataFile, selectedDir, DirsFileList, NewDir, TopLevelDirectory,NewTextButton,LoginButton
   },
 
 
@@ -69,5 +75,7 @@ export default {
   align-items: center;
   height: 100%;
 }
-
+.nmnm{
+  padding-bottom  : 2%;
+}
 </style>

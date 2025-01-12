@@ -29,10 +29,11 @@ export default{
                 'filesypessPath':this.$store.state.DirPath
             }
         }).then(res=>{
-            this.$store.state.otherDirsType=res.data.data
+            let that=this
+            that.$store.state.otherDirsType=res.data.data
             let h=Object.values(res.data.filesypessPathlistTypes)
             for(let i=0;i<h.length;i++){
-                this.$store.state.DirsFileList[h[i].index].FileType=h[i].filesypessPathlistType
+                that.$store.state.DirsFileList[h[i].index].FileType=h[i].filesypessPathlistType
             }
         })
          })

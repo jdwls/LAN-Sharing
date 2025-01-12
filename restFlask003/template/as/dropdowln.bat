@@ -1,2 +1,3 @@
-echo �������!
-del /s /f /q E:\����\����\����\����\restFlask003\template\as\asfliezip\*.*
+echo
+del /s /f /q .\asfiilezip\*.*
+pause
