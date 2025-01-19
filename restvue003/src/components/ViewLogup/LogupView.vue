@@ -5,10 +5,10 @@
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="密码:">
-                <el-input v-model="form.password"></el-input>
+                <el-input v-model="form.password" show-password></el-input>
             </el-form-item>
             <el-form-item label="在输入一次密码:">
-                <el-input v-model="form.Twopassword"></el-input>
+                <el-input v-model="form.Twopassword" show-password></el-input>
             </el-form-item>
             <el-button type="primary" @click="submitForm()">注册</el-button>
             <el-button @click="resetForm()">重置</el-button>
@@ -104,14 +104,16 @@ export default{
                     'Time':Date.now(),
                 }
                 }).then(res=>{
-                    ElMessageBox.alert("注册成功", '注册状态', {
+                    ElMessageBox.alert("用户创建名为："+res.data.message, '用户创建成功', {
                     showConfirmButton:true,
                     confirmButtonText: '确认',
                }).then(()=>{
                 this.form.name='' 
                 this.form.password=''
                 this.form.Twopassword=''
-                console.log(res.data)
+                this.$store.state.dialogVisible=false
+                this.$store.state.FilesTyoes='登录'
+                this.$store.state.dialogVisible=true
                 
                })
                 }).catch(()=>{

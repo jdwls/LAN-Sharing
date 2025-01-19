@@ -11,20 +11,38 @@ logging.basicConfig(level=logging.INFO,filename='app.log', filemode='a', format=
 
 @Logup_blueprint.route('/Logup', methods=['GET'])
 def Logup():
-   
+    
     MD5AESBehind = request.args.get('MD5AESBehind')
     timestamp = request.args.get('Time')
     name=request.args.get('name')
-    if os.path.exists('template/UseSql/') and os.path.isdir(folder_path):
-        print(f"The folder at {folder_path} exists.")
-    else:
-        print(f"The folder at {folder_path} does not exist.")
-    return jsonify({
-                'url': 'Logup',
-                'data': {'MD5AESBehind':MD5AESBehind,
-                         'name':name},
-                'Time': timestamp
-            })
+    GuanLiQuanXianLuj='template/UseSql/Permission/'
+    UseNamepath=GuanLiQuanXianLuj+name+'.txt'
+    try:
+        if os.path.exists(GuanLiQuanXianLuj) and os.path.isdir(GuanLiQuanXianLuj):
+            if os.path.exists(UseNamepath):
+                logging.error(f"文件夹已经存在: {UseNamepath}")
+                return jsonify({
+                    'error': '用户名已经存在,请重新输入用户名',
+                    'message': f'文件夹已经存在: {name}'
+                }), 404
+            else:
+                with open(UseNamepath, 'w') as file:
+                    file.write(str(MD5AESBehind))
+                logging.error(f"文件创建成功: {UseNamepath}")
+                return jsonify({
+                    'success': '用户已经注册成功',
+                    'message': name
+                }), 200
+    except Exception as e:
+        print(f"Error creating file: {e}")
+            # return send_file(downloadPathName, as_attachment=True)
+            # return jsonify({
+            #     'url': 'Logup',
+            #     'data': {'MD5AESBehind':MD5AESBehind,
+            #              'name':name},
+            #     'text':os.path.exists('template/UseSql/') and os.path.isdir('template/UseSql/'),
+            #     'Time': timestamp
+            # })
 
     # try:
     #     # 如果路径不是文件夹
