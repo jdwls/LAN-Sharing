@@ -15,7 +15,7 @@
         <textSee v-if='$store.state.FilesTyoes == ".txt"'></textSee>
         <NewText v-if='$store.state.FilesTyoes == "文本"'></NewText>
         <Login v-if='$store.state.FilesTyoes == "登录"'></Login>
-
+        <LogupView v-if='$store.state.FilesTyoes == "注册"'></LogupView>
       </span>
       <template #footer>
         <span class="dialog-footer">
@@ -40,10 +40,11 @@ import imageSee from '@/components/imageSee.vue'
 import textSee from '@/components/textSee.vue'
 import NewText from '@/components/NewText.vue'
 import Login from '@/components/ViewLogIn/Login.vue'
+import LogupView from '@/components/ViewLogup/LogupView.vue'
 export default {
   name: 'DiaLog',
   components: {
-    updataFile1, updataFile2test, progressEl, OfficEword, OfficExcel, OfficPdf, VideoPlay, imageSee, textSee,NewText,Login
+    updataFile1, updataFile2test, progressEl, OfficEword, OfficExcel, OfficPdf, VideoPlay, imageSee, textSee,NewText,Login,LogupView
   }, 
   methods: {
     dialogVisible() {

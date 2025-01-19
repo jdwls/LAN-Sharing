@@ -5,6 +5,7 @@
         <el-col :span="24">
           <Dirpath></Dirpath>
           <LoginButton></LoginButton>
+          <LogupButton> </LogupButton>
         </el-col>
       </el-row>
     </div>
@@ -50,13 +51,13 @@ import DirsFileList from '@/components/DirsFileList.vue'
 import NewDir from '@/components/NewDir.vue'
 import TopLevelDirectory from '@/components/TopLevelDirectory.vue'
 import LoginButton from '@/components/ViewLogIn/LoginButton.vue'
-
+import LogupButton from '@/components/ViewLogup/LogupButton.vue'
 
 
 export default {
   name: "App",
   components: {
-    Dirpath, updataFile, selectedDir, DirsFileList, NewDir, TopLevelDirectory,NewTextButton,LoginButton
+    Dirpath, updataFile, selectedDir, DirsFileList, NewDir, TopLevelDirectory,NewTextButton,LoginButton,LogupButton
   },
 
 

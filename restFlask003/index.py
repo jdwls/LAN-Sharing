@@ -23,6 +23,8 @@ from module.funtion.see.textSee import textsee_blueprint
 from module.funtion.view.getDirs import getDirs_blueprint
 from module.funtion.view.TextLnsert import TextLnsert_blueprint
 from module.funtion.view.Login.login import login_blueprint
+from module.funtion.view.Logup.Logup import Logup_blueprint
+
 app = Flask(__name__, template_folder='template', static_url_path='/', static_folder='static')
 CORS(app)
 app.register_blueprint(option_dir_blueprint)
@@ -46,6 +48,7 @@ app.register_blueprint(textsee_blueprint)
 app.register_blueprint(getDirs_blueprint)
 app.register_blueprint(TextLnsert_blueprint)
 app.register_blueprint(login_blueprint)
+app.register_blueprint(Logup_blueprint)
 webbrowser.open_new('http://localhost:2525')
 # 开启首页文件位置
 @app.route('/',methods=['post', 'get'])
