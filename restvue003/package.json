@@ -20,6 +20,7 @@
     "unplugin-auto-import": "^0.16.7",
     "unplugin-vue-components": "^0.25.2",
     "vue": "^3.2.13",
+    "vue-cookies": "^1.8.6",
     "vue-demi": "^0.14.7",
     "vue-doc-preview": "^0.3.2",
     "vue-upload-component": "^3.1.8",

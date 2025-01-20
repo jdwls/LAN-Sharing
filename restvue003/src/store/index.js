@@ -5,7 +5,7 @@ import { createStore } from 'vuex'
 export const store = createStore({
   state () {
     return {
-     api:'http://192.168.2.26:2525',
+     api:'https://192.168.2.26:2525',
      i:1,
      DirPath:'',
      dialogVisible:false,

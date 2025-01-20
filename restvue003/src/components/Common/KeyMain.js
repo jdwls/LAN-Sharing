@@ -19,9 +19,11 @@ export function KeyMain(data){
 // 密码补码+到16位
     if(PasswordAscll.length!=16){
         for(let i=PasswordAscll.length;i<=15;i++){
-            PasswordAscll[i]=65
+            PasswordAscll[i]=i*5-i
             
         }
+        console.log(PasswordAscll);
+        
     }   
 //  混淆原来的加密密钥
     for(let i=0;i<=KeyMainAscll.length-1;i++){
@@ -38,8 +40,11 @@ export function KeyMain(data){
     for(let i=0;i<KeyMainAscll.length;i++){
         if(PasswordAscll[i]+KeyMainAscll[i]<=127)
             PasswordCoryBehind[i]=PasswordAscll[i]+KeyMainAscll[i]
-        else{
+        else if(PasswordAscll[i]+KeyMainAscll[i]%2==0){
             PasswordCoryBehind[i]=(PasswordAscll[i]+KeyMainAscll[i])/2
+        }
+        else{
+            PasswordCoryBehind[i]=Math.ceil((PasswordAscll[i]+KeyMainAscll[i])/2)
         }
     }
 // 加密后转Ascll码

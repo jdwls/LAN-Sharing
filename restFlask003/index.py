@@ -24,10 +24,13 @@ from module.funtion.view.getDirs import getDirs_blueprint
 from module.funtion.view.TextLnsert import TextLnsert_blueprint
 from module.funtion.view.Login.login import login_blueprint
 from module.funtion.view.Logup.Logup import Logup_blueprint
+from module.funtion.view.Cookie import Cookie_blueprint
+
 
 app = Flask(__name__, template_folder='template', static_url_path='/', static_folder='static')
 CORS(app)
 app.register_blueprint(option_dir_blueprint)
+app.register_blueprint(Cookie_blueprint)
 app.register_blueprint(fileypess_blueprint)
 app.register_blueprint(upload_bp)
 app.register_blueprint(upload_bps)
@@ -49,7 +52,7 @@ app.register_blueprint(getDirs_blueprint)
 app.register_blueprint(TextLnsert_blueprint)
 app.register_blueprint(login_blueprint)
 app.register_blueprint(Logup_blueprint)
-webbrowser.open_new('http://localhost:2525')
+webbrowser.open_new('https://localhost:2525')
 # 开启首页文件位置
 @app.route('/',methods=['post', 'get'])
 def hello_world():
@@ -59,5 +62,5 @@ def hello_world():
 if __name__ == '__main__': 
    print(app.url_map)
    
-   app.run(host='0.0.0.0',port=2525,debug=True)
+   app.run(host='0.0.0.0',port=2525,debug=True,ssl_context=('template/crt/localhost.crt', 'template/crt/localhost.key'))
    

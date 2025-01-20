@@ -1,8 +1,8 @@
 
-from flask import Blueprint, request, send_file, jsonify
+from flask import Blueprint, request, send_file, jsonify,make_response
 import os
 import shutil
-
+from pathlib import Path
 import logging
 # 创建蓝图对象
 login_blueprint = Blueprint('login_blueprint', __name__)
@@ -12,16 +12,44 @@ logging.basicConfig(level=logging.INFO,filename='app.log', filemode='a', format=
 
 @login_blueprint.route('/login', methods=['GET'])
 def login():
-   
+    name=request.args.get('name')
     MD5AESBehind = request.args.get('MD5AESBehind')
     timestamp = request.args.get('Time')
+    GuanLiQuanXianLuj='template/UseSql/Permission/'
+    UseNamepath=Path(GuanLiQuanXianLuj+name+'.txt')
+    Cookietime=60*60*24*1
+    try:
+        if UseNamepath.exists():
+            with open(UseNamepath, 'r',encoding='utf-8') as file:
+                password=file.read()
+            if password==MD5AESBehind:
+                response = make_response('cookie')
+                response.set_cookie('  ', name, max_age=Cookietime)
+                return jsonify({
+                        'url': 'login',
+                        'Time': timestamp,
+                        'message':'密码正确',
+                    })
+                        
+            else:
+                return jsonify({
+                        'url': 'login',
+                        'Time': timestamp,
+                        'message':'密码错误'
+                    })
+        else:
+            return jsonify({
+                        'url': 'login',
+                        'Time': timestamp,
+                        'message':'用户不存在'
+                    })
+    except Exception as e:
+        logging.error(f"发生错误: {e}")
+        return jsonify({
+            'error': '内部服务器错误',
+            'message': str(e)
+        }), 500
     
-    
-    return jsonify({
-                'url': 'login',
-                'data': MD5AESBehind,
-                'Time': timestamp
-            })
 
     # try:
     #     # 如果路径不是文件夹

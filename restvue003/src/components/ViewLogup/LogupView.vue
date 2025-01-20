@@ -104,23 +104,37 @@ export default{
                     'Time':Date.now(),
                 }
                 }).then(res=>{
-                    ElMessageBox.alert("用户创建名为："+res.data.message, '用户创建成功', {
-                    showConfirmButton:true,
-                    confirmButtonText: '确认',
-               }).then(()=>{
-                this.form.name='' 
-                this.form.password=''
-                this.form.Twopassword=''
-                this.$store.state.dialogVisible=false
-                this.$store.state.FilesTyoes='登录'
-                this.$store.state.dialogVisible=true
-                
-               })
-                }).catch(()=>{
-                console.log('无');
-                
-               })
-            }
+                    console.log(res.data.error);
+                    
+                    if(res.data.error=='用户名已经存在,请重新输入用户名'){
+                        ElMessageBox.alert("用户名已经存在："+res.data.message, '用户名已经存在', {
+                        showConfirmButton:true,
+                        confirmButtonText: '确认',
+                        }).then(()=>{
+                            return 0
+                        }).catch(()=>{
+                            return 0
+                        })
+                    }
+                    else{
+                        ElMessageBox.alert("用户创建名为："+res.data.message, '用户创建成功', {
+                        showConfirmButton:true,
+                        confirmButtonText: '确认',
+                    }).then(()=>{
+                        this.form.name='' 
+                        this.form.password=''
+                        this.form.Twopassword=''
+                        this.$store.state.dialogVisible=false
+                        this.$store.state.FilesTyoes='登录'
+                        this.$store.state.dialogVisible=true
+                    })
+                    .catch(()=>{
+                        return 0
+                    })
+                    }
+                   
+                }
+           ) }
         },
         resetForm(){
             ElMessageBox.alert("重置成功", '重置成功', {
@@ -141,10 +155,6 @@ export default{
 }
 </script>
 <style scoped>
-/* .Uses{
-   
-} */
-
 .InputStyle{
     padding-bottom: 2%;
     display: flex;
