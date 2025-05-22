@@ -34,7 +34,7 @@
             <el-table-column label="打开文件" width="120vw">
               <template #default="scope">
                 <openDir
-                  v-if="scope.row.FileType == '文件夹'"
+                  v-if="scope.row.type == '打开目录'"
                   :openDir="scope.row.data"
                 ></openDir>
               </template>
@@ -42,7 +42,7 @@
             <el-table-column label="查看文件" width="120vw">
               <template #default="scope">
                 <ViewButton
-                  v-if="scope.row.FileType == '查看文件'"
+                  v-if="scope.row.type == '查看文件'"
                   :ViewButtonOfficEword="scope.row.data"
                 ></ViewButton>
               </template>

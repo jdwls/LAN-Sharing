@@ -26,10 +26,11 @@ def NowTime():
 
 
 def fileypesss():
-    fileypesss = ['.pdf', '.docx', '.xlsx',
-                  '.jpg', '.png', '.gif', '.txt', '.mp4']
+    fileypesss = ['.pdf', '.docx', '.xlsx','.jpg', '.png', '.gif', '.txt', '.mp4']
     return fileypesss
 
-
+def fileypesss2():
+    fileypesss2 = [{'.pdf':'application/pdf'}, {'.docx':'application/vnd.openxmlformats-officedocument.wordprocessingml.document'},{'.xlsx':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}, {'.jpg':'image/jpeg'}, {'.png':'image/png'}, {'.gif':'image/gif'}, {'.txt':'text/plain'}, {'.mp4':'video/mp4'}]
+    return fileypesss2
 def split_string(s, n):
     return [s[i:i+n] for i in range(0, len(s), n)]

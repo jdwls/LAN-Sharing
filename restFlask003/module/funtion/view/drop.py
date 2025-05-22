@@ -26,7 +26,7 @@ def dropFiles():
             return jsonify({
                 'url': 'dropFiles',
                 'data': dirse,
-                'type': '删除文件夹成功',
+                'type': '删除文件成功',
                 'Time': glode.NowTime()
             })
 

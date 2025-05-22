@@ -12,7 +12,7 @@ export default {
 
   props: ["dropFiles"],
   methods: {
-    dropFile(dropFiles) {
+  async  dropFile(dropFiles) {
       // let button = document.getElementById("myButton");
       // button.setAttribute("disabled", false);
       axios({
@@ -23,12 +23,13 @@ export default {
         },
       }).then((res) => {
         if (res.data.type == "删除文件成功") {
-          this.$store.dispatch("DirsFileList");
-          this.$store.dispatch("openDirs");
-          console.log(this.$store.state.DirsFileList);
+        this.$store.dispatch("DirsFileList");
         }
-        // button.setAttribute("disabled", true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
+      
     },
   },
 };

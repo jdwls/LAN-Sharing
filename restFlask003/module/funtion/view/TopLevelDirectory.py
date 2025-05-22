@@ -52,8 +52,12 @@ def TopLevelDirectory():
             'Time': glode.NowTime(),
         }), 400  # 返回400状态码
 
-    s = TopLevelDirectoryPathName.pop()  # 去除最后一个目录
-    result = "/".join(TopLevelDirectoryPathName)  # 将剩余路径重新组合
+  # 去除最后一个目录
+    result = ''
+    for i in range(len(TopLevelDirectoryPathNameSplit) - 1):
+        result += TopLevelDirectoryPathNameSplit[i] + '/'
+        
+    # 将剩余路径重新组合
     return jsonify({
         'url': 'TopLevelDirectory',
         'data': result,
