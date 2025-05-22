@@ -22,7 +22,7 @@ def dropFiles():
         # 检查是否为目录并删除
         if os.path.isdir(dirse):
             shutil.rmtree(dirse)
-            logging.info(f"成功删除文件夹: {dirse}")
+            logging.info(f"成功删除文件: {dirse}")
             return jsonify({
                 'url': 'dropFiles',
                 'data': dirse,

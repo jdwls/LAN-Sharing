@@ -5,7 +5,7 @@ import { createStore } from "vuex";
 export const store = createStore({
   state() {
     return {
-      api: "http://192.168.99.102:2525",
+      api: "http://192.168.99.115:2525",
       i: 1,
       DirPath: "",
       dialogVisible: false,
@@ -39,21 +39,21 @@ export const store = createStore({
             FileType: false,
           };
         }
-        this.commit("DirsFileList", DirsFileList);
-        axios({
-          url: this.state.api + "/filesypess",
-          method: "get",
-          params: {
-            filesypessPath: this.state.DirPath,
-          },
-        }).then((res) => {
-          this.state.otherDirsType = res.data.data;
-          let h = Object.values(res.data.filesypessPathlistTypes);
-          for (let i = 0; i < h.length; i++) {
-            // console.log( '1',this.state.DirsFileList[h[i].index].FileType,'12',res.data.filesypessPathlistTypes,'123',h);
-            this.state.DirsFileList[h[i].index].FileType = "查看文件";
-          }
-        });
+        this.state.DirsFileList = DirsFileList;
+      });
+      await axios({
+        url: this.state.api + "/filesypess",
+        method: "get",
+        params: {
+          filesypessPath: this.state.DirPath,
+        },
+      }).then(async (res) => {
+        this.state.otherDirsType = await res.data.data;
+        let h = Object.values(res.data.filesypessPathlistTypes);
+        for (let i = 0; i < h.length; i++) {
+          // console.log( '1',this.state.DirsFileList[h[i].index].FileType,'12',res.data.filesypessPathlistTypes,'123',h);
+          this.state.DirsFileList[h[i].index].FileType = "查看文件";
+        }
       });
     },
     async openDirs() {

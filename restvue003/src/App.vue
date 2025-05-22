@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import NewTextButton from "@/components/NewTextButton.vue";
 import Dirpath from "@/components/DirPath.vue";
 import updataFile from "@/components/updataFileButton.vue";
@@ -63,6 +64,17 @@ export default {
     LogupButton,
     updataDirBuuton,
     DiaLog,
+  },
+  mounted() {
+    axios({
+      url: this.$store.state.api + "/OptionDir",
+      method: "post",
+    }).then((res) => {
+      this.$store.state.DirPath = res.data.data;
+      if (res.data.type == "成功选择目录") {
+        window.location.reload();
+      }
+    });
   },
 };
 </script>
