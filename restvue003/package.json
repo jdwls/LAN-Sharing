@@ -1,0 +1,62 @@
+{
+  "name": "restvue003",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "s": "vue-cli-service serve",
+    "b": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@vue-office/docx": "^1.6.0",
+    "@vue-office/excel": "^1.6.0",
+    "@vue-office/pdf": "^1.6.1",
+    "axios": "^1.6.5",
+    "core-js": "^3.8.3",
+    "crypto-js": "^4.1.1",
+    "element-plus": "^2.5.1",
+    "file-loader": "^6.2.0",
+    "lib-flexible": "^0.3.2",
+    "unplugin-auto-import": "^0.16.7",
+    "unplugin-vue-components": "^0.25.2",
+    "vue": "^3.2.13",
+    "vue-cookies": "^1.8.6",
+    "vue-demi": "^0.14.7",
+    "vue-doc-preview": "^0.3.2",
+    "vue-upload-component": "^3.1.8",
+    "vue-video-player": "^6.0.0",
+    "vuex": "^4.0.2",
+    "webpack": "^5.89.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@types/crypto-js": "^4.2.2",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "unplugin-element-plus": "^0.8.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
