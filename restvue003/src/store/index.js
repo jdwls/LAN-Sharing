@@ -5,11 +5,7 @@ import { createStore } from "vuex";
 export const store = createStore({
   state() {
     return {
-<<<<<<< HEAD
-      api: "http://0.0.0.0:2525",
-=======
       api: "http://127.0.0.1:2525",
->>>>>>> main
       i: 1,
       DirPath: "",
       dialogVisible: false,
@@ -35,9 +31,8 @@ export const store = createStore({
           DirsFileList: this.state.DirPath,
         },
       }).then((res) => {
-      this.state.DirsFileList = Object.values(res.data.items)
+        this.state.DirsFileList = Object.values(res.data.items);
       });
-      
     },
     async openDirs() {
       await axios({
