@@ -66,7 +66,7 @@ export default {
                     confirmButtonText: "再来一个",
                     cancelButtonText: "取消",
                   }).catch(() => {
-                    this.$store.state.dialogVisible = false;
+                    this.$store.state.dialogVisible = false; 
                 });
                   }
             });
