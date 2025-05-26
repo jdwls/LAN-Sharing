@@ -127,10 +127,9 @@ export default {
           },
         }).then((res) => {
           console.log(res.data.error);
-
-          if (res.data.error == "用户名已经存在,请重新输入用户名") {
+          if (res.data.error == "用户名已存在") {
             ElMessageBox.alert(
-              "用户名已经存在：" + res.data.message,
+              "用户名已经存在：" + res.data.message+'请重新输入',
               "用户名已经存在",
               {
                 showConfirmButton: true,
@@ -164,6 +163,13 @@ export default {
                 return 0;
               });
           }
+        })
+        .catch((error) => {
+          console.error("注册请求失败:", error);
+          ElMessageBox.alert("注册请求失败，请稍后再试", "错误", {
+            showConfirmButton: true,
+            confirmButtonText: "确认",
+          });
         });
       }
     },

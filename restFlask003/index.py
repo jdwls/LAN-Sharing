@@ -56,8 +56,7 @@ webbrowser.open_new('http://localhost:2525')
 # 开启首页文件位置
 @app.route('/',methods=['post', 'get'])
 def hello_world():
-#    os.system('/template/as/dropdowln.bat')
-    os.system('./template/as/dropdowln.bat')
+    os.system('restFlask003/template/CMD/dropdowln.bat')
     return render_template('index.html')
 if __name__ == '__main__': 
    print(app.url_map)

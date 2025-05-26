@@ -1,8 +1,6 @@
 import datetime
-
-
 def asfliezip():
-    return '/template/as/path/asfliezip'
+    return 'restFlask003/template/flieZip'
 def dirpath():
     return './restFlask003/template/as/path/dirPath.txt'
 def dirPathLog():
@@ -22,3 +20,9 @@ def fileypesss2():
     return fileypesss2
 def split_string(s, n):
     return [s[i:i+n] for i in range(0, len(s), n)]
+def UresPathJson():
+    UresPathJson = 'restFlask003/template/uresAndAdmin/ures.json'
+    return UresPathJson
+def AdminPathJson():
+    AdminPathJson = 'restFlask003/template/uresAndAdmin/admin.json'
+    return AdminPathJson

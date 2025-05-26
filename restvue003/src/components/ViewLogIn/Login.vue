@@ -103,18 +103,36 @@ export default {
             Time: Date.now(),
           },
         }).then((res) => {
-          if (res.data.message == "密码正确") {
-            axios({
-              withCredentials: true,
-              url: this.$store.state.api + "/Cookie",
-              method: "get",
-              params: {
-                name: this.form.name,
-              },
-            }).then((resss) => {
-              console.log(resss.headers, "--------------", document.cookie);
-            });
+         if (res.data.message == "登录成功") {
+            ElMessageBox.alert(res.data.message, "登录状态", {
+              showConfirmButton: true,
+              confirmButtonText: "确认",
+            })
+              .then(() => {
+                this.form.name = "";
+                this.form.password = "";
+                this.$store.state.dialogVisible= false;
+              })
+              .catch(() => {
+                this.form.name = "";
+                this.form.password = "";
+                this.$store.state.dialogVisible= false;
+              });
+          } else {
+            ElMessageBox.alert(res.data.message, "登录状态", {
+              showConfirmButton: true,
+              confirmButtonText: "确认",
+            })
+              .then(() => {
+               return 0;
+              })
+              .catch(() => {
+                return 0;
+              });
           }
+          })
+        .catch((error) => {
+          console.error("登录请求失败:", error);
         });
       }
     },
