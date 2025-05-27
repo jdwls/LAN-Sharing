@@ -16,6 +16,7 @@
 import { ElMessageBox } from "element-plus";
 // import CryptoJS from 'crypto-js';
 import axios from "axios";
+import { Toker } from "@/components/Common/Toker.js";
 import { KeyMain } from "@/components/Common/KeyMain.js";
 export default {
   name: "LogLn",
@@ -102,38 +103,42 @@ export default {
             MD5AESBehind: KeyMain(this.form.password),
             Time: Date.now(),
           },
-        }).then((res) => {
-         if (res.data.message == "登录成功") {
-            ElMessageBox.alert(res.data.message, "登录状态", {
-              showConfirmButton: true,
-              confirmButtonText: "确认",
-            })
-              .then(() => {
-                this.form.name = "";
-                this.form.password = "";
-                this.$store.state.dialogVisible= false;
+        })
+          .then((res) => {
+            if (res.data.message == "登录成功") {
+              ElMessageBox.alert(res.data.message, "登录状态", {
+                showConfirmButton: true,
+                confirmButtonText: "确认",
               })
-              .catch(() => {
-                this.form.name = "";
-                this.form.password = "";
-                this.$store.state.dialogVisible= false;
-              });
-          } else {
-            ElMessageBox.alert(res.data.message, "登录状态", {
-              showConfirmButton: true,
-              confirmButtonText: "确认",
-            })
-              .then(() => {
-               return 0;
+                .then(() => {
+                  this.form.name = "";
+                  this.form.password = "";
+                  this.$store.state.dialogVisible = false;
+                })
+                .catch(() => {
+                  this.form.name = "";
+                  this.form.password = "";
+                  this.$store.state.dialogVisible = false;
+                });
+              if (Toker(res.data.data) == "存储成功") {
+                console.log(localStorage.getItem("UresName"));
+              }
+            } else {
+              ElMessageBox.alert(res.data.message, "登录状态", {
+                showConfirmButton: true,
+                confirmButtonText: "确认",
               })
-              .catch(() => {
-                return 0;
-              });
-          }
+                .then(() => {
+                  return 0;
+                })
+                .catch(() => {
+                  return 0;
+                });
+            }
           })
-        .catch((error) => {
-          console.error("登录请求失败:", error);
-        });
+          .catch((error) => {
+            console.error("登录请求失败:", error);
+          });
       }
     },
   },

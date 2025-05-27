@@ -48,7 +48,7 @@ def login():
                     AdminDataJson[i]['Time'] = Time
                     json.dump(AdminDataJson, f, ensure_ascii=False, indent=4)
                     f.close()
-                return jsonify({'status': 'success', 'message': '登录成功', 'data': username}), 200
+                return jsonify({'status': 'success', 'message': '登录成功', 'data': {"Ures":username,'Authority':'Admin','Time':Time}}), 200
     except Exception as e:
         return jsonify({'status': 'error', 'message': '服务器错误'}), 200
     try:
@@ -58,7 +58,7 @@ def login():
                     UserPathjson[i]['Time'] = Time
                     json.dump(UserPathjson, f, ensure_ascii=False, indent=4)
                     f.close()
-                return jsonify({'status': 'success', 'message': '登录成功', 'data': username}), 200
+                return jsonify({'status': 'success', 'message': '登录成功', 'data': {"Ures":username,'Authority':'Ures','Time':Time}}), 200
         return jsonify({'status': 'error', 'message': '用户名或密码错误'}), 200
     except Exception as e:
         return jsonify({'status': 'error', 'message': '服务器错误'}), 200

@@ -55,8 +55,14 @@ def DirsFileList():
                             break
                     else:
                         with open(item_path, "rb") as f:
-                            f.read(512).decode("utf-8")  # 尝试解码
-                            result[index]['type'] = '查看文件'
+                            chunk = f.read(512)
+                            decoded = chunk.decode('utf-8')
+                            # 统计可打印字符及常见控制字符（换行、回车、制表符）
+                            allowed_chars = {'\n', '\r', '\t'}
+                            printable_count = sum(1 for c in decoded if c.isprintable() or c in allowed_chars)
+                            # 若可打印字符占比超过95%，则视为文本文件
+                            if len(decoded) == 0 or printable_count / len(decoded) >= 0.95:
+                                result[index]['type'] = '查看文件'
                 
         return jsonify({
             'success': True,

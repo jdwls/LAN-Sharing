@@ -23,34 +23,21 @@ export const store = createStore({
   },
   actions: {
     async DirsFileList() {
-      // let DirsFileList = [];
       await axios({
         url: this.state.api + "/" + "DirsFileList",
         method: "post",
         params: {
           DirsFileList: this.state.DirPath,
         },
-      }).then((res) => {
-      this.state.DirsFileList = Object.values(res.data.items)
-      });
-      
+      })
+        .then((res) => {
+          this.state.DirsFileList = Object.values(res.data.items);
+        })
+        .catch((err) => {
+          console.error("获取目录文件列表失败:", err);
+        });
     },
-    async openDirs() {
-      await axios({
-        url: this.state.api + "/OpenDir",
-        method: "post",
-      }).then((res) => {
-        let h = Object.values(res.data.su);
-        for (let i = 0; i < this.state.DirsFileList.length; i++) {
-          for (let j = 0; j <= h.length; j++) {
-            if (this.state.DirsFileList[i].data == h[j]) {
-              this.state.DirsFileList[i].FileType = "文件夹";
-              break;
-            }
-          }
-        }
-      });
-    },
+
     async ViewButton() {
       await axios({
         url: this.state.api + "/fileypess",

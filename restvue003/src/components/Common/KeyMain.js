@@ -17,7 +17,6 @@ export function KeyMain(data) {
     for (let i = PasswordAscll.length; i <= 15; i++) {
       PasswordAscll[i] = i * 5 - i;
     }
-    console.log(PasswordAscll);
   }
   //  混淆原来的加密密钥
   for (let i = 0; i <= KeyMainAscll.length - 1; i++) {

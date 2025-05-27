@@ -9,8 +9,9 @@
     >
       <span>
         <updataFile1 v-if="$store.state.FilesTyoes == '上传文件'"></updataFile1>
-        <updataFile2test v-show="$store.state.FilesTyoes == '上传目录'">
-        </updataFile2test>
+        <updataFile2test
+          v-show="$store.state.FilesTyoes == '上传目录'"
+        ></updataFile2test>
         <progressEl v-if="$store.state.FilesTyoes == '进度条'"></progressEl>
         <OfficEword v-if="$store.state.FilesTyoes == '.docx'"></OfficEword>
         <OfficExcel v-if="$store.state.FilesTyoes == '.xlsx'"></OfficExcel>
@@ -21,6 +22,7 @@
         <imageSee v-if="$store.state.FilesTyoes == '.gif'"></imageSee>
         <textSee v-if="$store.state.FilesTyoes == '.txt'"></textSee>
         <NewText v-if="$store.state.FilesTyoes == '文本'"></NewText>
+        <textSee v-if="$store.state.FilesTyoes == '.json'"></textSee>
         <Login v-if="$store.state.FilesTyoes == '登录'"></Login>
         <LogupView v-if="$store.state.FilesTyoes == '注册'"></LogupView>
       </span>

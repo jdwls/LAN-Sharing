@@ -110,7 +110,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch("DirsFileList");
-    this.$store.dispatch("openDirs");
+    // 执行打开目录功能
+    // this.$store.dispatch("openDirs");
   },
   methods: {
     handleSizeChange(val) {
