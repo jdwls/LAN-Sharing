@@ -66,7 +66,7 @@ export default {
   methods: {
     dialogVisible() {
       this.$store.state.dialogVisible = false;
-      this.$store.state.VideoPlayercontrols = false;
+      this.$store.state.VideoPlayercontrols = false; // 关闭视频播放器控制条
     },
   },
 };
