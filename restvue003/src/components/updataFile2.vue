@@ -15,11 +15,8 @@
         <span class="buttonbulrs">选择目录</span>
         <span>{{ viewNumbers() }}</span>
       </label>
-      <span @click="updataDirs()" class="buttonbulrs" v-if="filedir.length != 0"
-        >上传目录</span
-      >
+      <span @click="updataDirs()" class="buttonbulrs" v-if="filedir.length != 0">上传目录</span>
     </div>
-
     <el-table
       :data="filedir"
       border
@@ -52,7 +49,6 @@
 </template>
 <script>
 import axios from "axios";
-
 export default {
   name: "updataFile2test",
   data() {

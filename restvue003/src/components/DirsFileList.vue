@@ -93,7 +93,6 @@ export default {
     filteredData() {
       const keyword = this.appliedSearch.toLowerCase();
       if (!keyword) return this.$store.state.DirsFileList;
-
       return this.$store.state.DirsFileList.filter((item) =>
         item.data.toLowerCase().includes(keyword)
       );

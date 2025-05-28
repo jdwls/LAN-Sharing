@@ -59,19 +59,12 @@ export default {
                 console.error('目录操作失败:', error);
             }
         },
-
-        // async getDirs() {
-        //     const res = await axios.get(this.$store.state.api + '/getDirs');
-        //     return res.data.data;
-        // },
-
         startCountdown() {
             this.isDisabled = true;
             this.countdown = 5;
             
             this.timer = setInterval(() => {
                 this.countdown--;
-                
                 if (this.countdown <= 0) {
                     clearInterval(this.timer);
                     this.isDisabled = false;

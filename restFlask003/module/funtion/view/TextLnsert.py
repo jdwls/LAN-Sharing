@@ -24,7 +24,7 @@ def TextLnsert():
         if os.path.exists(NowPath+"/"+TextName) == True:
             return jsonify({
                 "error": "当前存在相关文件",
-                'message': '创建文本文件失败',
+                'message': '当前存在相关文件',
                 "Time": glode.NowTime(),
                 "url": 'TextLnsert',
                 'data': TextName

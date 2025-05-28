@@ -8,11 +8,7 @@
 export default {
   name: "ViewButton",
   props: ["ViewButtonOfficEword"],
-  data() {
-    return {
-      fty: [".doc", ".zip"],
-    };
-  },
+
   methods: {
     ViewButton(ViewButtonOfficEword) {
       this.$store.commit("ViewButtonOfficEword", ViewButtonOfficEword);

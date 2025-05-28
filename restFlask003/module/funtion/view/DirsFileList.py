@@ -47,8 +47,9 @@ def DirsFileList():
             else:
                 # 文件类型检测
                 kind = filetype.guess(item_path)
+                print(kind)
                 for m in glode.fileypesss2():
-                    if kind:
+                    if kind:   
                         if kind.mime.startswith(m[list(m.keys())[0]])==True:
                             print(kind.mime.startswith(m[list(m.keys())[0]]),item_name)
                             result[index]['type'] = '查看文件'
@@ -56,14 +57,28 @@ def DirsFileList():
                     else:
                         with open(item_path, "rb") as f:
                             chunk = f.read(512)
-                            decoded = chunk.decode('utf-8')
-                            # 统计可打印字符及常见控制字符（换行、回车、制表符）
-                            allowed_chars = {'\n', '\r', '\t'}
-                            printable_count = sum(1 for c in decoded if c.isprintable() or c in allowed_chars)
-                            # 若可打印字符占比超过95%，则视为文本文件
-                            if len(decoded) == 0 or printable_count / len(decoded) >= 0.95:
-                                result[index]['type'] = '查看文件'
-                
+                            decoded = None
+                            # 常见编码列表，可根据需要扩展
+                            encodings = ['utf-8', 'gbk', 'iso-8859-1', 'latin-1']
+                            for enc in encodings:
+                                try:
+                                    decoded = chunk.decode(enc)
+                                    break
+                                except UnicodeDecodeError:
+                                    continue
+                            
+                            if decoded is None:
+                                # 所有编码尝试失败，视为非文本文件
+                                result[index]['type'] = '非文本文件'
+                            else:
+                                allowed_chars = {'\n', '\r', '\t'}
+                                printable_count = sum(1 for c in decoded if c.isprintable() or c in allowed_chars)
+                                total_chars = len(decoded)
+                                
+                                if total_chars == 0 or (printable_count / total_chars) >= 0.95:
+                                    result[index]['type'] = '查看文件'
+                                else:
+                                    result[index]['type'] = '非文本文件'
         return jsonify({
             'success': True,
             'path': directory_path,

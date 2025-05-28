@@ -25,6 +25,7 @@
         <textSee v-if="$store.state.FilesTyoes == '.json'"></textSee>
         <Login v-if="$store.state.FilesTyoes == '登录'"></Login>
         <LogupView v-if="$store.state.FilesTyoes == '注册'"></LogupView>
+        <steeingView v-if="$store.state.FilesTyoes == '设置'"></steeingView>
       </span>
       <template #footer>
         <span class="dialog-footer">
@@ -47,6 +48,8 @@ import textSee from "@/components/textSee.vue";
 import NewText from "@/components/NewText.vue";
 import Login from "@/components/ViewLogIn/Login.vue";
 import LogupView from "@/components/ViewLogup/LogupView.vue";
+import steeingView from "@/components/steeingView.vue";
+
 export default {
   name: "DiaLog",
   components: {
@@ -62,6 +65,7 @@ export default {
     NewText,
     Login,
     LogupView,
+    steeingView,
   },
   methods: {
     dialogVisible() {

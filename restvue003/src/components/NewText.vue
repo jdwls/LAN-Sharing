@@ -22,7 +22,6 @@
 <script>
 import axios from "axios";
 import { ElMessageBox } from "element-plus";
-
 export default {
   name: "NewText",
   data() {
@@ -66,15 +65,43 @@ export default {
                     confirmButtonText: "再来一个",
                     cancelButtonText: "取消",
                   }).catch(() => {
-                    this.$store.state.dialogVisible = false; 
-                });
+                    this.$store.state.dialogVisible = false;
+                })
                   }
-            });
-            // await this.$store.dispatch("openDirs");
-          });
-      } else {
-        console.log("当前文件名为空");
-      }
+                  else if(res.data.message == "当前存在相关文件") {
+                    ElMessageBox.alert(res.data.message, "创建文本状态", {
+                      showConfirmButton: true,
+                      showCancelButton: true,
+                      confirmButtonText: "再来一个",
+                      cancelButtonText: "取消",
+                    }).catch(() => {
+                      this.$store.state.dialogVisible = false;
+                    })
+                    .then(() => {
+                      this.TextName = "";
+                      this.TextConter = "";
+                    })
+                  }
+                  else if(res.data.message == "创建文本文件失败") {
+                    ElMessageBox.alert(res.data.message, "创建文本状态", {
+                      showConfirmButton: true,
+                      showCancelButton: true,
+                      confirmButtonText: "再来一个",
+                      cancelButtonText: "取消",
+                    }).catch(() => {
+                      this.$store.state.dialogVisible = false; 
+                    })
+                    .then(() => {
+                      this.TextName = "";
+                      this.TextConter = "";
+                    })
+                  }
+                  
+            })
+          })
+      } 
+        
+      
     },
   },
 };

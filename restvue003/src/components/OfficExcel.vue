@@ -7,7 +7,6 @@
 import VueOfficeExcel from "@vue-office/excel";
 //引入相关样式
 import "@vue-office/excel/lib/index.css";
-
 export default {
   name: "OfficExcel",
   components: {
