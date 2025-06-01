@@ -5,10 +5,11 @@ import "element-plus/dist/index.css";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import { store } from "./store";
 import "lib-flexible/flexible.js";
-
+import router from "@/router";
 // import VueCoreVideoPlayer from 'vue-core-video-player'
 const app = createApp(App);
 app.use(store);
+app.use(router);
 // app.use(ElementPlus)
 // app.use(VueCoreVideoPlayer)
 app.use(ElementPlus, {

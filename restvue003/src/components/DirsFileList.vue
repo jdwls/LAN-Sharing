@@ -19,19 +19,19 @@
               ></el-input>
               <el-button class="search" @click="handleSearch">搜索</el-button>
             </template>
-            <el-table-column prop="data" label="文件名" width="360vw" sortable>
+            <el-table-column prop="data" label="文件名" width="540vw" sortable>
             </el-table-column>
-            <el-table-column label="下载" width="120vw">
+            <el-table-column label="下载" width="180vw">
               <template #default="scope">
                 <downloadFlie :down="scope.row.data"></downloadFlie>
               </template>
             </el-table-column>
-            <el-table-column label="删除" width="120vw">
+            <el-table-column label="删除" width="180vw">
               <template #default="scope">
                 <dropFiles :dropFiles="scope.row.data"> </dropFiles>
               </template>
             </el-table-column>
-            <el-table-column label="打开文件" width="120vw">
+            <el-table-column label="打开文件" width="180vw">
               <template #default="scope">
                 <openDir
                   v-if="scope.row.type == '打开目录'"
@@ -39,7 +39,7 @@
                 ></openDir>
               </template>
             </el-table-column>
-            <el-table-column label="查看文件" width="120vw">
+            <el-table-column label="查看文件" width="180vw">
               <template #default="scope">
                 <ViewButton
                   v-if="scope.row.type == '查看文件'"
@@ -137,7 +137,7 @@ export default {
 
 .table-pagination-wrapper {
   width: 100%;
-  max-width: 1200px;
+  max-width: 75vw;
   display: flex;
   flex-direction: column;
   align-items: center;
