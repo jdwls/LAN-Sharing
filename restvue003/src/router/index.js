@@ -1,16 +1,16 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createMemoryHistory, createRouter } from 'vue-router'
 import IndexPages from "@/components/index/IndexPages.vue";
 import LanShareIndex from "@/components/LanShare/LanShareIndex.vue";
 const routes = [
-  { path: "/", component: IndexPages },
+  { path: "/", 
+    component: IndexPages },
   {
     path: "/LanShareIndex",
     component: LanShareIndex,
   },
 ];
-const routerHistory = createWebHistory();
 const router = createRouter({
-  history: routerHistory,
+  history: createMemoryHistory(),
   routes,
-});
+})
 export default router;

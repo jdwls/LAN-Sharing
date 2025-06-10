@@ -5,36 +5,21 @@
     </div>
     <div class="list-FlieList">
       <router-view></router-view>
-      <Dirpath class="Dirpath"></Dirpath>
     </div>
 
     <DiaLog></DiaLog>
   </div>
 </template>
 <script>
-import axios from "axios";
 import DiaLog from "@/components/DiaLog.vue";
 import HomePages from "@/components/Home/HomePages.vue";
-import Dirpath from "@/components/DirPath.vue";
 export default {
   name: "App",
   components: {
     DiaLog,
     HomePages,
-    Dirpath,
   },
-  mounted() {
-    axios({
-      url: this.$store.state.api + "/OptionDir",
-      method: "post",
-    }).then((res) => {
-      this.$store.state.DirPath = res.data.data;
-      if (res.data.type == "成功选择目录") {
-        window.location.reload();
-      }
-    });
-  },
-};
+}
 </script>
 <style>
 #app {

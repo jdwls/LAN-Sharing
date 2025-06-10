@@ -3,7 +3,6 @@
     <div class="Title1">
       <el-avatar
         shape="square"
-        size="3vw"
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       ></el-avatar>
       <svg
@@ -67,7 +66,6 @@ export default {
           list.style.maxHeight = list.scrollHeight + "px";
         });
       }
-      console.log("列表项被点击了", list);
     },
   },
 };

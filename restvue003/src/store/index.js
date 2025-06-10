@@ -53,25 +53,17 @@ export const store = createStore({
       this.state.dialogVisible = true;
       this.state.OfficEword = this.state.ViewButtonOfficEword;
     },
-    // async filesypess(){
-    // await  axios({
-    //     url:this.state.api+"/filesypess",
-    //     method:"get",
-    //     params:{
-    // 'filesypessPath':this.state.DirPath
-    //   }
-    //   }).then(res=>{
-    //   this.state.otherDirsType=res.data.data
-    //   let h=Object.values(res.data.filesypessPathlistTypes)
-    //   console.log(h);
-    //         console.log(this.state.DirsFileList);
-    //   for(let i=0;i<h.length;i++){
-    //       // console.log( '1',this.state.DirsFileList[h[i].index].FileType,'12',res.data.filesypessPathlistTypes,'123',h);
-    //        this.state.DirsFileList[h[i].index].FileType='查看文件'
-    //   }
-
-    //   })
-    // },
+    OptionDir(){
+  axios({
+      url: this.state.api + "/OptionDir",
+      method: "post",
+    }).then((res) => {
+      this.state.DirPath = res.data.data;
+      if (res.data.type == "成功选择目录") {
+        window.location.reload();
+      }
+    });
+  },
   },
   mutations: {
     DirsFileList(state, newDate) {

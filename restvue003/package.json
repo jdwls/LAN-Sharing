@@ -23,6 +23,7 @@
     "vue-cookies": "^1.8.6",
     "vue-demi": "^0.14.7",
     "vue-doc-preview": "^0.3.2",
+    "vue-router": "^4.5.1",
     "vue-upload-component": "^3.1.8",
     "vue-video-player": "^6.0.0",
     "vuex": "^4.0.2",
