@@ -25,11 +25,11 @@ from module.funtion.view.TextLnsert import TextLnsert_blueprint
 from module.funtion.view.Login.login import login_blueprint
 from module.funtion.view.Logup.Logup import Logup_blueprint
 from module.funtion.view.Cookie import Cookie_blueprint
-
-
+from module.funtion.view.Torken.Toker import Toker_blueprint
 app = Flask(__name__, template_folder='template', static_url_path='/', static_folder='static')
 CORS(app)
 app.register_blueprint(option_dir_blueprint)
+app.register_blueprint(Toker_blueprint)
 app.register_blueprint(Cookie_blueprint)
 app.register_blueprint(fileypess_blueprint)
 app.register_blueprint(upload_bp)

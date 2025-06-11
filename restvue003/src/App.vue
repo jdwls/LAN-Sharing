@@ -6,11 +6,11 @@
     <div class="list-FlieList">
       <router-view></router-view>
     </div>
-
     <DiaLog></DiaLog>
   </div>
 </template>
 <script>
+import axios from 'axios'
 import DiaLog from "@/components/DiaLog.vue";
 import HomePages from "@/components/Home/HomePages.vue";
 export default {
@@ -19,6 +19,20 @@ export default {
     DiaLog,
     HomePages,
   },
+mounted() {
+  localStorage.getItem("UresName")
+  axios({
+    url:this.$store.state.api+'/Toker',
+    method:"get",
+    params:{
+      Time:localStorage.getItem("Time"),
+      Name:localStorage.getItem("UresName")
+    }
+  })
+  .then(res=>{
+    console.log(res)
+  })
+},  
 }
 </script>
 <style>

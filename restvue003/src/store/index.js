@@ -19,6 +19,14 @@ export const store = createStore({
       VideoPlayercontrols: true,
       ViewButtonOfficEword: "",
       upadaFileNumberSum: 0,
+      ButtonAuthority:[
+        {LoginButton:true},
+        {LogupButton:true},
+        {steeingButton:true},
+        {HeadIcon:true},
+        {LanShareView:true}, 
+        {DirsFileList:true}
+      ]
     };
   },
   actions: {
