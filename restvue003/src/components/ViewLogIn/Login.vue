@@ -114,6 +114,7 @@ export default {
                   this.form.name = "";
                   this.form.password = "";
                   this.$store.state.dialogVisible = false;
+                  
                 })
                 .catch(() => {
                   this.form.name = "";
@@ -121,6 +122,7 @@ export default {
                   this.$store.state.dialogVisible = false;
                 });
               if (Toker(res.data.data) == "存储成功") {
+                this.$store.dispatch("Tokers");
                 console.log(localStorage.getItem("UresName"));
               }
             } else {

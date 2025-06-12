@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="table-pagination-wrapper">
+    <div class="table-pagination-wrapper" v-if="$store.state.ButtonAuthority[5].DirsFileList">
       <el-table
         :data="currentPageData"
         style="width: auto"

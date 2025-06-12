@@ -18,10 +18,17 @@ def Toker():
     Name=request.args.get('Name')
     if Time ==None and Name ==None:
         return jsonify(
-            {'Time': Time},
+            {'DATA': {'Time':Time}},
             {'message':'出现问题'})
-    return isAdminAndUrsejsonData.isAdminAndUrsejsonData(Time,Name)
-
+    isTime=isAdminAndUrsejsonData.isAdminAndUrsejsonData(Time,Name)
+    if isTime=='用户存在':
+        return jsonify(
+            {'DATA': {'Time':Time},},
+            {'message':'登录成功'})
+    else:
+        return jsonify(
+            {'DATA': {'Time':Time}},
+            {'message':'登录失败'})
   
     
   

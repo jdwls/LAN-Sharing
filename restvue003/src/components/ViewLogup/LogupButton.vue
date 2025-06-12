@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button @click="Logup()">注册</el-button>
+    <el-button @click="Logup()" v-if="$store.state.ButtonAuthority[1].LogupButton">注册</el-button>
   </div>
 </template>
 <script>

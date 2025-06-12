@@ -19,13 +19,14 @@ export const store = createStore({
       VideoPlayercontrols: true,
       ViewButtonOfficEword: "",
       upadaFileNumberSum: 0,
-      ButtonAuthority:[
-        {LoginButton:true},
-        {LogupButton:true},
-        {steeingButton:true},
-        {HeadIcon:true},
-        {LanShareView:true}, 
-        {DirsFileList:true}
+      ButtonAuthority: [
+        { LoginButton: false },
+        { LogupButton: false },
+        { steeingButton: false },
+        { HeadIcon: false },
+        { LanShareView: false },
+        { DirsFileList: false },
+        { LogOutButton: false }
       ]
     };
   },
@@ -61,17 +62,69 @@ export const store = createStore({
       this.state.dialogVisible = true;
       this.state.OfficEword = this.state.ViewButtonOfficEword;
     },
-    OptionDir(){
-  axios({
-      url: this.state.api + "/OptionDir",
-      method: "post",
-    }).then((res) => {
-      this.state.DirPath = res.data.data;
-      if (res.data.type == "成功选择目录") {
-        window.location.reload();
-      }
-    });
-  },
+    OptionDir() {
+      axios({
+        url: this.state.api + "/OptionDir",
+        method: "post",
+      }).then((res) => {
+        this.state.DirPath = res.data.data;
+        if (res.data.type == "成功选择目录") {
+          window.location.reload();
+        }
+      });
+    },
+    Tokers(){
+      axios({
+    url:this.state.api+'/Toker',
+    method:"get",
+    params:{
+      Time:localStorage.getItem("Time"),
+      Name:localStorage.getItem("UresName")
+    }
+  })
+  .then(res=>{
+    if(res.data[1].message=='登录成功' && localStorage.getItem("Authority")=='Ures'){
+      this.state.ButtonAuthority=[
+        {LoginButton:false},
+        {LogupButton:false},
+        {steeingButton:false},
+        {HeadIcon:true},
+        {LanShareView:true}, 
+        {DirsFileList:true},
+        {LogOutButton:true}
+      ]
+    }
+    else if(res.data[1].message=='登录成功' && localStorage.getItem("Authority")=='Admin'){
+     this.state.ButtonAuthority=[
+        {LoginButton:false},
+        {LogupButton:true},
+        {steeingButton:true},
+        {HeadIcon:true},
+        {LanShareView:true}, 
+        {DirsFileList:true},
+        {LogOutButton:true}
+      ]
+    }
+    else{
+      localStorage.removeItem('Authority');
+      localStorage.removeItem('Time');
+      localStorage.removeItem('UresName');
+     this.state.ButtonAuthority=[
+        {LoginButton:true},
+        {LogupButton:false},
+        {steeingButton:false},
+        {HeadIcon:false},
+        {LanShareView:false}, 
+        {DirsFileList:false},
+        {LogOutButton:false}
+      ]
+      this.$router.push('/')  
+    }
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+    }
   },
   mutations: {
     DirsFileList(state, newDate) {
