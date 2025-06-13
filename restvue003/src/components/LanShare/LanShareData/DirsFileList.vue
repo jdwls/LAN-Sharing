@@ -1,6 +1,6 @@
-<template>
-  <div class="container">
-    <div class="table-pagination-wrapper" v-if="$store.state.ButtonAuthority[5].DirsFileList">
+<template >
+  <div class="container" >
+    <div class="table-pagination-wrapper" >
       <el-table
         :data="currentPageData"
         style="width: auto"
@@ -67,10 +67,10 @@
 </template>
 
 <script>
-import downloadFlie from "@/components/downloadFlie.vue";
-import dropFiles from "@/components/dropFiles.vue";
-import openDir from "@/components/openDir.vue";
-import ViewButton from "@/components/ViewButton.vue";
+import downloadFlie from "@/components/LanShare/LanShareIndexButton/downloadFlie.vue";
+import dropFiles from "@/components/LanShare/LanShareIndexButton/dropFiles.vue";
+import openDir from "@/components/LanShare/LanShareIndexButton/openDir.vue";
+import ViewButton from "@/components/LanShare/LanShareIndexButton/ViewButton.vue";
 
 export default {
   name: "DirsFileList",

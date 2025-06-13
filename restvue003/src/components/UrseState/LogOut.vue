@@ -15,6 +15,7 @@ export default {
             localStorage.removeItem('Time');
             localStorage.removeItem('UresName');
             this.$store.dispatch("Tokers");
+            this.$router.push("/");
         }
     }
 }

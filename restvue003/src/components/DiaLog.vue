@@ -36,19 +36,20 @@
   </div>
 </template>
 <script>
-import updataFile1 from "@/components/updataFile1.vue";
-import updataFile2test from "@/components/updataFile2.vue";
-import progressEl from "@/components/progressEl.vue";
-import OfficEword from "@/components/OfficEword.vue";
-import OfficExcel from "@/components/OfficExcel.vue";
-import OfficPdf from "@/components/OfficPdf.vue";
-import VideoPlay from "@/components/VideoPlay.vue";
-import imageSee from "@/components/imageSee.vue";
-import textSee from "@/components/textSee.vue";
-import NewText from "@/components/NewText.vue";
-import Login from "@/components/ViewLogIn/Login.vue";
-import LogupView from "@/components/ViewLogup/LogupView.vue";
-import steeingView from "@/components/steeingView.vue";
+import updataFile1 from "@/components/LanShare/LanShareIndexButton/updataFile1.vue";
+import updataFile2test from "@/components/LanShare/LanShareIndexButton/updataFile2.vue";
+import progressEl from "@/components/Common/VueCommon/progressEl.vue";
+import OfficEword from "@/components/DataView/OfficEword.vue";
+import OfficExcel from "@/components/DataView/OfficExcel.vue";
+import OfficPdf from "@/components/DataView/OfficPdf.vue";
+import VideoPlay from "@/components/DataView/VideoPlay.vue";
+import imageSee from "@/components/DataView/imageSee.vue";
+import textSee from "@/components/DataView/textSee.vue";
+import NewText from "@/components/LanShare/LanShareIndexButton/NewText.vue";
+import Login from "@/components/UrseState/ViewLogIn/Login.vue";
+import LogupView from "@/components/UrseState/ViewLogup/LogupView.vue"
+import steeingView from "@/components/Common/VueCommon/steeingView.vue";
+
 
 export default {
   name: "DiaLog",

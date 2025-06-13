@@ -29,8 +29,8 @@
       <LogOut v-if="$store.state.ButtonAuthority[6].LogOutButton"></LogOut>
     </div>
     <h1 class="Title" @click="$router.push('/')">欢迎来到集成功能网站</h1>
-    <div class="LanshareFang">
-      <h1 @click="Lanshare()" class="Lanshare"  v-if="$store.state.ButtonAuthority[4].LanShareView">局域网文件共享系统</h1>
+    <div class="LanshareFang" v-if="$store.state.ButtonAuthority[4].LanShareView">
+      <h1 @click="Lanshare()" class="Lanshare"  >局域网文件共享系统</h1>
       <ul id="myList">
         <ol @click="$router.push('/LanShareIndex')">
           首页
@@ -41,9 +41,10 @@
 </template>
 
 <script>
-import LoginButton from "@/components/ViewLogIn/LoginButton.vue";
-import LogupButton from "@/components/ViewLogup/LogupButton.vue";
-import LogOut from "@/components/LogOut.vue";
+// import LoginButton from "@/components/ViewLogIn/LoginButton.vue";
+import LoginButton from "@/components/UrseState/ViewLogIn/LoginButton.vue"
+import LogupButton from "@/components/UrseState/ViewLogup/LogupButton.vue"
+import LogOut from "@/components/UrseState/LogOut.vue"
 export default {
   name: "HomePages",
   components: {
@@ -76,44 +77,94 @@ export default {
 };
 </script>
 <style scoped>
+.homePages {
+  padding: 20px;
+  color: white;
+}
+
+.icon {
+  transition: all 0.3s ease;
+}
 .icon:hover {
   transform: scale(1.2);
   cursor: pointer;
+  filter: brightness(1.2);
 }
+
 .Title {
   text-align: center;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
+  margin: 15px 0;
+  font-size: 1vw;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
+.Title:hover {
+  cursor: pointer;
+  color: #42b983;
+}
+
 .Title1 {
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.LanshareFang {
+  background-color: #e74c3c;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.LanshareFang:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.Lanshare {
+  text-align: center;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1vw;
+  transition: all 0.3s ease;
 }
 .Lanshare:hover {
   cursor: pointer;
+  background-color: #c0392b;
 }
-.LanshareFang {
-  background-color: rgb(254, 91, 32);
-}
-h1 {
-  padding: 0;
-  margin: 0;
-}
-.Lanshare {
-  text-align: center;
-  height: 3vh;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
+
 #myList {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s cubic-bezier(0.33, 1, 0.68, 1);
   cursor: pointer;
-  font-size: 1vw;
-  background-color: rgb(254, 91, 32);
+  font-size: 0.8vw;
+  background-color: #e74c3c;
+  padding: 0 20px;
+  text-align: center;
+}
+
+#myList ol {
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+#myList ol:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .Title {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+  .Lanshare {
+    height: 32px;
+    font-size: 0.9rem;
+  }
 }
 </style>
