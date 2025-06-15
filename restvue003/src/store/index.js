@@ -73,7 +73,7 @@ export const store = createStore({
       });
     },
     Tokers() {
-      axios({
+      let message = axios({
         url: this.state.api + "/Toker",
         method: "get",
         params: {
@@ -95,7 +95,6 @@ export const store = createStore({
               { DirsFileList: true },
               { LogOutButton: true },
             ];
-            return res.data[1].message;
           } else if (
             res.data[1].message == "登录成功" &&
             localStorage.getItem("Authority") == "Admin"
@@ -109,7 +108,6 @@ export const store = createStore({
               { DirsFileList: true },
               { LogOutButton: true },
             ];
-            return res.data[1].message;
           } else {
             localStorage.removeItem("Authority");
             localStorage.removeItem("Time");
@@ -123,13 +121,13 @@ export const store = createStore({
               { DirsFileList: false },
               { LogOutButton: false },
             ];
-            this.$router.push("/");
-            return res.data[1].message;
           }
+          return res.data[1].message;
         })
         .catch((err) => {
           console.log(err);
         });
+      return message;
     },
   },
   mutations: {

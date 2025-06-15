@@ -108,10 +108,14 @@ export default {
     },
   },
   mounted() {
-    if (this.$store.dispatch("Tokers") == "登录成功") {
-      this.$store.dispatch("DirsFileList");
-      this.$store.dispatch("OptionDir");
-    }
+    this.$store.dispatch("Tokers").then((res) => {
+      if (res == "登录成功") {
+        this.$store.dispatch("DirsFileList");
+        this.$store.dispatch("OptionDir");
+      } else {
+        this.$router.push("/");
+      }
+    });
 
     // 执行打开目录功能
     // this.$store.dispatch("openDirs");
