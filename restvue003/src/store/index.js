@@ -26,8 +26,8 @@ export const store = createStore({
         { HeadIcon: false },
         { LanShareView: false },
         { DirsFileList: false },
-        { LogOutButton: false }
-      ]
+        { LogOutButton: false },
+      ],
     };
   },
   actions: {
@@ -46,7 +46,6 @@ export const store = createStore({
           console.error("获取目录文件列表失败:", err);
         });
     },
-
     async ViewButton() {
       await axios({
         url: this.state.api + "/fileypess",
@@ -73,58 +72,65 @@ export const store = createStore({
         }
       });
     },
-    Tokers(){
+    Tokers() {
       axios({
-    url:this.state.api+'/Toker',
-    method:"get",
-    params:{
-      Time:localStorage.getItem("Time"),
-      Name:localStorage.getItem("UresName")
-    }
-  })
-  .then(res=>{
-    if(res.data[1].message=='登录成功' && localStorage.getItem("Authority")=='Ures'){
-      this.state.ButtonAuthority=[
-        {LoginButton:false},
-        {LogupButton:false},
-        {steeingButton:false},
-        {HeadIcon:true},
-        {LanShareView:true}, 
-        {DirsFileList:true},
-        {LogOutButton:true}
-      ]
-    }
-    else if(res.data[1].message=='登录成功' && localStorage.getItem("Authority")=='Admin'){
-     this.state.ButtonAuthority=[
-        {LoginButton:false},
-        {LogupButton:true},
-        {steeingButton:true},
-        {HeadIcon:true},
-        {LanShareView:true}, 
-        {DirsFileList:true},
-        {LogOutButton:true}
-      ]
-    }
-    else{
-      localStorage.removeItem('Authority');
-      localStorage.removeItem('Time');
-      localStorage.removeItem('UresName');
-     this.state.ButtonAuthority=[
-        {LoginButton:true},
-        {LogupButton:false},
-        {steeingButton:false},
-        {HeadIcon:false},
-        {LanShareView:false}, 
-        {DirsFileList:false},
-        {LogOutButton:false}
-      ]
-      this.$router.push('/')  
-    }
-  })
-  .catch(err=>{
-    console.log(err);
-  })
-    }
+        url: this.state.api + "/Toker",
+        method: "get",
+        params: {
+          Time: localStorage.getItem("Time"),
+          Name: localStorage.getItem("UresName"),
+        },
+      })
+        .then((res) => {
+          if (
+            res.data[1].message == "登录成功" &&
+            localStorage.getItem("Authority") == "Ures"
+          ) {
+            this.state.ButtonAuthority = [
+              { LoginButton: false },
+              { LogupButton: false },
+              { steeingButton: false },
+              { HeadIcon: true },
+              { LanShareView: true },
+              { DirsFileList: true },
+              { LogOutButton: true },
+            ];
+            return res.data[1].message;
+          } else if (
+            res.data[1].message == "登录成功" &&
+            localStorage.getItem("Authority") == "Admin"
+          ) {
+            this.state.ButtonAuthority = [
+              { LoginButton: false },
+              { LogupButton: true },
+              { steeingButton: true },
+              { HeadIcon: true },
+              { LanShareView: true },
+              { DirsFileList: true },
+              { LogOutButton: true },
+            ];
+            return res.data[1].message;
+          } else {
+            localStorage.removeItem("Authority");
+            localStorage.removeItem("Time");
+            localStorage.removeItem("UresName");
+            this.state.ButtonAuthority = [
+              { LoginButton: true },
+              { LogupButton: false },
+              { steeingButton: false },
+              { HeadIcon: false },
+              { LanShareView: false },
+              { DirsFileList: false },
+              { LogOutButton: false },
+            ];
+            this.$router.push("/");
+            return res.data[1].message;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mutations: {
     DirsFileList(state, newDate) {

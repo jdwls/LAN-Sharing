@@ -4,7 +4,7 @@
       <el-avatar
         shape="square"
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-         v-if="$store.state.ButtonAuthority[3].HeadIcon"
+        v-if="$store.state.ButtonAuthority[3].HeadIcon"
       ></el-avatar>
       <svg
         t="1748396562479"
@@ -29,22 +29,32 @@
       <LogOut v-if="$store.state.ButtonAuthority[6].LogOutButton"></LogOut>
     </div>
     <h1 class="Title" @click="$router.push('/')">欢迎来到集成功能网站</h1>
-    <div class="LanshareFang" v-if="$store.state.ButtonAuthority[4].LanShareView">
-      <h1 @click="Lanshare()" class="Lanshare"  >局域网文件共享系统</h1>
+    <div
+      class="LanshareFang"
+      v-if="$store.state.ButtonAuthority[4].LanShareView"
+    >
+      <h1 @click="Lanshare()" class="Lanshare">局域网文件共享系统</h1>
       <ul id="myList">
         <ol @click="$router.push('/LanShareIndex')">
           首页
         </ol>
       </ul>
     </div>
+    <div
+      class="LanshareFang"
+      v-if="$store.state.ButtonAuthority[4].LanShareView"
+      @click="$router.push('/ChatRoomIndex')"
+    >
+      <h1 class="Lanshare">聊天功能</h1>
+    </div>
   </div>
 </template>
 
 <script>
 // import LoginButton from "@/components/ViewLogIn/LoginButton.vue";
-import LoginButton from "@/components/UrseState/ViewLogIn/LoginButton.vue"
-import LogupButton from "@/components/UrseState/ViewLogup/LogupButton.vue"
-import LogOut from "@/components/UrseState/LogOut.vue"
+import LoginButton from "@/components/UrseState/ViewLogIn/LoginButton.vue";
+import LogupButton from "@/components/UrseState/ViewLogup/LogupButton.vue";
+import LogOut from "@/components/UrseState/LogOut.vue";
 export default {
   name: "HomePages",
   components: {

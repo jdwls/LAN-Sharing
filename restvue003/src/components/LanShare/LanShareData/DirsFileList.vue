@@ -1,6 +1,6 @@
-<template >
-  <div class="container" >
-    <div class="table-pagination-wrapper" >
+<template>
+  <div class="container">
+    <div class="table-pagination-wrapper">
       <el-table
         :data="currentPageData"
         style="width: auto"
@@ -108,10 +108,11 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("DirsFileList");
-    this.$store.dispatch("OptionDir");
+    if (this.$store.dispatch("Tokers") == "登录成功") {
+      this.$store.dispatch("DirsFileList");
+      this.$store.dispatch("OptionDir");
+    }
 
-    
     // 执行打开目录功能
     // this.$store.dispatch("openDirs");
   },
