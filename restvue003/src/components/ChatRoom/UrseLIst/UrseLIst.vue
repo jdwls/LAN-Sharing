@@ -54,6 +54,7 @@
         </el-collapse-item>
       </el-collapse>
     </div>
+    <IsOlineNumber></IsOlineNumber>
   </div>
 </template>
 
@@ -181,12 +182,18 @@
 </style>
 
 <script>
+import axios from 'axios';
+import IsOlineNumber from '@/components/ChatRoom/UrseLIst/IsOlineNumber.vue';
 export default {
   name: "UrseLIst",
+  comments:{
+    IsOlineNumber,
+  },
   data() {
     return {
       LocationUrseName: localStorage.getItem("UresName"),
       activeCollapse: ["online", "offline"],
+      Urselist:[]
     };
   },
   computed: {
@@ -213,5 +220,19 @@ export default {
       return ["赵六", "钱七", "孙八"];
     },
   },
+  mounted(){
+    axios({
+      url:this.$store.state.api+'/UreList',
+      method:'get',
+    })
+    .then((res)=>{
+      this.Urselist = res.data.data
+      console.log(this.Urselist);
+      
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
 };
 </script>
