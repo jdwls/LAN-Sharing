@@ -6,15 +6,10 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";
 import { store } from "./store";
 import "lib-flexible/flexible.js";
 import router from "@/router";
-import { io } from "socket.io-client";
 // import VueCoreVideoPlayer from 'vue-core-video-player'
 const app = createApp(App);
 app.use(store);
 app.use(router);
-const socket = io(this.$store.state.api);
-console.log(socket);
-
-// app.use(VueCoreVideoPlayer)
 app.use(ElementPlus, {
   locale: zhCn,
   size: "default", // 可选组件尺寸配置

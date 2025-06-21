@@ -1,15 +1,26 @@
 <template>
-    <div>
-11  
-    </div>
+  <div>11</div>
 </template>
 
 <script>
+import { io } from "socket.io-client";
 export default {
-    name: "IsOlineNumber",
-    mounted() {
-        console.log(1);
-        
-    }
-    }
+  data() {
+    return {
+      socket: io(this.$store.state.api, {
+        autoConnect: false,
+      }),
+    };
+  },
+  name: "IsOlineNumber",
+  mounted() {
+    this.socket.open();
+    this.socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+  },
+  beforeUnmount() {
+    this.socket.disconnect();
+  },
+};
 </script>

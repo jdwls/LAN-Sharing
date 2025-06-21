@@ -27,11 +27,14 @@ from module.funtion.view.Logup.Logup import Logup_blueprint
 from module.funtion.view.Cookie import Cookie_blueprint
 from module.funtion.view.Torken.Toker import Toker_blueprint
 from module.funtion.view.ChatRomm.UreList import UreList_blueprint
+from module.funtion.view.ChatRomm.Socket.IsOlineNumber import socketio
+from module.funtion.view.ChatRomm.Socket.IsOlineNumber import IsOlineNumber_blueprint
 from flask_socketio import SocketIO,send,emit
 app = Flask(__name__, template_folder='template', static_url_path='/', static_folder='static')
 CORS(app)
-socketio = SocketIO(app,cors_allowed_origins='*') 
+socketio.init_app(app, cors_allowed_origins="*")
 app.register_blueprint(UreList_blueprint)
+app.register_blueprint(IsOlineNumber_blueprint)
 app.register_blueprint(option_dir_blueprint)
 app.register_blueprint(Toker_blueprint)
 app.register_blueprint(Cookie_blueprint)
@@ -62,25 +65,14 @@ webbrowser.open_new('http://localhost:2525')
 def hello_world():
     os.system('restFlask003/template/CMD/dropdowln.bat')
     return render_template('index.html')
-@socketio.on('connect')
-def handle_connect():
-    print('客户端已连接:', request.sid)
-    emit('server_response', {'data': '连接成功'})  # 向客户端发送确认
-
-# 处理自定义事件 (接收前端消息)
-@socketio.on('client_event')
-def handle_custom_event(json):
-    print('收到前端数据:', json)
-    # 处理数据并广播回复
-    emit('server_response', {'data': f'收到: {json["message"]}'})
-
-# 处理断开连接
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('客户端断开:', request.sid)   
+# @socketio.on('connect')
+# def handle_connect():
+#     print('客户端连接成功')
+# @socketio.on('Toker')
+# def Toker(data):
+#     print('接收到的用户名:', data)
 if __name__ == '__main__': 
    print(app.url_map)
-   
    app.run(host='0.0.0.0',port=2525,debug=True)
 #    ssl_context=('template/crt/localhost.crt', 'template/crt/localhost.key')
    
