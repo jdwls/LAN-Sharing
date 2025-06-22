@@ -11,13 +11,11 @@ CORS(IsOlineNumber_blueprint, supports_credentials=True)
 logging.basicConfig(level=logging.INFO, filename='app.log',
                     filemode='a', format='%(asctime)s - %(levelname)s - %(message)s')
 socketio = SocketIO()
-@socketio.on('socketio_ures')
-def socketio_ures(data):
-    print(data)
 @socketio.on('connect')
 def handle_connect():
-    print("Client connected ----------------------------------------------------------------------------------------------------")
-    # 发送欢迎消息给新连接的客户端
+    with open(glode.IsOlineNumbers(), 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    emit('Online_Numbers',data)
 @IsOlineNumber_blueprint.route('/IsOlineNumber', methods=['GET'])
 def IsOlineNumber():
     print("IsOlineNumber")

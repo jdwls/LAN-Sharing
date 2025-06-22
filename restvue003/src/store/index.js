@@ -1,4 +1,3 @@
-// import axios from 'axios'
 import axios from "axios";
 import { createStore } from "vuex";
 
@@ -6,6 +5,8 @@ export const store = createStore({
   state() {
     return {
       api: "http://127.0.0.1:2525",
+      Online_Numbers: [],
+      disconnectNumber: [],
       i: 1,
       DirPath: "",
       dialogVisible: false,

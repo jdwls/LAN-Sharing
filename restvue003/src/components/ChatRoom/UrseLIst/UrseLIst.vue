@@ -18,7 +18,7 @@
           <transition-group name="user-list" tag="div" class="user-cards">
             <div
               class="user-card online"
-              v-for="(name, index) in onlineUresNameAndAvatar"
+              v-for="(name, index) in onlineUresNameNumber"
               :key="'online-' + index"
             >
               <el-avatar
@@ -39,7 +39,7 @@
           <transition-group name="user-list" tag="div" class="user-cards">
             <div
               class="user-card offline"
-              v-for="(name, index) in DisconnectUresNameAndAvatar"
+              v-for="(name, index) in DisconnectUresNameNumber"
               :key="'offline-' + index"
             >
               <el-avatar
@@ -182,57 +182,67 @@
 </style>
 
 <script>
-import axios from 'axios';
-import IsOlineNumber from '@/components/ChatRoom/UrseLIst/IsOlineNumber.vue';
+import axios from "axios";
+import IsOlineNumber from "@/components/ChatRoom/UrseLIst/IsOlineNumber.vue";
+// import { io } from "socket.io-client";
+import {
+  connectSocket,
+  sendMessage,
+  requestOnlineNumbers,
+  socket,
+} from "@/socke/index.js";
+// , DisconnectSendNumber
 export default {
   name: "UrseLIst",
-  comments:{
+  comments: {
     IsOlineNumber,
   },
   data() {
     return {
       LocationUrseName: localStorage.getItem("UresName"),
       activeCollapse: ["online", "offline"],
-      Urselist:[]
+      Urselist: [],
+      onlineUresNameNumber: requestOnlineNumbers(),
+      DisconnectUresNameNumber: [
+        "赵六",
+        "钱七",
+        "孙八",
+        "赵六2",
+        "钱七2",
+        "孙八2",
+        "赵六3",
+        "钱七3",
+        "孙八3",
+      ],
     };
   },
   computed: {
     onlineUresNumber() {
-      return this.onlineUresNameAndAvatar.length;
-    },
-    onlineUresNameAndAvatar() {
-      return [
-        "张三",
-        "李四",
-        "王五",
-        "张三2",
-        "李四2",
-        "王五2",
-        "张三3",
-        "李四3",
-        "王五3",
-      ];
+      return this.onlineUresNameNumber.length;
     },
     DisconnectUresNumber() {
-      return this.DisconnectUresNameAndAvatar.length;
-    },
-    DisconnectUresNameAndAvatar() {
-      return ["赵六", "钱七", "孙八"];
+      return this.DisconnectUresNameNumber.length;
     },
   },
-  mounted(){
+  mounted() {
+    socket.open();
+    connectSocket();
+    sendMessage();
+    console.log(requestOnlineNumbers());
     axios({
-      url:this.$store.state.api+'/UreList',
-      method:'get',
+      url: this.$store.state.api + "/UreList",
+      method: "get",
     })
-    .then((res)=>{
-      this.Urselist = res.data.data
-      console.log(this.Urselist);
-      
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
+      .then((res) => {
+        this.Urselist = res.data.data;
+        console.log(this.Urselist);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  // beforeUnmount() {
+  //   socket.disconnect();
+  // },
 };
 </script>

@@ -14,13 +14,22 @@ export default {
   },
   name: "IsOlineNumber",
   mounted() {
-    this.socket.open();
-    this.socket.on("connect", () => {
-      console.log("Connected to server");
-    });
-  },
-  beforeUnmount() {
-    this.socket.disconnect();
+    //   this.socket.open();
+    //   this.socket.on("connect", () => {
+    //     console.log("Connected to server");
+    //     this.socket.emit("OnlineSendNumber", {
+    //       name: localStorage.getItem("UresName"),
+    //     });
+    //     this.socket.on("ReceiveNumber", (data) => {
+    //       console.log("ReceiveNumber", data);
+    //     });
+    //   });
+    // },
+    // beforeUnmount() {
+    //   this.socket.emit("DisconnectSendNumber", {
+    //     name: localStorage.getItem("UresName"),
+    //   });
+    //   this.socket.disconnect();
   },
 };
 </script>

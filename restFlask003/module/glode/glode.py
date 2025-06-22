@@ -26,3 +26,6 @@ def UresPathJson():
 def AdminPathJson():
     AdminPathJson = 'restFlask003/template/uresAndAdmin/admin.json'
     return AdminPathJson
+def IsOlineNumbers():
+    IsOlineNumbers = 'restFlask003/template/commoon/IsOlineNumber.json'
+    return IsOlineNumbers
