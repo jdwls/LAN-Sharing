@@ -1,41 +1,69 @@
 import { io } from "socket.io-client";
-import { store } from "@/store/index.js";
-// 创建socket实例（注意：生产环境应使用HTTPS）
-export const socket = io("ws://localhost:2525", {
+import { store } from '@/store/index.js'
+
+const socket = io(store.state.api, {
   autoConnect: false,
   transports: ["websocket"],
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  timeout: 10000
 });
-// 连接Socket并设置事件监听
+
+// 连接管理
 export function connectSocket() {
-  socket.connect(); // 必须手动连接
-  socket.on("connect", () => {
-    console.log("Socket connected");
+  if (socket.connected) return;
+  
+  const username = localStorage.getItem('UresName');
+  if (!username) {
+    console.error('无法建立连接: 缺少用户名');
+    return;
+  }
+  
+  socket.auth = { username };
+  socket.connect();
+  
+  socket.on('connect', () => {
+    console.log('Socket连接成功');
+    socket.emit("user_login", { username });
   });
-  socket.on("disconnect", () => {
-    console.log("Socket disconnected");
+  
+  socket.on('online_users_update', (data) => {
+    if (data.action === 'login') {
+      if (!store.state.Online_Numbers.includes(data.username)) {
+        store.state.Online_Numbers.push(data.username);
+      }
+    } else if (data.action === 'logout') {
+      store.state.Online_Numbers = store.state.Online_Numbers.filter(
+        user => user !== data.username
+      );
+    }
   });
-  socket.on("connect_error", (error) => {
-    console.error("Connection error:", error);
+  
+  socket.on('current_online_users', (data) => {
+    store.state.Online_Numbers = data.online_users;
   });
 }
-// 发送消息
-export function sendMessage() {
-  socket.emit("message", "zhuj");
+
+// 断开连接
+export function disconnectSocket() {
+  if (socket.connected) {
+    socket.disconnect();
+    console.log('Socket已断开');
+  }
 }
-// 获取在线人数（需要后端配合）
-export function requestOnlineNumbers() {
-  socket.on("Online_Numbers", (res) => {
-    setInterval(async () => {
-      store.state.Online_Numbers = await res["name"];
-    });
-    return store.state.Online_Numbers;
-  });
-  return store.state.Online_Numbers;
-}
-export function disconnectNumber() {}
-export default {
-  connectSocket,
-  sendMessage,
-  requestOnlineNumbers,
-  socket,
-};
+
+// 自动重连逻辑
+socket.on('disconnect', (reason) => {
+  console.log(`连接断开: ${reason}`);
+  if (reason === 'io server disconnect') {
+    socket.connect(); // 服务器主动断开时尝试重连
+  }
+});
+
+// 错误处理
+socket.on('connect_error', (err) => {
+  console.error('连接错误:', err.message);
+});
+
+export default { connectSocket, disconnectSocket, socket };

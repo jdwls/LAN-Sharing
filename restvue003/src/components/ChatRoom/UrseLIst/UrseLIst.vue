@@ -1,32 +1,21 @@
 <template>
   <div class="container">
     <div class="header">
-      <el-avatar
-        shape="square"
-        :size="60"
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-        v-if="$store.state.ButtonAuthority[3].HeadIcon"
-      ></el-avatar>
+      <el-avatar shape="square" :size="60" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        v-if="$store.state.ButtonAuthority[3].HeadIcon"></el-avatar>
       <h1 class="user-name">{{ LocationUrseName }}</h1>
     </div>
     <div class="scrollable-list">
       <el-collapse v-model="activeCollapse" accordion>
         <el-collapse-item name="online">
           <template #title>
-            <h2 class="section-title">在线人数 ({{ onlineUresNumber }})</h2>
+            <h2 class="section-title">在线人数 ({{ $store.state.Online_Numbers.length }})</h2>
           </template>
           <transition-group name="user-list" tag="div" class="user-cards">
-            <div
-              class="user-card online"
-              v-for="(name, index) in onlineUresNameNumber"
-              :key="'online-' + index"
-            >
-              <el-avatar
-                shape="square"
-                :size="40"
+            <div class="user-card online" v-for="(name, index) in $store.state.Online_Numbers" :key="'online-' + index">
+              <el-avatar shape="square" :size="40"
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                v-if="$store.state.ButtonAuthority[3].HeadIcon"
-              ></el-avatar>
+                v-if="$store.state.ButtonAuthority[3].HeadIcon"></el-avatar>
               <span class="name">{{ name }}</span>
             </div>
           </transition-group>
@@ -34,20 +23,13 @@
 
         <el-collapse-item name="offline">
           <template #title>
-            <h2 class="section-title">离线人数 ({{ DisconnectUresNumber }})</h2>
+            <h2 class="section-title">离线人数 ({{ $store.state.disconnectNumber.length}})</h2>
           </template>
           <transition-group name="user-list" tag="div" class="user-cards">
-            <div
-              class="user-card offline"
-              v-for="(name, index) in DisconnectUresNameNumber"
-              :key="'offline-' + index"
-            >
-              <el-avatar
-                shape="square"
-                :size="40"
+            <div class="user-card offline" v-for="(name, index) in $store.state.disconnectNumber" :key="'offline-' + index">
+              <el-avatar shape="square" :size="40"
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                v-if="$store.state.ButtonAuthority[3].HeadIcon"
-              ></el-avatar>
+                v-if="$store.state.ButtonAuthority[3].HeadIcon"></el-avatar>
               <span class="name">{{ name }}</span>
             </div>
           </transition-group>
@@ -95,14 +77,17 @@
 .scrollable-list::-webkit-scrollbar {
   width: 6px;
 }
+
 .scrollable-list::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 3px;
 }
+
 .scrollable-list::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
 }
+
 .scrollable-list::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
@@ -145,11 +130,13 @@
 .user-list-leave-active {
   transition: all 0.5s ease;
 }
+
 .user-list-enter-from,
 .user-list-leave-to {
   opacity: 0;
   transform: translateX(30px);
 }
+
 .user-list-move {
   transition: transform 0.5s ease;
 }
@@ -171,11 +158,13 @@
 :deep(.el-collapse) {
   border: none;
 }
+
 :deep(.el-collapse-item__header) {
   border: none;
   padding: 15px 0;
   height: auto;
 }
+
 :deep(.el-collapse-item__content) {
   padding: 0;
 }
@@ -187,9 +176,9 @@ import IsOlineNumber from "@/components/ChatRoom/UrseLIst/IsOlineNumber.vue";
 // import { io } from "socket.io-client";
 import {
   connectSocket,
-  sendMessage,
-  requestOnlineNumbers,
-  socket,
+  disconnectSocket,
+  // socket_user_online_name_list
+  // socket
 } from "@/socke/index.js";
 // , DisconnectSendNumber
 export default {
@@ -202,7 +191,6 @@ export default {
       LocationUrseName: localStorage.getItem("UresName"),
       activeCollapse: ["online", "offline"],
       Urselist: [],
-      onlineUresNameNumber: requestOnlineNumbers(),
       DisconnectUresNameNumber: [
         "赵六",
         "钱七",
@@ -218,31 +206,28 @@ export default {
   },
   computed: {
     onlineUresNumber() {
-      return this.onlineUresNameNumber.length;
+      return this.$store.state.Online_Numbers.length;
     },
     DisconnectUresNumber() {
       return this.DisconnectUresNameNumber.length;
     },
   },
   mounted() {
-    socket.open();
-    connectSocket();
-    sendMessage();
-    console.log(requestOnlineNumbers());
+    connectSocket()
+    // socket_user_online_name_list()
     axios({
       url: this.$store.state.api + "/UreList",
       method: "get",
     })
       .then((res) => {
-        this.Urselist = res.data.data;
-        console.log(this.Urselist);
+        this.$store.state.Urselist = res.data.data;
       })
       .catch((err) => {
         console.log(err);
       });
   },
-  // beforeUnmount() {
-  //   socket.disconnect();
-  // },
+  beforeUnmount() {
+    disconnectSocket()
+  },
 };
 </script>
