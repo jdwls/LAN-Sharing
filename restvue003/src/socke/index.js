@@ -13,21 +13,21 @@ const socket = io(store.state.api, {
 // 连接管理
 export function connectSocket() {
   if (socket.connected) return;
-  
+
   const username = localStorage.getItem('UresName');
   if (!username) {
     console.error('无法建立连接: 缺少用户名');
     return;
   }
-  
+
   socket.auth = { username };
   socket.connect();
-  
+
   socket.on('connect', () => {
     console.log('Socket连接成功');
     socket.emit("user_login", { username });
   });
-  
+
   socket.on('online_users_update', (data) => {
     if (data.action === 'login') {
       if (!store.state.Online_Numbers.includes(data.username)) {
@@ -39,7 +39,7 @@ export function connectSocket() {
       );
     }
   });
-  
+
   socket.on('current_online_users', (data) => {
     store.state.Online_Numbers = data.online_users;
   });
@@ -65,5 +65,20 @@ socket.on('disconnect', (reason) => {
 socket.on('connect_error', (err) => {
   console.error('连接错误:', err.message);
 });
-
-export default { connectSocket, disconnectSocket, socket };
+export async function sendMessage(message, report_name) {
+  console.log(report_name);
+  
+  socket.emit('chat_message', { 'message': message, 'send_name': localStorage.getItem('UresName'), 'report_name': report_name, "send_Tiem": Date.now() })
+}
+export function test(){
+// socket.on(report_name, (data) => {
+//     // store.state.report_data = data;
+//     console.log(data,'接收方');
+//   })
+  socket.on(localStorage.getItem('UresName'), (data) => {
+    // store.state.report_data = data;
+    console.log(data,'发送方');
+  })
+  }
+test()
+export default { connectSocket, disconnectSocket, socket, sendMessage,  };

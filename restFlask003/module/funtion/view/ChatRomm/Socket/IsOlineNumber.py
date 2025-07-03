@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request,jsonify
 import logging
 import json
 import os
@@ -56,7 +56,6 @@ def handle_disconnect():
 def handle_user_login(data):
     session_id = request.sid
     username = data.get('username')
-    
     if not username:
         logging.warning("登录请求缺少用户名")
         return
@@ -75,3 +74,55 @@ def handle_user_login(data):
     
     # 返回当前在线用户列表
     emit('current_online_users', {'online_users': list(online_users.keys())})
+@IsOlineNumber_blueprint.route('/IsOlineNumber', methods=['GET'])
+def IsOlineNumber():
+    urse_Name= request.args.get('urse_Name')
+    print(urse_Name,'---------------------------------------------')
+    try:
+        if(urse_Name):
+            with open(glode.IsOlineNumbers(), 'r', encoding='utf-8') as f:
+                IsOlineNumber_json = json.load(f)
+                f.close(),  
+            IsOlineNumber_json['online_users'].remove(urse_Name)
+            with open(glode.IsOlineNumbers(), 'w', encoding='utf-8') as f:
+                json.dump(IsOlineNumber_json, f)
+                f.close()
+            return jsonify({
+                'code':200,
+                'meg':'退出成功',
+                'data':IsOlineNumber_json,
+            })
+        return jsonify({
+            'code':200,
+            'meg':'网络问题'
+        })
+    except Exception as e:
+        return jsonify({
+            'code':500,
+            'meg':e
+        })
+@socketio.on('chat_message')
+def chat_message(res):
+    path = 'restFlask003/template/char_list'
+    # 确保目录存在
+    if not os.path.exists(path):
+        os.makedirs(path)
+    
+    # 提取并标准化用户名（按字母顺序排序）
+    user1, user2 = sorted ([res['send_name'], res['report_name']])
+    # 生成唯一文件名（按固定顺序）
+    expected_filename = str(user1)+'_to_'+str(user2)+'.json'
+    char_list_path = path+ '/' + expected_filename
+    # 直接使用标准化路径（无论文件是否存在）
+    # 后续在此路径读写聊天记录即可
+    # 示例：追加新消息到文件 
+    is_file_exists = os.path.exists(char_list_path)
+    if not is_file_exists:
+        with open(char_list_path, 'w', encoding='utf-8') as f:
+            f.write('[]')
+            f.close()
+    char_list_infomation=glode.read_char_list(char_list_path)
+    is_char_list_infomation_state=glode.write_char_list(json.loads(char_list_infomation),res,char_list_path)
+    if is_char_list_infomation_state:
+        emit(res['report_name'], res,broadcast=True, include_self=True)
+        emit(res['send_name'], res,broadcast=True, include_self=True)
