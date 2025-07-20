@@ -208,14 +208,6 @@
 <script>
 import axios from "axios";
 import IsOlineNumber from "@/components/ChatRoom/UrseLIst/IsOlineNumber.vue";
-// import { io } from "socket.io-client";
-import {
-  connectSocket,
-  disconnectSocket,
-  // socket_user_online_name_list
-  // socket
-} from "@/socke/index.js";
-// , DisconnectSendNumber
 export default {
   name: "UrseLIst",
   comments: {
@@ -226,17 +218,7 @@ export default {
       LocationUrseName: localStorage.getItem("UresName"),
       activeCollapse: ["online", "offline"],
       Urselist: [],
-      DisconnectUresNameNumber: [
-        "赵六",
-        "钱七",
-        "孙八",
-        "赵六2",
-        "钱七2",
-        "孙八2",
-        "赵六3",
-        "钱七3",
-        "孙八3",
-      ],
+      DisconnectUresNameNumber: [],
     };
   },
   computed: {
@@ -248,22 +230,12 @@ export default {
     },
   },
   mounted() {
-    connectSocket()
-    // socket_user_online_name_list()
-    // axios({
-    //   url: this.$store.state.api + "/UreList",
-    //   method: "get",
-    // })
-    //   .then((res) => {
-    //     this.$store.state.Urselist = res.data.data;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // connectSocket()
   },
-  beforeUnmount() {
-    disconnectSocket()
-  },
+  // created(){
+  // updata_online_urse_lists_fun()
+  // },
+ 
   methods: {
     handleUserClick(name) {
       this.$emit('user-selected', name)
@@ -276,7 +248,12 @@ export default {
           method:"get"
         })
         .then((res)=>{
-          this.$store.state.Online_Numbers = res.data.data['online_users']
+          this.$store.state.Online_Numbers=[]
+          for(let i=0;i<res.data.data['online_users'].length;i++){
+            if(res.data.data['online_users'][i].user_name !== localStorage.getItem('UresName'))
+              this.$store.state.Online_Numbers.push(res.data.data['online_users'][i].user_name)
+          }
+          // this.$store.state.Online_Numbers = res.data.data['online_users']
           this.$store.state.disconnectNumber = res.data.UreList
           this.$store.state.disconnectNumber=this.$store.state.disconnectNumber.filter((item)=>{
             return !this.$store.state.Online_Numbers.includes(item)

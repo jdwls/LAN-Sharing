@@ -4,78 +4,47 @@
       <UrseLIst @user-selected="startChat" />
     </div>
     <div class="main-content">
-      <div class="chat-header">
-        <el-row align="middle" :gutter="20">
-          <el-col :span="3">
-            <el-avatar :size="60" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-          </el-col>
-          <el-col :span="21">
-            <h2 style="margin:0 0 5px 0;font-weight:600;color:#303133">与 {{ currentChat }} 的对话</h2>
-            <p style="margin:0;font-size:14px;color:#909399">
-              <el-tag size="small" :type="userStatus.type">{{ userStatus.text }}</el-tag>
-            </p>
-          </el-col>
-        </el-row>
-        <el-divider style="margin:15px 0" />
-      </div>
-      <div class="chat-bgcolor">
-
-      </div>
-      <div class="message-input">
-        <el-input placeholder="输入消息..." v-model="message" :disabled="!currentChat">
-          <template #append>
-            <el-button :disabled="!currentChat" @click="sendMessage()">发送</el-button>
-          </template>
-        </el-input>
-      </div>
+      <!-- 使用 props 传递数据而不是事件监听 -->
+      <Chat_Room_infomation_view :current-chat="cu" />
     </div>
   </div>
 </template>
 
 <script>
 import UrseLIst from "@/components/ChatRoom/UrseLIst/UrseLIst.vue";
-import {sendMessage} from "@/socke/index.js";
+import Chat_Room_infomation_view from "@/components/ChatRoom/Chat_Room_infomation/Chat_Room_infomation_view.vue"
+import {disconnectSocket,connectSocket} from '@/socke/index.js'
 export default {
   name: "ChatRoomIndex",
   components: {
     UrseLIst,
+    Chat_Room_infomation_view
   },
   data() {
     return {
-      message: "",
-      currentChat: null,
-    };
+      cu: '' // 当前选中的用户
+    }
   },
   methods: {
     startChat(user) {
-      this.currentChat = user;
-    },
-    sendMessage() {
-      if (this.message.trim()) {
-        sendMessage(this.message,this.currentChat)
-        this.message = "";
-      }
-     
-    },
-  },
-  computed: {
-    userStatus() {
-      if (!this.currentChat) return { type: 'info', text: '未知' };
-      const isOnline = this.$store.state.Online_Numbers.includes(this.currentChat);
-      return {
-        type: isOnline ? 'success' : 'info',
-        text: isOnline ? '在线' : '离线'
-      };
+      this.cu = user; // 设置当前聊天用户
     },
   },
   mounted() {
     this.$store.dispatch("Tokers");
-    // sendReport(this.currentChat)
+    connectSocket();
+  },
+   beforeUnmount() {
+ 
+       disconnectSocket()
+ 
+   
   },
 };
 </script>
 
 <style scoped>
+/* 保持原有样式不变 */
 .el-input {
   height: 6vh;
   background: #f0f8ff;
@@ -83,7 +52,6 @@ export default {
 
 .chat-room-container {
   display: flex;
-  /* height:100%; */
   background-color: #f5f7fa;
 }
 
@@ -99,6 +67,7 @@ export default {
   flex-direction: column;
   margin-top: 2vh;
 }
+
 .chat-header {
   padding: 15px 0;
   background: #fff;
@@ -110,8 +79,8 @@ export default {
 }
 
 .message-input {
- width: 70vw;
- margin-top: 3vh;
+  width: 70vw;
+  margin-top: 3vh;
 }
 
 .chat-bgcolor {

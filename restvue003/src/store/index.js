@@ -4,7 +4,7 @@ import { createStore } from "vuex";
 export const store = createStore({
   state() {
     return {
-      api: "http://192.168.3.75:2525",
+      api: "http://192.168.2.26:2525",
       Online_Numbers: [],
       disconnectNumber: [],
       i: 1,
@@ -29,7 +29,11 @@ export const store = createStore({
         { DirsFileList: false },
         { LogOutButton: false },
       ],
-      Urselist:[],
+      Urse_list:[{
+        use_name:'',
+        use_state:"",
+      }],
+      messages_lists:[]
     };
   },
   actions: {

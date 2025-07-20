@@ -32,7 +32,7 @@ def IsOlineNumbers():
     return IsOlineNumbers
 def read_char_list(path):
     with open(path,'r',encoding='utf-8') as f:
-        read_char_list_json=f.read()
+        read_char_list_json=json.load(f)
         f.close()
     return read_char_list_json
 def write_char_list(read_char_list_json,res,path):

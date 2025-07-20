@@ -1,6 +1,5 @@
 import { io } from "socket.io-client";
 import { store } from '@/store/index.js'
-
 const socket = io(store.state.api, {
   autoConnect: false,
   transports: ["websocket"],
@@ -11,74 +10,60 @@ const socket = io(store.state.api, {
 });
 
 // 连接管理
+
 export function connectSocket() {
-  if (socket.connected) return;
-
   const username = localStorage.getItem('UresName');
-  if (!username) {
-    console.error('无法建立连接: 缺少用户名');
-    return;
-  }
-
-  socket.auth = { username };
   socket.connect();
-
   socket.on('connect', () => {
-    console.log('Socket连接成功');
-    socket.emit("user_login", { username });
-  });
-
-  socket.on('online_users_update', (data) => {
-    if (data.action === 'login') {
-      if (!store.state.Online_Numbers.includes(data.username)) {
-        store.state.Online_Numbers.push(data.username);
-      }
-    } else if (data.action === 'logout') {
-      store.state.Online_Numbers = store.state.Online_Numbers.filter(
-        user => user !== data.username
-      );
-    }
-  });
-
-  socket.on('current_online_users', (data) => {
-    store.state.Online_Numbers = data.online_users;
+    socket.emit("user_login_chat_room", { username });
   });
 }
-
 // 断开连接
 export function disconnectSocket() {
-  if (socket.connected) {
-    socket.disconnect();
-    console.log('Socket已断开');
-  }
-}
 
-// 自动重连逻辑
-socket.on('disconnect', (reason) => {
-  console.log(`连接断开: ${reason}`);
-  if (reason === 'io server disconnect') {
-    socket.connect(); // 服务器主动断开时尝试重连
-  }
-});
-
-// 错误处理
-socket.on('connect_error', (err) => {
-  console.error('连接错误:', err.message);
-});
-export async function sendMessage(message, report_name) {
-  console.log(report_name);
-  
-  socket.emit('chat_message', { 'message': message, 'send_name': localStorage.getItem('UresName'), 'report_name': report_name, "send_Tiem": Date.now() })
+  socket.on('disconnect', () => {
+    console.log('Socket disconnected');
+  });
+  socket.disconnect();
 }
-export function test(){
-// socket.on(report_name, (data) => {
-//     // store.state.report_data = data;
-//     console.log(data,'接收方');
-//   })
-  socket.on(localStorage.getItem('UresName'), (data) => {
-    // store.state.report_data = data;
-    console.log(data,'发送方');
+// 发送登录信息
+export function updata_online_urse_list_fun() {
+  socket.on('updata_online_urse_list', (after_return_urse_lists_data) => {
+    store.state.Online_Numbers = []
+    for (let i = 0; i < after_return_urse_lists_data.online_users.length; i++)
+      if (after_return_urse_lists_data.online_users[i].user_name !== localStorage.getItem('UresName'))
+        store.state.Online_Numbers.push(after_return_urse_lists_data.online_users[i].user_name)
+  });
+}
+export function disconnect_user_list_fun() {
+  socket.on('disconnect_user_lists', (after_return_disconnect_user_list_data) => {
+    let online_connect_user_list = [];
+    online_connect_user_list = [...store.state.Online_Numbers]
+    online_connect_user_list.push(localStorage.getItem('UresName'))
+    store.state.disconnectNumber = after_return_disconnect_user_list_data.filter((item => {
+      return !online_connect_user_list.includes(item)
+    }))
   })
-  }
-test()
-export default { connectSocket, disconnectSocket, socket, sendMessage,  };
+}
+export function seend_message_fun(ms, report_name) {
+  socket.emit('seend_message_data', { 'message': ms, 'send_name': localStorage.getItem('UresName'), 'report_name': report_name, 'Time': new Date().getTime(),'read_state':false,'current_usrs':true });
+}
+export function after_seend_message_fun(){
+  socket.on('after_seend_message_data',((res)=>{
+    console.log(res);
+    if (res.send_name==localStorage.getItem('UresName'))
+      res.current_usrs=true
+    else{
+      res.current_usrs=false
+    }
+    store.state.messages_lists.push(res);
+    
+    
+  }))
+  
+}
+// 检测连接状态
+updata_online_urse_list_fun();
+disconnect_user_list_fun()
+after_seend_message_fun()
+export default { connectSocket, disconnectSocket, socket, seend_message_fun };
