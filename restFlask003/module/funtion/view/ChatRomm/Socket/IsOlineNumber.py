@@ -102,7 +102,9 @@ def disconnect_user_list_fun():
 @socketio.on('seend_message_data')
 def handle_seend_message_data(data):
     sort_data=[data.get('send_name'),data.get('report_name')]
+    sort_data= sorted(sort_data)
     send_name_to_report_name_path='restFlask003/template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
+    report_name_session_id=0
     mssage={'message':data.get('message'),
             'send_name':data.get('send_name'),
             'report_name':data.get('report_name'),
@@ -125,105 +127,6 @@ def handle_seend_message_data(data):
             report_name_session_id=is_online_number_json['online_users'][i]['session_id']
             break
     # print(report_name_session_id)
-    emit('after_seend_message_data',mssage,to=report_name_session_id)
+    if(not report_name_session_id==0):
+        emit('after_seend_message_data',mssage,to=report_name_session_id)
     emit('after_seend_message_data',mssage,to=request.sid)
-    
-# @socketio.on('user_login')
-# def handle_user_login(data):
-#     session_id = request.sid
-#     username = data.get('username')
-#     if not username:
-#         logging.warning("登录请求缺少用户名")
-#         return
-    
-#     active_sessions[session_id] = username
-#     is_new_user = username not in online_users
-    
-#     online_users[username] += 1
-    
-#     if is_new_user:
-#         update_online_file()
-#         emit('online_users_update', 
-#              {'action': 'login', 'username': username},
-#              broadcast=True)
-    
-#     emit('current_online_users', {'online_users': list(online_users.keys())})
-
-# @socketio.on('chat_message')
-# def handle_chat_message(data):
-#     """处理聊天消息"""
-#     sender = data.get('sender')
-#     receiver = data.get('receiver')
-#     content = data.get('content')
-    
-#     if not all([sender, receiver, content]):
-#         logging.warning("无效的聊天消息格式")
-#         return
-    
-#     # 创建标准化聊天ID
-#     chat_id = get_chat_id(sender, receiver)
-    
-#     # 创建消息对象
-#     message = {
-#         'id': str(datetime.now().timestamp()),
-#         'sender': sender,
-#         'content': content,
-#         'timestamp': datetime.now().isoformat(),
-#         'isCurrentUser': False
-#     }
-    
-#     # 存储消息
-#     chat_messages[chat_id].append(message)
-    
-#     # 广播消息给相关用户
-#     emit('new_message', message, room=chat_id)
-#     emit('new_message', {
-#         **message,
-#         'isCurrentUser': True
-#     }, room=request.sid)
-
-# @IsOlineNumber_blueprint.route('/IsOlineNumber', methods=['GET'])
-# def IsOlineNumber():
-#     urse_Name = request.args.get('urse_Name')
-#     print(urse_Name, '---------------------------------------------')
-#     try:
-#         if urse_Name:
-#             with open(glode.IsOlineNumbers(), 'r', encoding='utf-8') as f:
-#                 IsOlineNumber_json = json.load(f)
-#                 f.close()
-#             IsOlineNumber_json['online_users'].remove(urse_Name)
-#             with open(glode.IsOlineNumbers(), 'w', encoding='utf-8') as f:
-#                 json.dump(IsOlineNumber_json, f)
-#                 f.close()
-#             return jsonify({
-#                 'code': 200,
-#                 'meg': '退出成功',
-#                 'data': IsOlineNumber_json,
-#             })
-#         return jsonify({
-#             'code': 200,
-#             'meg': '网络问题'
-#         })
-#     except Exception as e:
-#         return jsonify({
-#             'code': 500,
-#             'meg': str(e)
-#         })
-
-# @IsOlineNumber_blueprint.route('/get_chat_history', methods=['GET'])
-# def get_chat_history():
-#     """获取聊天历史记录"""
-#     user1 = request.args.get('user1')
-#     user2 = request.args.get('user2')
-    
-#     if not all([user1, user2]):
-#         return jsonify({
-#             'code': 400,
-#             'meg': '缺少必要参数'
-#         })
-    
-#     chat_id = get_chat_id(user1, user2)
-#     return jsonify({
-#         'code': 200,
-#         'data': chat_messages.get(chat_id, [])
-#     })

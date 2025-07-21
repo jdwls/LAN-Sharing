@@ -1,9 +1,10 @@
 [
     {
-        "message:": "99",
+        "message": "123",
         "send_name": "ASDFGHHJ",
         "report_name": "ASDFGHJKLZXC",
-        "Time": 1752923476820,
-        "read_state": false
+        "Time": 1753076404609,
+        "read_state": false,
+        "current_usrs": true
     }
 ]

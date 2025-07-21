@@ -36,12 +36,13 @@ def read_char_list(path):
         f.close()
     return read_char_list_json
 def write_char_list(read_char_list_json,res,path):
-    try:
-        read_char_list_json.append(res)
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(read_char_list_json, f, ensure_ascii=False, indent=4)
-            f.close()
-        return True
-    except Exception as e:
-        print(f"写入聊天记录失败: {e}")
-        return False
+    if res!='':
+        try:
+            read_char_list_json.append(res)
+            with open(path, 'w', encoding='utf-8') as f:
+                json.dump(read_char_list_json, f, ensure_ascii=False, indent=4)
+                f.close()
+            return True
+        except Exception as e:
+            print(f"写入聊天记录失败: {e}")
+            return False

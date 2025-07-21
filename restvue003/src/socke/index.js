@@ -50,7 +50,6 @@ export function seend_message_fun(ms, report_name) {
 }
 export function after_seend_message_fun(){
   socket.on('after_seend_message_data',((res)=>{
-    console.log(res);
     if (res.send_name==localStorage.getItem('UresName'))
       res.current_usrs=true
     else{

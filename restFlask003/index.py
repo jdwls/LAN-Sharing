@@ -30,10 +30,12 @@ from module.funtion.view.ChatRomm.UreList import UreList_blueprint
 from module.funtion.view.ChatRomm.Socket.IsOlineNumber import socketio
 from module.funtion.view.ChatRomm.Socket.IsOlineNumber import IsOlineNumber_blueprint
 from flask_socketio import SocketIO,send,emit
+from module.funtion.view.ChatRomm.after_chat_information_list import after_chat_information_list_blueprint
 app = Flask(__name__, template_folder='template', static_url_path='/', static_folder='static')
 CORS(app)
 socketio.init_app(app, cors_allowed_origins="*")
 app.register_blueprint(UreList_blueprint)
+app.register_blueprint(after_chat_information_list_blueprint)
 app.register_blueprint(IsOlineNumber_blueprint)
 app.register_blueprint(option_dir_blueprint)
 app.register_blueprint(Toker_blueprint)
