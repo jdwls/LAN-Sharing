@@ -1,44 +1,41 @@
 <template>
   <div class="chat-room-container">
     <div class="sidebar">
-      <UrseLIst @user-selected="startChat" />
+      <UrseLIst />
+      
     </div>
     <div class="main-content">
       <!-- 使用 props 传递数据而不是事件监听 -->
-      <Chat_Room_infomation_view :current-chat="cu" />
+      <!-- <Chat_Room_infomation_view  /> -->
+       <router-view ></router-view>
+      <never_loader_chat_infomation_index></never_loader_chat_infomation_index>
     </div>
   </div>
 </template>
 
 <script>
 import UrseLIst from "@/components/ChatRoom/UrseLIst/UrseLIst.vue";
-import Chat_Room_infomation_view from "@/components/ChatRoom/Chat_Room_infomation/Chat_Room_infomation_view.vue"
+// import Chat_Room_infomation_view from "@/components/ChatRoom/Chat_Room_infomation/Chat_Room_infomation_view.vue"
+import never_loader_chat_infomation_index from "@/components/ChatRoom/never_loader_chat_infomation/never_loader_chat_infomation_index.vue";
 import {disconnectSocket,connectSocket} from '@/socke/index.js'
 export default {
   name: "ChatRoomIndex",
   components: {
     UrseLIst,
-    Chat_Room_infomation_view
+    // Chat_Room_infomation_view,
+    never_loader_chat_infomation_index
   },
   data() {
     return {
       cu: '' // 当前选中的用户
     }
   },
-  methods: {
-    startChat(user) {
-      this.cu = user; // 设置当前聊天用户
-    },
-  },
   mounted() {
     this.$store.dispatch("Tokers");
     connectSocket();
   },
    beforeUnmount() {
- 
        disconnectSocket()
- 
-   
   },
 };
 </script>

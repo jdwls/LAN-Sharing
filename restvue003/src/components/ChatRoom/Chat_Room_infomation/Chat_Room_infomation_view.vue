@@ -6,7 +6,7 @@
           <el-avatar :size="60" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
         </el-col>
         <el-col :span="21">
-          <h2 style="margin:0 0 5px 0;font-weight:600;color:#303133">与 {{ currentChat }} 的对话</h2>
+          <h2 style="margin:0 0 5px 0;font-weight:600;color:#303133">与 {{ $store.state.currentChat }} 的对话</h2>
           <p style="margin:0;font-size:14px;color:#909399">
             <el-tag size="small" :type="userStatus.type">{{ userStatus.text }}</el-tag>
           </p>
@@ -25,26 +25,18 @@
       </div>
     </div>
     <div class="message-input">
-      <el-input placeholder="输入消息..." v-model="message" :disabled="!currentChat" @keyup.enter="sendMessage">
+      <el-input placeholder="输入消息..." v-model="message"  @keyup.enter="sendMessage" >
         <template #append>
-          <el-button :disabled="!currentChat" @click="sendMessage">发送</el-button>
+          <el-button  @click="sendMessage">发送</el-button>
         </template>
       </el-input>
     </div>
   </div>
 </template>
-
 <script>
 import { seend_message_fun } from "@/socke/index.js";
-
 export default {
   name: 'Chat_Room_infomation_view',
-  props: {
-    currentChat: {
-      type: String,
-      default: null
-    }
-  },
   data() {
     return {
       message: "",
@@ -52,8 +44,8 @@ export default {
   },
   computed: {
     userStatus() {
-      if (!this.currentChat) return { type: 'info', text: '未知' };
-      const isOnline = this.$store.state.Online_Numbers.includes(this.currentChat);
+      if (!this.$store.state.currentChat) return { type: 'info', text: '未知' };
+      const isOnline = this.$store.state.Online_Numbers.includes(this.$store.state.currentChat);
       return {
         type: isOnline ? 'success' : 'info',
         text: isOnline ? '在线' : '离线'
@@ -62,7 +54,7 @@ export default {
   },
   methods: {
     sendMessage() {
-      seend_message_fun(this.message, this.currentChat)
+      seend_message_fun(this.message, this.$store.state.currentChat)
       this.message = "";
     },
   }
@@ -71,7 +63,6 @@ export default {
 
 <style scoped>
 .chat-bgcolor {
-  width: 70vw;
   height: 67vh;
   background-color: #ffffff;
   overflow-y: auto;
@@ -129,7 +120,7 @@ export default {
 }
 
 .sidebar {
-  width: 300px;
+  /* width: 300px; */
   border-right: 1px solid #e2e5ec;
   background: #f0f8ff;
 }
@@ -152,7 +143,7 @@ export default {
 }
 
 .message-input {
-  width: 70vw;
+  /* width: 60vw; */
   margin-top: 3vh;
 }
 </style>

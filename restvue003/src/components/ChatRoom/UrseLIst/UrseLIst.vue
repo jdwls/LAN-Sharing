@@ -19,37 +19,42 @@
           <template #title>
             <h2 class="section-title">在线人数 ({{ $store.state.Online_Numbers.length }})</h2>
           </template>
-          <transition-group name="user-list" tag="div" class="user-cards">
+          <transition-group name="user-list" tag="div" class="user-cards"
+          @click="$router.push('/ChatRoomIndex/Chat_Room_infomation_view')"
+          >
             <div class="user-card online" v-for="(name, index) in $store.state.Online_Numbers" :key="'online-' + index"
               @click="handleUserClick(name)">
+
               <el-avatar shape="square" :size="40"
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
                 v-if="$store.state.ButtonAuthority[3].HeadIcon"></el-avatar>
-              <span class="name">{{ name }}</span>
+            <span class="name" >{{ name }}</span>
             </div>
           </transition-group>
         </el-collapse-item>
-
         <el-collapse-item name="offline">
           <template #title>
             <h2 class="section-title">离线人数 ({{ $store.state.disconnectNumber.length }})</h2>
           </template>
-          <transition-group name="user-list" tag="div" class="user-cards">
+          
+          <transition-group name="user-list" tag="div" class="user-cards"   
+          @click="$router.push('/ChatRoomIndex/Chat_Room_infomation_view')">
             <div class="user-card offline" v-for="(name, index) in $store.state.disconnectNumber"
-              :key="'offline-' + index" @click="handleUserClick(name)">
+              :key="'offline-' + index" 
+              @click="handleUserClick(name)"
+              >
               <el-avatar shape="square" :size="40"
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
                 v-if="$store.state.ButtonAuthority[3].HeadIcon"></el-avatar>
-              <span class="name">{{ name }}</span>
+              <span class="name" >{{ name }}</span>
             </div>
           </transition-group>
         </el-collapse-item>
       </el-collapse>
     </div>
-    <IsOlineNumber></IsOlineNumber>
+    <!-- <IsOlineNumber></IsOlineNumber> -->
   </div>
 </template>
-
 <style scoped>
 /* 容器样式 */
 .container {
@@ -206,14 +211,13 @@
   }
 }
 </style>
-
 <script>
 import axios from "axios";
-import IsOlineNumber from "@/components/ChatRoom/UrseLIst/IsOlineNumber.vue";
+// import IsOlineNumber from "@/components/ChatRoom/UrseLIst/IsOlineNumber.vue";
 export default {
   name: "UrseLIst",
   comments: {
-    IsOlineNumber,
+    // IsOlineNumber,
   },
   data() {
     return {
@@ -231,16 +235,10 @@ export default {
       return this.DisconnectUresNameNumber.length;
     },
   },
-  mounted() {
-    // connectSocket()
-  },
-  // created(){
-  // updata_online_urse_lists_fun()
-  // },
 
   methods: {
     handleUserClick(name) {
-      this.$emit('user-selected', name)
+      this.$store.state.currentChat=name
       axios({
         url: this.$store.state.api + '/after_chat_information_list',
         method: 'get',

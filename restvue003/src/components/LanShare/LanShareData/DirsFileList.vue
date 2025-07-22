@@ -5,7 +5,7 @@
         :data="currentPageData"
         style="width: auto"
         border
-        max-height="75vh"
+        max-height="70vh"
         class="centered-table"
       >
         <el-table-column :label="luj">
@@ -19,7 +19,7 @@
               ></el-input>
               <el-button class="search" @click="handleSearch">搜索</el-button>
             </template>
-            <el-table-column prop="data" label="文件名" width="540vw" sortable>
+            <el-table-column prop="data" label="文件名" width="360vw" sortable>
             </el-table-column>
             <el-table-column label="下载" width="180vw">
               <template #default="scope">

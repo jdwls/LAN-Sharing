@@ -13,3 +13,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+h1{
+  margin-bottom: 0;
+  margin-top: 1vw;
+}
+</style>

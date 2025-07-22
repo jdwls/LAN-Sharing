@@ -33,7 +33,8 @@ export const store = createStore({
         use_name:'',
         use_state:"",
       }],
-      messages_lists:[]
+      messages_lists:[],
+      currentChat:""
     };
   },
   actions: {

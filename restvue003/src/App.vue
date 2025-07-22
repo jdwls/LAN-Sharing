@@ -4,52 +4,69 @@
       <HomePages></HomePages>
     </div>
     <div class="list-FlieList">
-      <router-view ></router-view>
+      <router-view></router-view>
     </div>
     <DiaLog></DiaLog>
   </div>
 </template>
+
 <script>
-import DiaLog from "@/components/DiaLog.vue";
-import HomePages from "@/components/Home/HomePages.vue";
+import DiaLog from "./components/DiaLog.vue";
+import HomePages from "./components/Home/HomePages.vue";
+
 export default {
   name: "App",
   components: {
     DiaLog,
     HomePages,
   },
-mounted() {
+  mounted() {
     this.$store.dispatch("Tokers");
-},  
-}
+  },
+};
 </script>
+
 <style>
-#app {
+:root {
+  --sidebar-bg: #2c3e50;
+  --main-bg: #f5f7fa;
+  --text-color: white;
+  --transition-time: 0.3s;
+}
+
+#app, .App {
   width: 100%;
   min-height: 100vh;
+  will-change: transform;
+}
+
+#app {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .App {
-  width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: row;
-  transition: all 0.3s ease;
+  transition: transform var(--transition-time) ease, flex-direction var(--transition-time) ease;
 }
+
 .HomePages {
   width: 250px;
   min-width: 200px;
   max-width: 300px;
   min-height: 100vh;
-  background-color: #2c3e50;
-  color: white;
-  transition: all 0.3s ease;
+  background-color: var(--sidebar-bg);
+  color: var(--text-color);
+  transition: width var(--transition-time) ease, max-width var(--transition-time) ease;
+  will-change: width, max-width;
 }
+
 .list-FlieList {
   flex: 1;
   padding: 20px;
-  background-color: #f5f7fa;
+  background-color: var(--main-bg);
 }
+
 .toolbar-table {
   width: auto;
   height: 60px;
@@ -58,6 +75,7 @@ mounted() {
   gap: 20px;
   align-items: center;
 }
+
 .Dirpath {
   text-align: center;
 }
