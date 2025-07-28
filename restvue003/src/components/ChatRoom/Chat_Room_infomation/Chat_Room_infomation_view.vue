@@ -21,7 +21,7 @@
           <div class="message-avatar"><el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></div>
           <div class="message-bubble">
-            <div class="message-text">{{ msg.message }}</div>
+            <pre class="message-text" ref="message_text">{{ msg.message }}</pre>
             <div class="message-time">{{ new Date(msg.Time * 1000).toLocaleTimeString() }}</div>
           </div>
         </div>
@@ -38,6 +38,10 @@
         <el-button @click="sendMessage" type="primary" size="large">发送</el-button>
       </div>
     </div>
+    <div class="meau">
+      <button @click="Copy_message_fun()">复制</button>
+      <button>自定义选项2</button>
+    </div>
   </div>
 </template>
 
@@ -48,6 +52,7 @@ export default {
   data() {
     return {
       message: "",
+      Copy_message:""
     }
   },
   computed: {
@@ -62,22 +67,77 @@ export default {
   },
   methods: {
     sendMessage() {
-      if (this.message) {
-        seend_message_fun(this.message, this.$store.state.currentChat)
+      let message=this.message.trim()
+      if (message !== "") {
+        seend_message_fun(message, this.$store.state.currentChat)
         this.message = "";
         this.chat_bgcolor_fun()
       }
-
+      this.message = "";
     },
     chat_bgcolor_fun() {
       const scrollTop = this.$refs.chat_bgcolor
       scrollTop.scrollTop = this.$refs.chat_bgcolor.scrollHeight
+    },
+    Copy_message_fun(){
+      navigator.clipboard.writeText(this.Copy_message)
     }
   },
   mounted() {
-    this.$nextTick(() => {
+    this.$nextTick(async () => {
       this.chat_bgcolor_fun()
     })
+  },
+  updated() {
+    this.$nextTick(() => {
+      // 阻止聊天背景的默认右键菜单
+      this.$refs.chat_bgcolor.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+      });
+
+      const menu = document.querySelector('.meau');
+      let lastHighlightedElement = null;
+
+      this.$refs.message_text.forEach((element) => {
+        element.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          // console.log(element.innerHTML);
+          this.Copy_message=element.innerHTML
+          // 移除之前的高亮
+          if (lastHighlightedElement) {
+            lastHighlightedElement.classList.remove('gray-out');
+          }
+
+          // 高亮当前元素
+          element.classList.add('gray-out');
+          lastHighlightedElement = element;
+
+          // 计算菜单位置（防止超出屏幕）
+          let clickX = e.pageX;
+          let clickY = e.pageY;
+
+          if (clickY + menu.offsetHeight > window.innerHeight) {
+            clickY = clickY - menu.offsetHeight;
+          }
+          if (clickX + menu.offsetWidth > window.innerWidth) {
+            clickX = clickX - menu.offsetWidth;
+          }
+
+          // 显示菜单
+          menu.style.display = 'flex';
+          menu.style.left = `${clickX}px`;
+          menu.style.top = `${clickY}px`;
+        });
+      });
+
+      // 点击其他地方时关闭菜单并取消高亮
+      document.addEventListener('click', () => {
+        menu.style.display='none'
+        if(lastHighlightedElement){
+          lastHighlightedElement.classList.remove('gray-out');
+        }
+      });
+    });
   },
   watch: {
     '$store.state.messages_lists': {
@@ -95,6 +155,21 @@ export default {
 <style scoped>
 .ms-in {
   width: 65vw;
+}
+
+.gray-out {
+  background-color: #e0e0e0 !important;
+  color: #333 !important;
+}
+
+.meau {
+  position: absolute;
+  display: none;
+  border: 1px solid #ccc;
+  background: white;
+  flex-direction: column;
+  z-index: 1000;
+  /* 确保菜单在最上层 */
 }
 
 .chat-bgcolor {
@@ -181,6 +256,11 @@ export default {
   margin: 0;
   font-size: 0.8vw;
   line-height: 1.5;
+  max-width: 30vw;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .message-time {

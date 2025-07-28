@@ -23,7 +23,7 @@ def after_chat_information_list():
         if sned_user_name and receive_user_name:
             sort_data=[sned_user_name,receive_user_name]
             sort_data= sorted(sort_data)
-            send_name_to_report_name_path='restFlask003/template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
+            send_name_to_report_name_path='../restFlask003/template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
             if os.path.exists(send_name_to_report_name_path):
                 with file_lock:
                     char_list_room=glode.read_char_list(send_name_to_report_name_path)

@@ -19,8 +19,7 @@ file_lock = Lock()
 
 # 初始化在线用户文件
 ONLINE_FILE = glode.IsOlineNumbers()
-if not os.path.exists(ONLINE_FILE):
-    with file_lock:
+with file_lock:
         with open(ONLINE_FILE, 'w') as f:
             json.dump({"online_users": []}, f)
 
@@ -103,7 +102,7 @@ def disconnect_user_list_fun():
 def handle_seend_message_data(data):
     sort_data=[data.get('send_name'),data.get('report_name')]
     sort_data= sorted(sort_data)
-    send_name_to_report_name_path='restFlask003/template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
+    send_name_to_report_name_path='../restFlask003/template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
     report_name_session_id=0
     mssage={'message':data.get('message'),
             'send_name':data.get('send_name'),

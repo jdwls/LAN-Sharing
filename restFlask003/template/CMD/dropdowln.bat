@@ -1,3 +1,3 @@
 echo
-cd "\restFlask003\template\flieZip"
+cd "..\flieZip"
 pause
