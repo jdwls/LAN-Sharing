@@ -102,14 +102,19 @@ def disconnect_user_list_fun():
 def handle_seend_message_data(data):
     sort_data=[data.get('send_name'),data.get('report_name')]
     sort_data= sorted(sort_data)
-    send_name_to_report_name_path='../restFlask003/template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
+    send_name_to_report_name_path= glode.path()+'template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
+    print(send_name_to_report_name_path)
     report_name_session_id=0
-    mssage={'message':data.get('message'),
+    mssage={
+            'message_index':data.get('message_index'),
+            'message':data.get('message'),
             'send_name':data.get('send_name'),
             'report_name':data.get('report_name'),
             'Time':data.get('Time'),
             'read_state':data.get('read_state'),
-            'current_usrs':data.get('current_usrs')}
+            'current_usrs':data.get('current_usrs'),
+            'revocation_or_drop':data.get('revocation_or_drop')
+            }
     if os.path.exists(send_name_to_report_name_path):
         with file_lock:
           char_list_room=glode.read_char_list(send_name_to_report_name_path)

@@ -15,13 +15,15 @@
       <el-divider style="margin:0.4vw 0" />
     </div>
     <div class="chat-bgcolor" ref="chat_bgcolor">
-      <div v-for="msg in $store.state.messages_lists" :key="msg.id" class="message-item"
+      <div v-for="(msg, index) in $store.state.messages_lists" :key="msg.id" class="message-item"
+        v-show="$store.state.messages_lists[index]['revocation_or_drop']['drop']['drop_name'] == login ? $store.state.messages_lists[index]['revocation_or_drop']['drop']['drop_state'] : true"
         :class="{ 'current-user': msg.current_usrs, 'other-user': !msg.current_usrs }">
         <div class="message-content">
           <div class="message-avatar"><el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></div>
           <div class="message-bubble">
-            <pre class="message-text" ref="message_text">{{ msg.message }}</pre>
+            <pre class="message-text"
+              ref="message_text">{{ msg.message.trim() }}<span v-show="false">{{ index }}</span></pre>
             <div class="message-time">{{ new Date(msg.Time * 1000).toLocaleTimeString() }}</div>
           </div>
         </div>
@@ -40,19 +42,22 @@
     </div>
     <div class="meau">
       <button @click="Copy_message_fun()">复制</button>
-      <button>自定义选项2</button>
+      <button @click="Drop_message_fun()">删除</button>
     </div>
   </div>
 </template>
 
 <script>
 import { seend_message_fun } from "@/socke/index.js";
+import axios from "axios";
 export default {
   name: 'Chat_Room_infomation_view',
   data() {
     return {
       message: "",
-      Copy_message:""
+      Copy_message: "",
+      message_index: "",
+      login: localStorage.getItem('UresName')
     }
   },
   computed: {
@@ -64,12 +69,14 @@ export default {
         text: isOnline ? '在线' : '离线'
       };
     },
+
   },
   methods: {
     sendMessage() {
-      let message=this.message.trim()
+      let message = this.message.trim()
+      console.log(message);
       if (message !== "") {
-        seend_message_fun(message, this.$store.state.currentChat)
+        seend_message_fun(message, this.$store.state.currentChat, this.$store.state.messages_lists.length)
         this.message = "";
         this.chat_bgcolor_fun()
       }
@@ -79,9 +86,30 @@ export default {
       const scrollTop = this.$refs.chat_bgcolor
       scrollTop.scrollTop = this.$refs.chat_bgcolor.scrollHeight
     },
-    Copy_message_fun(){
+    Copy_message_fun() {
       navigator.clipboard.writeText(this.Copy_message)
-    }
+    },
+    Drop_message_fun() {
+      axios({
+        url: this.$store.state.api + '/Drop_message_api',
+        method: "get",
+        params: {
+          'message_index': this.message_index,
+          'send_name': localStorage.getItem('UresName'),
+          'report_name': this.$store.state.currentChat,
+        }
+      })
+        .then((res) => {
+          if (res.data.msg == '成功')
+            this.$store.state.messages_lists = res.data.data
+          console.log(this.$store.state.messages_lists[0]['revocation_or_drop']['drop']['drop_name'] == this.login ? this.$store.state.messages_lists[0]['revocation_or_drop']['drop']['drop_state'] : true);
+
+        })
+        .catch((res) => {
+          console.log(res);
+
+        })
+    },
   },
   mounted() {
     this.$nextTick(async () => {
@@ -90,50 +118,56 @@ export default {
   },
   updated() {
     this.$nextTick(() => {
+
       // 阻止聊天背景的默认右键菜单
       this.$refs.chat_bgcolor.addEventListener("contextmenu", (e) => {
         e.preventDefault();
       });
-
+      let message_texts = this.$refs.message_text
       const menu = document.querySelector('.meau');
       let lastHighlightedElement = null;
+      if (message_texts) {
+        message_texts.forEach((element) => {
+          element.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            // console.log(element.innerHTML);
+            this.Copy_message = element.innerHTML
+            this.message_index = element.querySelector('span').innerHTML
+            console.log();
 
-      this.$refs.message_text.forEach((element) => {
-        element.addEventListener('contextmenu', (e) => {
-          e.preventDefault();
-          // console.log(element.innerHTML);
-          this.Copy_message=element.innerHTML
-          // 移除之前的高亮
-          if (lastHighlightedElement) {
-            lastHighlightedElement.classList.remove('gray-out');
-          }
+            // 移除之前的高亮
+            if (lastHighlightedElement) {
+              lastHighlightedElement.classList.remove('gray-out');
+            }
 
-          // 高亮当前元素
-          element.classList.add('gray-out');
-          lastHighlightedElement = element;
+            // 高亮当前元素
+            element.classList.add('gray-out');
+            lastHighlightedElement = element;
 
-          // 计算菜单位置（防止超出屏幕）
-          let clickX = e.pageX;
-          let clickY = e.pageY;
+            // 计算菜单位置（防止超出屏幕）
+            let clickX = e.pageX;
+            let clickY = e.pageY;
 
-          if (clickY + menu.offsetHeight > window.innerHeight) {
-            clickY = clickY - menu.offsetHeight;
-          }
-          if (clickX + menu.offsetWidth > window.innerWidth) {
-            clickX = clickX - menu.offsetWidth;
-          }
+            if (clickY + menu.offsetHeight > window.innerHeight) {
+              clickY = clickY - menu.offsetHeight;
+            }
+            if (clickX + menu.offsetWidth > window.innerWidth) {
+              clickX = clickX - menu.offsetWidth;
+            }
 
-          // 显示菜单
-          menu.style.display = 'flex';
-          menu.style.left = `${clickX}px`;
-          menu.style.top = `${clickY}px`;
+            // 显示菜单
+            menu.style.display = 'flex';
+            menu.style.left = `${clickX}px`;
+            menu.style.top = `${clickY}px`;
+          });
         });
-      });
+      }
+
 
       // 点击其他地方时关闭菜单并取消高亮
       document.addEventListener('click', () => {
-        menu.style.display='none'
-        if(lastHighlightedElement){
+        menu.style.display = 'none'
+        if (lastHighlightedElement) {
           lastHighlightedElement.classList.remove('gray-out');
         }
       });

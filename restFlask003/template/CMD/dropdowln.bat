@@ -1,3 +1,1 @@
-echo
-cd "..\flieZip"
-pause
+del /s /q "restFlask003\template\flieZip\*.*"

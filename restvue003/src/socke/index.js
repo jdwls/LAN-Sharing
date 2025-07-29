@@ -45,8 +45,27 @@ export function disconnect_user_list_fun() {
     }))
   })
 }
-export function seend_message_fun(ms, report_name) {
-  socket.emit('seend_message_data', { 'message': ms, 'send_name': localStorage.getItem('UresName'), 'report_name': report_name, 'Time': new Date().getTime(),'read_state':false,'current_usrs':true });
+export function seend_message_fun(ms, report_name,ms_index) {
+  socket.emit('seend_message_data', { 
+    'message_index':ms_index+1,
+    'message': ms, 
+    'send_name': localStorage.getItem('UresName'), 
+    'report_name': report_name, 
+    'Time': new Date().getTime(),
+    'read_state':false,
+    'current_usrs':true,
+    'revocation_or_drop':{
+
+      'drop':{
+        'drop_name':null,
+        'drop_state':true
+      },
+      'revocation':{
+        'revocation_name':null,
+        'revocation_state':true
+      }
+    }
+  });
 }
 export function after_seend_message_fun(){
   socket.on('after_seend_message_data',((res)=>{

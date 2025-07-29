@@ -1,14 +1,21 @@
 import datetime
 import json
+import os
+def path():
+    path=''
+    for i in range(len(os.path.dirname(__file__).split('\\'))-2):
+        path=path+os.path.dirname(__file__).split('\\')[i]+'/'
+    return path
+dirname_path=path()
 def asfliezip():
-    return '../restFlask003/template/flieZip'
+    return dirname_path+'template/flieZip'
 def dirpath():
-    return '../restFlask003/template/as/path/dirPath.txt'
+    return dirname_path+'template/as/path/dirPath.txt'
 def dirPathLog():
-    dirPathLog = '../restFlask003/template/as/path/dirPathLog.txt'
+    dirPathLog = dirname_path+'template/as/path/dirPathLog.txt'
     return dirPathLog
 def LishiPath():
-    LishiPath = '../restFlask003/template/as/path/dirPath.txt'
+    LishiPath = dirname_path+'template/as/path/dirPath.txt'
     return LishiPath
 def NowTime():
     NowTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -22,13 +29,13 @@ def fileypesss2():
 def split_string(s, n):
     return [s[i:i+n] for i in range(0, len(s), n)]
 def UresPathJson():
-    UresPathJson = '../restFlask003/template/uresAndAdmin/ures.json'
+    UresPathJson = dirname_path+'template/uresAndAdmin/ures.json'
     return UresPathJson
 def AdminPathJson():
-    AdminPathJson = '../restFlask003/template/uresAndAdmin/admin.json'
+    AdminPathJson = dirname_path+'template/uresAndAdmin/admin.json'
     return AdminPathJson
 def IsOlineNumbers():
-    IsOlineNumbers = '../restFlask003/template/commoon/IsOlineNumber.json'
+    IsOlineNumbers = dirname_path+'template/commoon/IsOlineNumber.json'
     return IsOlineNumbers
 def read_char_list(path):
     with open(path,'r',encoding='utf-8') as f:
