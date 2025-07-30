@@ -16,8 +16,9 @@
     </div>
     <div class="chat-bgcolor" ref="chat_bgcolor">
       <div v-for="(msg, index) in $store.state.messages_lists" :key="msg.id" class="message-item"
-        v-show="$store.state.messages_lists[index]['revocation_or_drop']['drop']['drop_name'] == login ? $store.state.messages_lists[index]['revocation_or_drop']['drop']['drop_state'] : true"
-        :class="{ 'current-user': msg.current_usrs, 'other-user': !msg.current_usrs }">
+        :class="{ 'current-user': msg.current_usrs, 'other-user': !msg.current_usrs }"
+        v-show="message_is(index)"
+        >
         <div class="message-content">
           <div class="message-avatar"><el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></div>
@@ -43,12 +44,13 @@
     <div class="meau">
       <button @click="Copy_message_fun()">复制</button>
       <button @click="Drop_message_fun()">删除</button>
+      <button @click="Revocation_mesage_fun()">撤回</button>
     </div>
   </div>
 </template>
 
 <script>
-import { seend_message_fun } from "@/socke/index.js";
+import { seend_message_fun,emit_revocation_message_socket_fun} from "@/socke/index.js";
 import axios from "axios";
 export default {
   name: 'Chat_Room_infomation_view',
@@ -69,9 +71,24 @@ export default {
         text: isOnline ? '在线' : '离线'
       };
     },
-
+    
   },
   methods: {
+    message_is(index){
+      let messages_lists=this.$store.state.messages_lists
+      if(messages_lists[index]['revocation_or_drop']['drop']['drop_name'][0]==this.login){
+        return messages_lists[index]['revocation_or_drop']['drop']['drop_state'][0]
+      }
+      if(messages_lists[index]['revocation_or_drop']['drop']['drop_name'][1]==this.login){
+        return messages_lists[index]['revocation_or_drop']['drop']['drop_state'][1]
+      }
+      if(messages_lists[index]['revocation_or_drop']['revocation']['revocation_name']==null){
+        return messages_lists[index]['revocation_or_drop']['revocation']['revocation_state']
+      }
+      else {
+        return  messages_lists[index]['revocation_or_drop']['revocation']['revocation_state']
+      }
+    },
     sendMessage() {
       let message = this.message.trim()
       console.log(message);
@@ -102,7 +119,7 @@ export default {
         .then((res) => {
           if (res.data.msg == '成功')
             this.$store.state.messages_lists = res.data.data
-          console.log(this.$store.state.messages_lists[0]['revocation_or_drop']['drop']['drop_name'] == this.login ? this.$store.state.messages_lists[0]['revocation_or_drop']['drop']['drop_state'] : true);
+          // console.log(this.$store.state.messages_lists[0]['revocation_or_drop']['drop']['drop_name'] == this.login ? this.$store.state.messages_lists[0]['revocation_or_drop']['drop']['drop_state'] : true);
 
         })
         .catch((res) => {
@@ -110,6 +127,9 @@ export default {
 
         })
     },
+    Revocation_mesage_fun() {
+      emit_revocation_message_socket_fun(this.message_index, localStorage.getItem('UresName'), this.$store.state.currentChat)
+    }
   },
   mounted() {
     this.$nextTick(async () => {

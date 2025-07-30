@@ -57,8 +57,8 @@ export function seend_message_fun(ms, report_name,ms_index) {
     'revocation_or_drop':{
 
       'drop':{
-        'drop_name':null,
-        'drop_state':true
+        'drop_name':[0,0],
+        'drop_state':[true,true]
       },
       'revocation':{
         'revocation_name':null,
@@ -75,13 +75,19 @@ export function after_seend_message_fun(){
       res.current_usrs=false
     }
     store.state.messages_lists.push(res);
-    
-    
+  })) 
+}
+export function emit_revocation_message_socket_fun(message_index, sned_user_name, report_name) {
+  socket.emit('revocation_message_socket', { 'message_index': message_index, 'send_name': sned_user_name, 'report_name': report_name });
+}
+export function on_revocation_message_socket_fun(){
+  socket.on('after_revocation_message_socket',((res)=>{
+   store.state.messages_lists=res
   }))
-  
 }
 // 检测连接状态
 updata_online_urse_list_fun();
 disconnect_user_list_fun()
 after_seend_message_fun()
-export default { connectSocket, disconnectSocket, socket, seend_message_fun };
+on_revocation_message_socket_fun()
+export default { connectSocket, disconnectSocket, socket, seend_message_fun,emit_revocation_message_socket_fun };
