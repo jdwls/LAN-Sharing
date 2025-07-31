@@ -1,13 +1,13 @@
 # routes/file_blueprint.py
 
-from flask import Blueprint, request, send_file, jsonify
+from flask import Blueprint, request, send_file, jsonify,after_this_request
 import os
 import shutil
 import uuid
 import logging
 from werkzeug.utils import secure_filename
 from module.glode import glode
-
+import time
 download_blueprint = Blueprint('download_blueprint', __name__)
 
 # 配置日志（确保仅配置一次）
@@ -18,13 +18,11 @@ if not logging.getLogger().handlers:
         filemode='a',
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
-
-
 @download_blueprint.route('/download', methods=['GET'])
 def download():
+    cluan_flie_zip()
     downloadName = request.args.get('downloadName')
     downloadPathName = request.args.get('downloadPathName')
-
     # 检查参数是否存在
     if not downloadName or not downloadPathName:
         logging.error("缺少必要参数")
@@ -53,7 +51,7 @@ def download():
                     'message': f'指定的文件不存在: {downloadPathName}'
                 }), 404
             return send_file(downloadPathName, as_attachment=True, download_name=safe_download_name)
-
+        
         # 处理文件夹下载
         elif os.listdir(downloadPathName):
             # 生成唯一压缩文件名
@@ -63,17 +61,8 @@ def download():
             shutil.make_archive(os.path.splitext(zip_file_path)[
                                 0], 'zip', downloadPathName)
             # 发送文件并设置清理回调
-            download_response = send_file(
-                zip_file_path, as_attachment=True, download_name=zip_filename)
-
-            @download_response.call_on_close
-            def cleanup():
-                try:
-                    os.remove(zip_file_path)
-                    logging.info(f"临时文件已删除: {zip_file_path}")
-                except Exception as e:
-                    logging.error(f"删除临时文件失败: {e}")
-
+            download_response = send_file(zip_file_path, as_attachment=True, download_name=zip_filename)
+           
             return download_response
 
         else:
@@ -95,3 +84,12 @@ def download():
             'error': '内部错误',
             'message': '服务器处理请求时发生错误'
         }), 500
+def cluan_flie_zip():
+    """清理压缩文件"""
+    try:
+        for file in os.listdir(glode.asfliezip()):
+            if file.endswith('.zip'):
+                os.remove(os.path.join(glode.asfliezip(), file))
+        logging.info("清理压缩文件成功")
+    except Exception as e:
+        logging.error(f"清理压缩文件失败: {e}")

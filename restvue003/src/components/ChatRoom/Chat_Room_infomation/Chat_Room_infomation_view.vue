@@ -16,9 +16,7 @@
     </div>
     <div class="chat-bgcolor" ref="chat_bgcolor">
       <div v-for="(msg, index) in $store.state.messages_lists" :key="msg.id" class="message-item"
-        :class="{ 'current-user': msg.current_usrs, 'other-user': !msg.current_usrs }"
-        v-show="message_is(index)"
-        >
+        :class="{ 'current-user': msg.current_usrs, 'other-user': !msg.current_usrs }" v-show="message_is(index)">
         <div class="message-content">
           <div class="message-avatar"><el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></div>
@@ -44,13 +42,13 @@
     <div class="meau">
       <button @click="Copy_message_fun()">复制</button>
       <button @click="Drop_message_fun()">删除</button>
-      <button @click="Revocation_mesage_fun()">撤回</button>
+      <button @click="Revocation_mesage_fun()" v-show="revocation_right_key">撤回</button>
     </div>
   </div>
 </template>
 
 <script>
-import { seend_message_fun,emit_revocation_message_socket_fun} from "@/socke/index.js";
+import { seend_message_fun, emit_revocation_message_socket_fun } from "@/socke/index.js";
 import axios from "axios";
 export default {
   name: 'Chat_Room_infomation_view',
@@ -59,7 +57,8 @@ export default {
       message: "",
       Copy_message: "",
       message_index: "",
-      login: localStorage.getItem('UresName')
+      login: localStorage.getItem('UresName'),
+      revocation_right_key: false
     }
   },
   computed: {
@@ -71,22 +70,22 @@ export default {
         text: isOnline ? '在线' : '离线'
       };
     },
-    
+
   },
   methods: {
-    message_is(index){
-      let messages_lists=this.$store.state.messages_lists
-      if(messages_lists[index]['revocation_or_drop']['drop']['drop_name'][0]==this.login){
+    message_is(index) {
+      let messages_lists = this.$store.state.messages_lists
+      if (messages_lists[index]['revocation_or_drop']['drop']['drop_name'][0] == this.login) {
         return messages_lists[index]['revocation_or_drop']['drop']['drop_state'][0]
       }
-      if(messages_lists[index]['revocation_or_drop']['drop']['drop_name'][1]==this.login){
+      if (messages_lists[index]['revocation_or_drop']['drop']['drop_name'][1] == this.login) {
         return messages_lists[index]['revocation_or_drop']['drop']['drop_state'][1]
       }
-      if(messages_lists[index]['revocation_or_drop']['revocation']['revocation_name']==null){
+      if (messages_lists[index]['revocation_or_drop']['revocation']['revocation_name'] == null) {
         return messages_lists[index]['revocation_or_drop']['revocation']['revocation_state']
       }
       else {
-        return  messages_lists[index]['revocation_or_drop']['revocation']['revocation_state']
+        return messages_lists[index]['revocation_or_drop']['revocation']['revocation_state']
       }
     },
     sendMessage() {
@@ -138,9 +137,9 @@ export default {
   },
   updated() {
     this.$nextTick(() => {
-
+      let chat_bgcolor_element = this.$refs.chat_bgcolor
       // 阻止聊天背景的默认右键菜单
-      this.$refs.chat_bgcolor.addEventListener("contextmenu", (e) => {
+      chat_bgcolor_element.addEventListener("contextmenu", (e) => {
         e.preventDefault();
       });
       let message_texts = this.$refs.message_text
@@ -153,8 +152,9 @@ export default {
             // console.log(element.innerHTML);
             this.Copy_message = element.innerHTML
             this.message_index = element.querySelector('span').innerHTML
-            console.log();
-
+            if (this.$store.state.messages_lists[this.message_index]["send_name"] == localStorage.getItem('UresName')) {
+              this.revocation_right_key = true
+            }
             // 移除之前的高亮
             if (lastHighlightedElement) {
               lastHighlightedElement.classList.remove('gray-out');
@@ -219,11 +219,42 @@ export default {
 .meau {
   position: absolute;
   display: none;
-  border: 1px solid #ccc;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   z-index: 1000;
-  /* 确保菜单在最上层 */
+  min-width: 120px;
+  padding: 4px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.meau>button {
+  transition: background-color 0.2s ease;
+  padding: 0.5vw 1vw;
+  background-color: white;
+  cursor: pointer;
+  border: none;
+  font-size: 0.8vw;
+}
+
+.meau>button:hover {
+  background-color: #f5f5f5;
+}
+
+.meau>button:active {
+  background-color: #ebebeb;
+}
+
+/* Optional divider between items */
+.meau>button:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .chat-bgcolor {

@@ -1,0 +1,27 @@
+[
+    {
+        "message_index": 1,
+        "message": "1",
+        "send_name": "ASDFGHHJ",
+        "report_name": "ADFGHHJ",
+        "Time": 1753929640854,
+        "read_state": false,
+        "current_usrs": true,
+        "revocation_or_drop": {
+            "drop": {
+                "drop_name": [
+                    0,
+                    0
+                ],
+                "drop_state": [
+                    true,
+                    true
+                ]
+            },
+            "revocation": {
+                "revocation_name": null,
+                "revocation_state": true
+            }
+        }
+    }
+]

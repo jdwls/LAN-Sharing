@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 import os
 import shutil
 from module.glode import glode
-from ..common.readdirpath import dirMOde
+from ....common.readdirpath import dirMOde
 import logging
 
 # 创建蓝图对象
