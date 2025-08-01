@@ -48,6 +48,7 @@ export function disconnect_user_list_fun() {
 export function seend_message_fun(ms, report_name,ms_index) {
   socket.emit('seend_message_data', { 
     'message_index':ms_index+1,
+    'message_type':'text',
     'message': ms, 
     'send_name': localStorage.getItem('UresName'), 
     'report_name': report_name, 
@@ -55,7 +56,6 @@ export function seend_message_fun(ms, report_name,ms_index) {
     'read_state':false,
     'current_usrs':true,
     'revocation_or_drop':{
-
       'drop':{
         'drop_name':[0,0],
         'drop_state':[true,true]
@@ -85,9 +85,37 @@ export function on_revocation_message_socket_fun(){
    store.state.messages_lists=res
   }))
 }
+export function seend_message_Files_fun(file_name, report_name,message_index,file_type){
+  socket.emit('seend_message_Files_socket', { 
+    'message_index':message_index+1,
+    'message_type':file_type,
+    'message': [file_name,'fileUrl'],
+    'send_name': localStorage.getItem('UresName'), 
+    'report_name': report_name, 
+    'Time': new Date().getTime(),
+    'read_state':false,
+    'current_usrs':true,
+    'revocation_or_drop':{
+      'drop':{
+        'drop_name':[0,0],
+        'drop_state':[true,true]
+      },
+      'revocation':{
+        'revocation_name':null,
+        'revocation_state':true
+      }
+    }
+  });
+}
+export function on_message_Files_fun(){
+socket.on('after_message_Files_socket',((res)=>{
+   store.state.messages_lists=res
+  }))
+}
 // 检测连接状态
+on_message_Files_fun()
 updata_online_urse_list_fun();
 disconnect_user_list_fun()
 after_seend_message_fun()
 on_revocation_message_socket_fun()
-export default { connectSocket, disconnectSocket, socket, seend_message_fun,emit_revocation_message_socket_fun };
+export default { connectSocket, disconnectSocket, socket, seend_message_fun,emit_revocation_message_socket_fun,seend_message_Files_fun };

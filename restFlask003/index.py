@@ -29,6 +29,7 @@ from module.funtion.view.Torken.Toker import Toker_blueprint
 from module.funtion.view.ChatRomm.UreList import UreList_blueprint
 from module.funtion.view.ChatRomm.Socket.IsOlineNumber import socketio
 from module.funtion.view.ChatRomm.Socket.IsOlineNumber import IsOlineNumber_blueprint
+from module.funtion.view.ChatRomm.chat_room_updata.Chat_Room_File_Updata_api import Chat_Room_File_Updata_api_blueprint
 from flask_socketio import SocketIO,send,emit
 from module.glode.glode import path
 from module.funtion.view.ChatRomm.after_chat_information_list import after_chat_information_list_blueprint
@@ -37,6 +38,7 @@ app = Flask(__name__, template_folder='template', static_url_path='/', static_fo
 CORS(app)
 socketio.init_app(app, cors_allowed_origins="*")
 app.register_blueprint(UreList_blueprint)
+app.register_blueprint(Chat_Room_File_Updata_api_blueprint)
 app.register_blueprint(Drop_message_api_blueprint)
 app.register_blueprint(after_chat_information_list_blueprint)
 app.register_blueprint(IsOlineNumber_blueprint)

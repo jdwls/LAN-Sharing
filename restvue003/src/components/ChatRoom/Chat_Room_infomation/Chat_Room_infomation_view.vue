@@ -20,9 +20,12 @@
         <div class="message-content">
           <div class="message-avatar"><el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></div>
-          <div class="message-bubble">
-            <pre class="message-text"
-              ref="message_text">{{ msg.message.trim() }}<span v-show="false">{{ index }}</span></pre>
+          <div class="message-bubble"  ref="message_text">
+            <pre class="message-text" v-show="msg.message_type == 'text'"
+             >{{ msg.message }}<span v-show="false">{{ index }}</span></pre>
+            <el-image :src="text(msg.message[1])" class="image" 
+            v-show="msg.message_type != 'text'"
+            ></el-image>
             <div class="message-time">{{ new Date(msg.Time * 1000).toLocaleTimeString() }}</div>
           </div>
         </div>
@@ -36,7 +39,8 @@
       </div>
 
       <div class="send_Message_css">
-        <el-button @click="sendMessage" type="primary" size="large">发送</el-button>
+        <Chat_Room_File_Updata class="button_send_Message_css"></Chat_Room_File_Updata>
+        <el-button @click="sendMessage" type="primary" size="large" class="button_send_Message_css">发送</el-button>
       </div>
     </div>
     <div class="meau">
@@ -49,9 +53,13 @@
 
 <script>
 import { seend_message_fun, emit_revocation_message_socket_fun } from "@/socke/index.js";
+import Chat_Room_File_Updata from '@/components/ChatRoom/Chat_Room_infomation/Chat_Room_File_Updata.vue'
 import axios from "axios";
 export default {
   name: 'Chat_Room_infomation_view',
+  components: {
+    Chat_Room_File_Updata
+  },
   data() {
     return {
       message: "",
@@ -128,6 +136,9 @@ export default {
     },
     Revocation_mesage_fun() {
       emit_revocation_message_socket_fun(this.message_index, localStorage.getItem('UresName'), this.$store.state.currentChat)
+    },
+    text(url) {
+      return this.$store.state.api + '/imageSee?imageSeeName=' + url
     }
   },
   mounted() {
@@ -214,6 +225,11 @@ export default {
 .gray-out {
   background-color: #e0e0e0 !important;
   color: #333 !important;
+}
+
+.image {
+  width: 160px;
+  height: 90px;
 }
 
 .meau {
@@ -411,6 +427,13 @@ export default {
 }
 
 .send_Message_css {
-  align-self: flex-end
+  align-self: flex-end;
+  display: flex;
+}
+
+.button_send_Message_css {
+  margin-left: 0.5vw;
+  height: 3.5vh;
+  /* width: 2.5vw; */
 }
 </style>

@@ -107,6 +107,7 @@ def handle_seend_message_data(data):
     mssage={
             'message_index':data.get('message_index'),
             'message':data.get('message'),
+            'message_type':data.get('message_type'),
             'send_name':data.get('send_name'),
             'report_name':data.get('report_name'),
             'Time':data.get('Time'),
@@ -171,6 +172,43 @@ def handle_revocation_message_socket(data):
             
     except Exception as e:
         emit('after_revocation_message_err_socket', char_list_room, to=request.sid)     
-        
         return e
+@socketio.on('seend_message_Files_socket')
+def handle_seend_message_Files_socket(data):
+   data={
+            'message_index':data.get('message_index'),
+            'message_type':data.get('message_type'),
+            'message':data.get('message'),
+            'send_name':data.get('send_name'),
+            'report_name':data.get('report_name'),
+            'Time':data.get('Time'),
+            'read_state':data.get('read_state'),
+            'current_usrs':data.get('current_usrs'),
+            'revocation_or_drop':data.get('revocation_or_drop')
+   }
+   sort_data=[data['report_name'],data['send_name']]
+   sort_data=sorted(sort_data)
+   send_name_to_report_File_path = os.path.join(glode.path()+'template/char_list/'+f"{sort_data[0]}_to_{sort_data[1]}",data['message'][0])
+   send_name_to_report_name_path=os.path.join(glode.path()+'template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json')
+   data['message'][1]=send_name_to_report_File_path
+   if not os.path.exists(send_name_to_report_name_path):
+        data=[data]
+        with open(send_name_to_report_name_path,'w',encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+            f.close()
+        char_list_room=glode.read_char_list(send_name_to_report_name_path)
+        emit('after_message_Files_socket', char_list_room, to=request.sid,broadcast=True)
+   else:
+        char_list_room=glode.read_char_list(send_name_to_report_name_path)
+        print(type(char_list_room),type(data),char_list_room)
+        char_list_room.append(data)
+        #    char_list_room=char_list_room.append(data)
+        
+        with file_lock:
+            with open(send_name_to_report_name_path,'w',encoding='utf-8') as f:
+                    json.dump(char_list_room, f, ensure_ascii=False, indent=4)
+            with open(send_name_to_report_name_path,'r',encoding='utf-8') as f:
+                    char_list_room=json.load(f)
+                    f.close()
+        emit('after_message_Files_socket', char_list_room, to=request.sid,broadcast=True)
     # with open(glode.)

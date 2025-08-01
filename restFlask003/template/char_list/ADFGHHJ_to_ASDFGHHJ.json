@@ -2,9 +2,39 @@
     {
         "message_index": 1,
         "message": "1",
+        "message_type": "text",
         "send_name": "ASDFGHHJ",
         "report_name": "ADFGHHJ",
-        "Time": 1753929640854,
+        "Time": 1754036209712,
+        "read_state": false,
+        "current_usrs": true,
+        "revocation_or_drop": {
+            "drop": {
+                "drop_name": [
+                    0,
+                    0
+                ],
+                "drop_state": [
+                    true,
+                    true
+                ]
+            },
+            "revocation": {
+                "revocation_name": null,
+                "revocation_state": true
+            }
+        }
+    },
+    {
+        "message_index": 2,
+        "message_type": "image/png",
+        "message": [
+            "75a567b95a90b3a25d11defe8b36d547.png",
+            "c:/Users/administered/Desktop/code/restFlask003/template/char_list/ADFGHHJ_to_ASDFGHHJ\\75a567b95a90b3a25d11defe8b36d547.png"
+        ],
+        "send_name": "ASDFGHHJ",
+        "report_name": "ADFGHHJ",
+        "Time": 1754036245408,
         "read_state": false,
         "current_usrs": true,
         "revocation_or_drop": {

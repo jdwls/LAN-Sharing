@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>右键变灰效果</title>
+    <style>
+        .S_u {
+            width: max-content;
+            cursor: default;
+            /* 防止鼠标指针变化 */
+        }
+
+        .shuju {
+            height: 1920px;
+            width: 300px;
+            border: 1px #373737 solid;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meau {
+            position: absolute;
+            display: none;
+            border: 1px solid #ccc;
+            background: white;
+            flex-direction: column;
+            z-index: 1000;
+            /* 确保菜单在最上层 */
+        }
+
+        button {
+            margin-bottom: 5px;
+        }
+
+        .gray-out {
+            background-color: #e0e0e0 !important;
+            color: #333 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shuju">
+        <pre class="S_u">1111111111111111</pre>
+        <p class="S_u">10</p>
+        <p class="S_u">11</p>
+        <p class="S_u">15</p>
+        <p class="S_u">1111111111111111</p>
+        <p class="S_u">1111111111111111</p>
+        <p class="S_u">1111111111111111</p>
+        <p class="S_u">1111111111111111</p>
+        <p class="S_u">1111111111111111</p>
+        <p class="S_u">1111111111111111</p>
+        <p class="S_u">1111111111111111</p>
+    </div>
+
+    <div class="meau">
+        <button onclick="b_u_1()">复制</button>
+        <button>自定义选项2</button>
+    </div>
+
+    <script>
+        let s1=null
+        const menu = document.querySelector('.meau');
+        let lastHighlightedElement = null;
+
+        // 给所有 .S_u 元素添加右键事件
+        document.querySelectorAll('.S_u').forEach(element => {
+            element.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+                
+                // 移除之前的高亮
+                if (lastHighlightedElement) {
+                    lastHighlightedElement.classList.remove('gray-out');
+                }
+                
+                // 高亮当前点击的元素
+                this.classList.add('gray-out');
+                lastHighlightedElement = this;
+                s1=this
+                // 计算菜单位置
+                let clickX = e.pageX;
+                let clickY = e.pageY;
+
+                // 防止菜单超出视口
+                if (clickY + menu.offsetHeight > window.innerHeight) {
+                    clickY = clickY - menu.offsetHeight;
+                }
+                if (clickX + menu.offsetWidth > window.innerWidth) {
+                    clickX = clickX - menu.offsetWidth;
+                }
+
+                // 显示菜单
+                menu.style.display = 'flex';
+                menu.style.left = `${clickX}px`;
+                menu.style.top = `${clickY}px`;
+            });
+        });
+
+        // 点击其他地方时关闭菜单并移除高亮
+        document.addEventListener('click', function (e) {
+            if (menu.style.display === 'flex' && !menu.contains(e.target)) {
+                menu.style.display = 'none';
+                if (lastHighlightedElement) {
+                    lastHighlightedElement.classList.remove('gray-out');
+                    lastHighlightedElement = null;
+                }
+            }
+        });
+        function  b_u_1(){
+            conetTex=s1.innerHTML
+            navigator.clipboard.writeText(conetTex)
+        };
+    </script>
+</body>
+
+</html>
