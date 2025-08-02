@@ -23,9 +23,9 @@
           <div class="message-bubble"  ref="message_text">
             <pre class="message-text" v-show="msg.message_type == 'text'"
              >{{ msg.message }}<span v-show="false">{{ index }}</span></pre>
-            <el-image :src="text(msg.message[1])" class="image" 
-            v-show="msg.message_type != 'text'"
-            ></el-image>
+             <imageSee class="image" :src="msg.message[1]" v-if="is_image_fun(msg.message_type)"></imageSee>
+             <VideoPlay class="Video_play" v-if="is_Viedo_fun(msg.message_type)" :src="msg.message[1]"></VideoPlay>
+           
             <div class="message-time">{{ new Date(msg.Time * 1000).toLocaleTimeString() }}</div>
           </div>
         </div>
@@ -54,11 +54,13 @@
 <script>
 import { seend_message_fun, emit_revocation_message_socket_fun } from "@/socke/index.js";
 import Chat_Room_File_Updata from '@/components/ChatRoom/Chat_Room_infomation/Chat_Room_File_Updata.vue'
+import imageSee from '@/components/DataView/imageSee.vue'
+import VideoPlay from '@/components/DataView/VideoPlay.vue'
 import axios from "axios";
 export default {
   name: 'Chat_Room_infomation_view',
   components: {
-    Chat_Room_File_Updata
+    Chat_Room_File_Updata,imageSee,VideoPlay
   },
   data() {
     return {
@@ -137,9 +139,26 @@ export default {
     Revocation_mesage_fun() {
       emit_revocation_message_socket_fun(this.message_index, localStorage.getItem('UresName'), this.$store.state.currentChat)
     },
-    text(url) {
-      return this.$store.state.api + '/imageSee?imageSeeName=' + url
-    }
+    // image_see(url) {
+    //    this.$store.state.OfficEword=url
+    // },
+    is_image_fun(message_type){
+      for(let i=0;i<this.$store.state.File_MIME[0].length;i++){
+        if(message_type == this.$store.state.File_MIME[0][i]){
+          return true
+        }
+      }
+      return false
+    },
+     is_Viedo_fun(message_type){
+      for(let i=0;i<this.$store.state.File_MIME[1].length;i++){
+        if(message_type == this.$store.state.File_MIME[1][i]){
+          console.log(message_type);
+          return true
+        }
+      }
+      return false
+    },
   },
   mounted() {
     this.$nextTick(async () => {
@@ -231,7 +250,10 @@ export default {
   width: 160px;
   height: 90px;
 }
-
+.Video_play{
+  width: 160px;
+  height: 90px;
+}
 .meau {
   position: absolute;
   display: none;

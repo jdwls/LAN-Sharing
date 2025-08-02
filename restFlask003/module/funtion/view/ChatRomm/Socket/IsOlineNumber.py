@@ -133,7 +133,7 @@ def handle_seend_message_data(data):
     # print(report_name_session_id)
     if(not report_name_session_id==0):
         emit('after_seend_message_data',mssage,to=report_name_session_id)
-    emit('after_seend_message_data',mssage,to=request.sid)
+        emit('after_seend_message_data',mssage,to=request.sid)
 @socketio.on('revocation_message_socket')
 def handle_revocation_message_socket(data):
     message_index=int(data.get('message_index'))

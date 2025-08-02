@@ -35,6 +35,9 @@ export default {
     updataDirBuuton,
     DirPath
   },
+  beforeUnmount(){
+    this.$store.state.DirPath=null
+  }
 };
 </script>
 <style scoped>

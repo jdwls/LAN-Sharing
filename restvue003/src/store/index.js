@@ -5,10 +5,12 @@ export const store = createStore({
   state() {
     return {
       api: "http://127.0.0.1:2525",
+      File_MIME:[['image/apng','image/avif','image/bmp','image/gif','image/jpeg','image/png','image/svg+xml','image/webp','image/x-icon','image/tiff'],
+                  ['video/mp4','video/webm','video/ogg','video/quicktime','video/x-matroska','video/mpeg']],
       Online_Numbers: [],
       disconnectNumber: [],
       i: 1,
-      DirPath: "",
+      DirPath:null,
       dialogVisible: false,
       FilesTyoes: "", //获取文件类型，
       DirsFileList: [],
