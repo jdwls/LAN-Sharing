@@ -54,7 +54,6 @@ export function seend_message_fun(ms, report_name,ms_index) {
     'report_name': report_name, 
     'Time': new Date().getTime(),
     'read_state':false,
-    'current_usrs':true,
     'revocation_or_drop':{
       'drop':{
         'drop_name':[0,0],
@@ -69,11 +68,6 @@ export function seend_message_fun(ms, report_name,ms_index) {
 }
 export function after_seend_message_fun(){
   socket.on('after_seend_message_data',((res)=>{
-    if (res.send_name==localStorage.getItem('UresName'))
-      res.current_usrs=true
-    else{
-      res.current_usrs=false
-    }
     store.state.messages_lists.push(res);
   })) 
 }
@@ -85,27 +79,12 @@ export function on_revocation_message_socket_fun(){
    store.state.messages_lists=res
   }))
 }
-export function seend_message_Files_fun(file_name, report_name,message_index,file_type){
-  socket.emit('seend_message_Files_socket', { 
-    'message_index':message_index+1,
-    'message_type':file_type,
-    'message': [file_name,'fileUrl'],
-    'send_name': localStorage.getItem('UresName'), 
-    'report_name': report_name, 
-    'Time': new Date().getTime(),
-    'read_state':false,
-    'current_usrs':true,
-    'revocation_or_drop':{
-      'drop':{
-        'drop_name':[0,0],
-        'drop_state':[true,true]
-      },
-      'revocation':{
-        'revocation_name':null,
-        'revocation_state':true
-      }
-    }
-  });
+export  function seend_message_Files_fun( report_name){
+   socket.emit('seend_message_Files_socket', { 
+    'send_name':localStorage.getItem('UresName'),
+    'report_name': report_name,
+   }
+  );
 }
 export function on_message_Files_fun(){
 socket.on('after_message_Files_socket',((res)=>{

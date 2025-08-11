@@ -16,16 +16,15 @@
     </div>
     <div class="chat-bgcolor" ref="chat_bgcolor">
       <div v-for="(msg, index) in $store.state.messages_lists" :key="msg.id" class="message-item"
-        :class="{ 'current-user': msg.current_usrs, 'other-user': !msg.current_usrs }" v-show="message_is(index)">
+        :class="is_classs(msg.send_name)" v-show="message_is(index)">
         <div class="message-content">
           <div class="message-avatar"><el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></div>
-          <div class="message-bubble"  ref="message_text">
-            <pre class="message-text" v-show="msg.message_type == 'text'"
-             >{{ msg.message }}<span v-show="false">{{ index }}</span></pre>
-             <imageSee class="image" :src="msg.message[1]" v-if="is_image_fun(msg.message_type)"></imageSee>
-             <VideoPlay class="Video_play" v-if="is_Viedo_fun(msg.message_type)" :src="msg.message[1]"></VideoPlay>
-           
+          <div class="message-bubble" ref="message_text">
+            <pre class="message-text"
+              v-show="msg.message_type == 'text'">{{ msg.message }}<span v-show="false">{{ index }}</span></pre>
+            <imageSee class="image" :src="msg.message[1]" v-if="is_image_fun(msg.message_type)"></imageSee>
+            <VideoPlay class="Video_play" v-if="is_Viedo_fun(msg.message_type)" :src="msg.message[1]"></VideoPlay>
             <div class="message-time">{{ new Date(msg.Time * 1000).toLocaleTimeString() }}</div>
           </div>
         </div>
@@ -37,7 +36,6 @@
           resize="none" class="el-input_s">
         </el-input>
       </div>
-
       <div class="send_Message_css">
         <Chat_Room_File_Updata class="button_send_Message_css"></Chat_Room_File_Updata>
         <el-button @click="sendMessage" type="primary" size="large" class="button_send_Message_css">发送</el-button>
@@ -60,7 +58,7 @@ import axios from "axios";
 export default {
   name: 'Chat_Room_infomation_view',
   components: {
-    Chat_Room_File_Updata,imageSee,VideoPlay
+    Chat_Room_File_Updata, imageSee, VideoPlay
   },
   data() {
     return {
@@ -85,6 +83,8 @@ export default {
   methods: {
     message_is(index) {
       let messages_lists = this.$store.state.messages_lists
+      console.log(messages_lists[index]['revocation_or_drop']['drop']);
+      
       if (messages_lists[index]['revocation_or_drop']['drop']['drop_name'][0] == this.login) {
         return messages_lists[index]['revocation_or_drop']['drop']['drop_state'][0]
       }
@@ -139,25 +139,31 @@ export default {
     Revocation_mesage_fun() {
       emit_revocation_message_socket_fun(this.message_index, localStorage.getItem('UresName'), this.$store.state.currentChat)
     },
-    // image_see(url) {
-    //    this.$store.state.OfficEword=url
-    // },
-    is_image_fun(message_type){
-      for(let i=0;i<this.$store.state.File_MIME[0].length;i++){
-        if(message_type == this.$store.state.File_MIME[0][i]){
+    is_image_fun(message_type) {
+      for (let i = 0; i < this.$store.state.File_MIME[0].length; i++) {
+        if (message_type == this.$store.state.File_MIME[0][i]) {
           return true
         }
       }
       return false
     },
-     is_Viedo_fun(message_type){
-      for(let i=0;i<this.$store.state.File_MIME[1].length;i++){
-        if(message_type == this.$store.state.File_MIME[1][i]){
+    is_Viedo_fun(message_type) {
+      for (let i = 0; i < this.$store.state.File_MIME[1].length; i++) {
+        if (message_type == this.$store.state.File_MIME[1][i]) {
           console.log(message_type);
           return true
         }
       }
       return false
+    },
+    is_classs(send_name) {
+      if (send_name == localStorage.getItem('UresName')) {
+        return 'current-user'
+      }
+      else {
+        return 'other-user'
+      }
+
     },
   },
   mounted() {
@@ -247,13 +253,15 @@ export default {
 }
 
 .image {
-  width: 160px;
-  height: 90px;
+  max-width: 320px;
+  max-height: 180px;
 }
-.Video_play{
-  width: 160px;
-  height: 90px;
+
+.Video_play {
+  width: 320px;
+  max-height: 180px;
 }
+
 .meau {
   position: absolute;
   display: none;

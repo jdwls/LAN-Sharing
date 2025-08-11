@@ -31,10 +31,7 @@ export const store = createStore({
         { DirsFileList: false },
         { LogOutButton: false },
       ],
-      Urse_list:[{
-        use_name:'',
-        use_state:"",
-      }],
+      Urse_list:[],
       messages_lists:[],
       currentChat:""
     };

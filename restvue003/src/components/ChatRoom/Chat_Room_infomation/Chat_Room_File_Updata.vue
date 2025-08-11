@@ -8,7 +8,8 @@
                     p-id="1549"></path>
             </svg>
             <input type="file" @change="Chat_Room_File_Updata_input_handleFileUpload()" v-show="false"
-                ref="Chat_Room_File_Updata_input_ref" multiple />
+                ref="Chat_Room_File_Updata_input_ref" multiple
+                accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.mp4,.webm,.ogg,.apng,.avif,.bmp,.quicktime,.x-matroska,.mpeg" />
         </div>
     </div>
 
@@ -27,51 +28,58 @@ export default {
             fileIput.click();
         },
         Chat_Room_File_Updata_input_handleFileUpload() {
+            let FileS_name_arr=[]
+            let FileS_Types=[]
             const fileIput = this.$refs.Chat_Room_File_Updata_input_ref
             const file = fileIput.files;
-            const formData = new FormData()
-            console.log(file);
             if (file) {
                 for (let i = 0; i < file.length; i++) {
-                    formData.append('file', file[i]);
-                    formData.append('FileInput', file[i]);  // 字段名与后端一致
+                    const formData = new FormData()
+                    console.log(file[i].name);
+                    formData.append('file', file[i]); // 字段名与后端一致
                     formData.append('file_name', file[i].name);
-                    formData.append('file_type', file[i].type);
+                    // formData.append('file_type', file[i].type);
                     formData.append('send_name', localStorage.getItem('UresName'));
                     formData.append('report_name', this.$store.state.currentChat);
+                    formData.append('Time', new Date().getTime())
+                    FileS_name_arr.push(file[i].name)
+                    FileS_Types.push(file[i].type)
+                    if(i==file.length-1){
+                    FileS_name_arr=JSON.stringify(FileS_name_arr)
+                    FileS_Types=JSON.stringify(FileS_Types)
+                    formData.append('FileS_Types',FileS_Types )
+                    formData.append('FileS_name_arr',FileS_name_arr )
+                    console.log(FileS_name_arr);
+                    }
+                    else{
+                    formData.append('FileS_name_arr',false )
+                    formData.append('FileS_Types',false)
+                    }
                     axios({
                         url: this.$store.state.api + '/Chat_Room_File_Updata_api',
                         method: 'post',
                         data: formData,
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
                         }
                     })
                         .then((res) => {
-                            if(res.data.ms=='文件上传成功'){
-                                seend_message_Files_fun(file[i].name,this.$store.state.currentChat,this.$store.state.messages_lists.length,file[i].type)
-                            }
+                            console.log(res);
                         })
                         .catch((err) => {
                             console.log(err);
                         })
                 }
-
+                setTimeout(async () => {
+                      seend_message_Files_fun(this.$store.state.currentChat);  
+                       this.$refs.Chat_Room_File_Updata_input_ref.value=''
+                }, 1000)
+                
+                
             }
-            else {
-                console.log("没有选择文件");
-            }
-            // if(file){
-            //     const formData = new FormData();
-            //     formData.append('file', file);
-            //     // 这里可以添加上传文件的逻辑，比如使用axios发送POST请求
-            //     this.$emit('file-uploaded', formData); // 向父组件发送事件，传递文件数据
-            // } else {
-            //     console.error("没有选择文件");
-            // }
-        }
+             
     }
-
+    }
 }
 </script>
 
