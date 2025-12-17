@@ -4,7 +4,7 @@ import { createStore } from "vuex";
 export const store = createStore({
   state() {
     return {
-      api: "http://127.0.0.1:2525",
+      api: "http://192.168.3.76:2525",
       File_MIME:[['image/apng','image/avif','image/bmp','image/gif','image/jpeg','image/png','image/svg+xml','image/webp','image/x-icon','image/tiff'],
                   ['video/mp4','video/webm','video/ogg','video/quicktime','video/x-matroska','video/mpeg']],
       Online_Numbers: [],
@@ -33,7 +33,8 @@ export const store = createStore({
       ],
       Urse_list:[],
       messages_lists:[],
-      currentChat:""
+      currentChat:"",
+      SuLvZhuangHuang_Data_vuex:null
     };
   },
   actions: {

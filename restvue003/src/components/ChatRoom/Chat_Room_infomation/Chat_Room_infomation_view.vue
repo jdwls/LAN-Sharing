@@ -23,8 +23,8 @@
           <div class="message-bubble" ref="message_text">
             <pre class="message-text"
               v-show="msg.message_type == 'text'">{{ msg.message }}<span v-show="false">{{ index }}</span></pre>
-            <imageSee class="image" :src="msg.message[1]" v-if="is_image_fun(msg.message_type)"></imageSee>
-            <VideoPlay class="Video_play" v-if="is_Viedo_fun(msg.message_type)" :src="msg.message[1]"></VideoPlay>
+            <imageSee class="image" :src="msg.send_name_to_report_name_File_path" v-if="is_image_fun(msg.message_type)"></imageSee>
+            <VideoPlay class="Video_play" v-if="is_Viedo_fun(msg.message_type)" :src="msg.send_name_to_report_name_File_path"></VideoPlay>
             <div class="message-time">{{ new Date(msg.Time * 1000).toLocaleTimeString() }}</div>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default {
 
 .image {
   max-width: 320px;
-  max-height: 180px;
+  /* max-height:   */
 }
 
 .Video_play {
@@ -378,7 +378,7 @@ export default {
 }
 
 .message-bubble {
-  padding: 0.625vw 0.8333vw;
+  padding: 0.3vw 0.3vw;
   position: relative;
   word-break: break-word;
 }

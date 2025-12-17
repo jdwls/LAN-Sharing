@@ -56,12 +56,14 @@ def Chat_Room_File_Updata_api():
             data={
                 'message_index':'',
                 'message_type':'',
-                'message':[file_name,''],
+                'message':[file_name],
                 'send_name':send_name,
                 'report_name':report_name,
                 'Time':Time,
                 'read_state':False,
-                'revocation_or_drop':revocation_or_drop} 
+                'revocation_or_drop':revocation_or_drop
+                
+                } 
             with open(send_name_to_report_File_path,'r',encoding='utf-8') as f:
                 chat_room_lists=json.load(f)
                 f.close()
@@ -73,8 +75,9 @@ def Chat_Room_File_Updata_api():
                 data_copy =deepcopy(data) 
                 data_copy['message_index']=str(len(chat_room_lists)+i+1)
                 data_copy['message_type']=FileS_Types[i]
-                data_copy['message'][1]=send_name_to_report_name_File_path
+                # data_copy['message'][1]=send_name_to_report_name_File_path
                 data_copy['message'][0]=FileS_name_arr[i]
+                data_copy['send_name_to_report_name_File_path']=os.path.join('//template\\char_list',f"{sort_data[0]}_to_{sort_data[1]}",FileS_name_arr[i])
                 original_chat_room_list.append(data_copy)
             for i in range(len(original_chat_room_list)):
                 chat_room_lists.append(original_chat_room_list[i])

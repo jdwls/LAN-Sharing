@@ -1,18 +1,12 @@
 <template>
   <div>
-    <el-dialog
-      v-model="$store.state.dialogVisible"
-      :title="$store.state.FilesTyoes"
-      width="60%"
-      webkitdirectory
-      :destroy-on-close="true"
-    >
+    <el-dialog v-model="$store.state.dialogVisible" :title="$store.state.FilesTyoes" width="60%" webkitdirectory
+      :destroy-on-close="true" 
+      :before-close="Show_Progress_el_notification()">
       <span>
-        <updataFile1 v-if="$store.state.FilesTyoes == '上传文件'"></updataFile1>
-        <updataFile2test
-          v-show="$store.state.FilesTyoes == '上传目录'"
-        ></updataFile2test>
-        <progressEl v-if="$store.state.FilesTyoes == '进度条'"></progressEl>
+        <updataFile1 v-show="$store.state.FilesTyoes == '上传文件'"></updataFile1>
+        <updataFile2test v-show="$store.state.FilesTyoes == '上传目录'"></updataFile2test>
+        <progressEl v-show="$store.state.FilesTyoes == '进度条'"></progressEl>
         <OfficEword v-if="$store.state.FilesTyoes == '.docx'"></OfficEword>
         <OfficExcel v-if="$store.state.FilesTyoes == '.xlsx'"></OfficExcel>
         <OfficPdf v-if="$store.state.FilesTyoes == '.pdf'"></OfficPdf>
@@ -49,6 +43,8 @@ import NewText from "@/components/LanShare/LanShareIndexButton/NewText.vue";
 import Login from "@/components/UrseState/ViewLogIn/Login.vue";
 import LogupView from "@/components/UrseState/ViewLogup/LogupView.vue"
 import steeingView from "@/components/Common/VueCommon/steeingView.vue";
+import ClickShowProgress from "@/components/Common/VueCommon/ClickShowProgress.vue"
+import { h } from "vue";
 
 
 export default {
@@ -67,12 +63,26 @@ export default {
     Login,
     LogupView,
     steeingView,
+    // ClickShowProgress,
   },
   methods: {
     dialogVisible() {
       this.$store.state.dialogVisible = false;
       this.$store.state.VideoPlayercontrols = false; // 关闭视频播放器控制条
     },
+    Show_Progress_el_notification() {
+      if (this.$store.state.FilesTyoes == '进度条' && this.$store.state.dialogVisible==false) {
+        this.$nextTick(() => {
+        this.$notify({
+          title: '上传进度',
+          dangerouslyUseHTMLString: true,
+          message:h(ClickShowProgress),        
+          duration: 0,
+        });
+         });
+      }
+      
+    }
   },
 };
 </script>

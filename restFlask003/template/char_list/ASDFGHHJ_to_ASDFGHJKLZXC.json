@@ -1,0 +1,57 @@
+[
+    {
+        "message_index": "1",
+        "message_type": "image/png",
+        "message": [
+            "圣诞帽_0001_图层-1.png"
+        ],
+        "send_name": "ASDFGHHJ",
+        "report_name": "ASDFGHJKLZXC",
+        "Time": "1765854362359",
+        "read_state": false,
+        "revocation_or_drop": {
+            "drop": {
+                "drop_name": [
+                    0,
+                    0
+                ],
+                "drop_state": [
+                    true,
+                    true
+                ]
+            },
+            "revocation": {
+                "revocation_name": null,
+                "revocation_state": true
+            }
+        }
+    },
+    {
+        "message_index": "2",
+        "message_type": "image/png",
+        "message": [
+            "圣诞帽.png"
+        ],
+        "send_name": "ASDFGHHJ",
+        "report_name": "ASDFGHJKLZXC",
+        "Time": "1765857434615",
+        "read_state": false,
+        "revocation_or_drop": {
+            "drop": {
+                "drop_name": [
+                    0,
+                    0
+                ],
+                "drop_state": [
+                    true,
+                    true
+                ]
+            },
+            "revocation": {
+                "revocation_name": null,
+                "revocation_state": true
+            }
+        },
+        "send_name_to_report_name_File_path": "\\template\\char_list\\ASDFGHHJ_to_ASDFGHJKLZXC\\圣诞帽.png"
+    }
+]
