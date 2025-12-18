@@ -1,13 +1,11 @@
 [
     {
-        "message_index": "1",
-        "message_type": "image/png",
-        "message": [
-            "圣诞帽.png"
-        ],
+        "message_index": 1,
+        "message": "100000",
+        "message_type": "text",
         "send_name": "ASDFGHHJ",
         "report_name": "ADFGHHJ",
-        "Time": "1765850571214",
+        "Time": 1766019162126,
         "read_state": false,
         "revocation_or_drop": {
             "drop": {
@@ -27,14 +25,12 @@
         }
     },
     {
-        "message_index": "2",
-        "message_type": "image/png",
-        "message": [
-            "圣诞帽png-_爱给网_aigei_com.png"
-        ],
+        "message_index": 2,
+        "message": "1000",
+        "message_type": "text",
         "send_name": "ASDFGHHJ",
         "report_name": "ADFGHHJ",
-        "Time": "1765854545566",
+        "Time": 1766019193081,
         "read_state": false,
         "revocation_or_drop": {
             "drop": {
@@ -54,42 +50,12 @@
         }
     },
     {
-        "message_index": "3",
-        "message_type": "image/png",
-        "message": [
-            "圣诞帽_0002_背景.png"
-        ],
+        "message_index": 3,
+        "message": "100000000000000000",
+        "message_type": "text",
         "send_name": "ASDFGHHJ",
         "report_name": "ADFGHHJ",
-        "Time": "1765854922571",
-        "read_state": false,
-        "revocation_or_drop": {
-            "drop": {
-                "drop_name": [
-                    0,
-                    0
-                ],
-                "drop_state": [
-                    true,
-                    true
-                ]
-            },
-            "revocation": {
-                "revocation_name": null,
-                "revocation_state": true
-            }
-        },
-        "send_name_to_report_name_File_path": "ADFGHHJ_to_ASDFGHHJ"
-    },
-    {
-        "message_index": "4",
-        "message_type": "image/png",
-        "message": [
-            "圣诞帽png-_爱给网_aigei_com.png"
-        ],
-        "send_name": "ASDFGHHJ",
-        "report_name": "ADFGHHJ",
-        "Time": "1765855105844",
+        "Time": 1766019287718,
         "read_state": false,
         "revocation_or_drop": {
             "drop": {
@@ -106,55 +72,24 @@
                 "revocation_name": "ASDFGHHJ",
                 "revocation_state": false
             }
-        },
-        "send_name_to_report_name_File_path": "template/char_list\\ADFGHHJ_to_ASDFGHHJ\\圣诞帽png-_爱给网_aigei_com.png"
+        }
     },
     {
-        "message_index": "5",
-        "message_type": "image/png",
-        "message": [
-            "圣诞帽_0000_图层-2.png"
-        ],
+        "message_index": 4,
+        "message": "1000",
+        "message_type": "text",
         "send_name": "ASDFGHHJ",
         "report_name": "ADFGHHJ",
-        "Time": "1765858597968",
+        "Time": 1766019472462,
         "read_state": false,
         "revocation_or_drop": {
             "drop": {
                 "drop_name": [
-                    0,
+                    "ASDFGHHJ",
                     0
                 ],
                 "drop_state": [
-                    true,
-                    true
-                ]
-            },
-            "revocation": {
-                "revocation_name": "ASDFGHHJ",
-                "revocation_state": false
-            }
-        },
-        "send_name_to_report_name_File_path": "//template\\char_list\\ADFGHHJ_to_ASDFGHHJ\\圣诞帽_0000_图层-2.png"
-    },
-    {
-        "message_index": "6",
-        "message_type": "image/jpeg",
-        "message": [
-            "8.3.2.5.jpg"
-        ],
-        "send_name": "ASDFGHHJ",
-        "report_name": "ADFGHHJ",
-        "Time": "1765858608241",
-        "read_state": false,
-        "revocation_or_drop": {
-            "drop": {
-                "drop_name": [
-                    0,
-                    0
-                ],
-                "drop_state": [
-                    true,
+                    false,
                     true
                 ]
             },
@@ -162,35 +97,6 @@
                 "revocation_name": null,
                 "revocation_state": true
             }
-        },
-        "send_name_to_report_name_File_path": "//template\\char_list\\ADFGHHJ_to_ASDFGHHJ\\8.3.2.5.jpg"
-    },
-    {
-        "message_index": "7",
-        "message_type": "video/mp4",
-        "message": [
-            "你尽管想，画不出来算我输！一句话的时代，正式开始｜高级版ppt、教学素材、科研画图…….mp4"
-        ],
-        "send_name": "ASDFGHHJ",
-        "report_name": "ADFGHHJ",
-        "Time": "1765864855332",
-        "read_state": false,
-        "revocation_or_drop": {
-            "drop": {
-                "drop_name": [
-                    0,
-                    0
-                ],
-                "drop_state": [
-                    true,
-                    true
-                ]
-            },
-            "revocation": {
-                "revocation_name": null,
-                "revocation_state": true
-            }
-        },
-        "send_name_to_report_name_File_path": "//template\\char_list\\ADFGHHJ_to_ASDFGHHJ\\你尽管想，画不出来算我输！一句话的时代，正式开始｜高级版ppt、教学素材、科研画图…….mp4"
+        }
     }
 ]

@@ -95,7 +95,7 @@ def disconnect_user_list_fun():
 def handle_seend_message_data(data):
     sort_data=[data.get('send_name'),data.get('report_name')]
     sort_data= sorted(sort_data)
-    send_name_to_report_name_path='template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
+    send_name_to_report_name_path=glode.path()+'template/char_list/'+sort_data[0]+'_to_'+sort_data[1]+'.json'
     print(send_name_to_report_name_path)
     report_name_session_id=0
     mssage={
@@ -107,7 +107,6 @@ def handle_seend_message_data(data):
             'Time':data.get('Time'),
             'read_state':data.get('read_state'),
             'revocation_or_drop':data.get('revocation_or_drop'),
-            
             }
     if os.path.exists(send_name_to_report_name_path):
         with file_lock:
@@ -147,7 +146,7 @@ def handle_revocation_message_socket(data):
                 char_list_room[message_index]['revocation_or_drop']['revocation']["revocation_name"]=sned_user_name
                 char_list_room[message_index]['revocation_or_drop']['revocation']["revocation_state"]=False  
                 with file_lock:
-                       with open(send_name_to_report_name_path,'w',encoding='utf=8') as f:
+                       with open(send_name_to_report_name_path,'w',encoding='utf-8') as f:
                            json.dump(char_list_room, f, ensure_ascii=False, indent=4)
                            f.close()
                 with file_lock:
@@ -161,9 +160,12 @@ def handle_revocation_message_socket(data):
                     if is_online_number_json['online_users'][i]['user_name']==receive_user_name:
                         report_name_session_id=is_online_number_json['online_users'][i]['session_id']
                         break
-                if not report_name_session_id==0:
+                if  report_name_session_id==0: 
+                    emit('after_revocation_message_socket', char_list_room, to=request.sid)
+                elif not report_name_session_id:
                     emit('after_revocation_message_socket', char_list_room, to=report_name_session_id)
-                    emit('after_revocation_message_socket', char_list_room, to=request.sid)     
+                    emit('after_revocation_message_socket', char_list_room, to=request.sid)
+                print(request.sid,'---------------')   
                 return 0 
             
     except Exception as e:
